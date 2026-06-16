@@ -39,17 +39,54 @@
     </header>
 
     <main>
-        <section id="hero" class="page-hero">
-            <video autoplay loop muted playsinline class="hero-video" preload="metadata" poster="assets/background.png">
-                <source src="assets/58017.mp4" type="video/mp4">
-            </video>
-            <div class="hero-overlay"></div>
-            <div class="hero-content fade-in">
-                <span class="flagship-label">Flagship Title:</span>
-                <h1 class="fade-in delay-1">Kaali: A Mother's Tale</h1>
-                <span class="hero-subtitle fade-in delay-2" data-typewriter="Episode 1: Echoes of the Past">- Episode 1:
-                    Echoes of the Past</span>
-                <span class="coming-soon fade-in delay-2">- Coming Soon</span>
+        <section id="hero" class="hero-slider-section">
+            <div class="slider-container">
+                <!-- Slide 1: Kaali -->
+                <div class="slide active" data-slide-index="0">
+                    <video autoplay loop muted playsinline class="hero-video" preload="metadata" poster="assets/background.png">
+                        <source src="assets/58017.mp4" type="video/mp4">
+                    </video>
+                    <div class="hero-overlay"></div>
+                    <div class="slide-content">
+                        <div class="slide-text">
+                            <span class="flagship-label">Flagship Title:</span>
+                            <h1 class="slide-title">Kaali: A Mother's Tale</h1>
+                            <span class="slide-subtitle">- Episode 1: Echoes of the Past</span>
+                            <span class="coming-soon-label">- Coming Soon</span>
+                            <div class="slide-actions" style="margin-top: 2rem;">
+                                <a href="originals.html" class="cta-button">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Hop'n Top -->
+                <div class="slide" data-slide-index="1">
+                    <div class="slide-bg-gradient" style="background: linear-gradient(135deg, #020c1b 0%, #050505 100%); width:100%; height:100%; position:absolute; top:0; left:0; z-index: 0;"></div>
+                    <div class="hero-overlay"></div>
+                    <div class="slide-content split-layout">
+                        <div class="slide-text">
+                            <span class="flagship-label">Upcoming Android Game</span>
+                            <h1 class="slide-title">Hop'n Top</h1>
+                            <span class="slide-subtitle">- Bounce & Climb to the Top</span>
+                            <p class="slide-description">Jump, bounce, and climb your way to the top of floating islands in this upcoming action-arcade casual game for Android! Collect gems, unlock customization items, and complete challenging missions.</p>
+                            <div class="slide-actions">
+                                <span class="play-store-badge">Coming Soon to Play Store</span>
+                            </div>
+                        </div>
+                        <div class="slide-graphic">
+                            <div class="phone-mockup">
+                                <img src="assets/hop_n_top.jpg" alt="Hop'n Top Gameplay" class="phone-screenshot">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slider Dots -->
+            <div class="slider-dots">
+                <span class="dot active" data-slide-to="0"></span>
+                <span class="dot" data-slide-to="1"></span>
             </div>
         </section>
 

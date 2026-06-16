@@ -167,4 +167,54 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // ===== 8. HERO SLIDER FUNCTIONALITY =====
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    let currentSlide = 0;
+    let slideInterval;
+    const intervalTime = 6000; // Switch slide every 6 seconds
+
+    function showSlide(index) {
+        if (slides.length === 0) return;
+        
+        // Remove active class from all slides and dots
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        // Activate selected slide and dot
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+        currentSlide = index;
+    }
+
+    function nextSlide() {
+        let next = (currentSlide + 1) % slides.length;
+        showSlide(next);
+    }
+
+    function startSlideTimer() {
+        stopSlideTimer();
+        slideInterval = setInterval(nextSlide, intervalTime);
+    }
+
+    function stopSlideTimer() {
+        if (slideInterval) {
+            clearInterval(slideInterval);
+        }
+    }
+
+    // Set up click events for dots
+    dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            const slideTo = parseInt(e.target.getAttribute('data-slide-to'), 10);
+            showSlide(slideTo);
+            startSlideTimer(); // Reset timer on click
+        });
+    });
+
+    // Initialize slider auto-play
+    if (slides.length > 0) {
+        startSlideTimer();
+    }
 });
