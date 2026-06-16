@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Elyndor Interactive</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            border: 1px solid var(--color-accent);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        .form-success h3 { color: var(--color-accent); margin-bottom: 0.5rem; }
+        .form-success p  { color: #aaa; font-size: 0.95rem; }
+        .cta-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <nav>
+            <a href="index.html"><img src="assets/logo.png" alt="Elyndor Interactive" class="logo-img" width="140" height="140"></a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="originals.html">Originals</a></li>
+                <li><a href="games.html">Games</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="studio.html">The Studio</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero small-hero">
+            <div class="container text-center">
+                <h1 class="fade-in">Contact Us</h1>
+                <p class="fade-in delay-1">Let's build something extraordinary together.</p>
+            </div>
+        </section>
+
+        <section class="contact-section reveal">
+            <div class="container grid-split">
+
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper">
+                    <h2>Send a Message</h2>
+
+                    <form id="contactForm">
+                        <!-- Web3Forms access key — replace YOUR_ACCESS_KEY with the key from web3forms.com -->
+                        <input type="hidden" name="access_key" value="69df43d1-80ed-4c32-ba03-c73f53edf0ee">
+                        <input type="hidden" name="subject" id="dynamicSubject" value="New Project Inquiry">
+                        <input type="hidden" name="from_name" value="Elyndor Interactive Website">
+
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service">Service Type</label>
+                            <select id="service" name="service">
+                                <option>Game Development</option>
+                                <option>AR / VR Experience</option>
+                                <option>App / Web Development</option>
+                                <option>Custom Software</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5"
+                                placeholder="Tell us about your project..." required></textarea>
+                        </div>
+                        <button type="submit" class="cta-button" id="submitBtn">Send Message</button>
+                    </form>
+
+                    <div class="form-success" id="formSuccess">
+                        <h3>✓ Message Sent!</h3>
+                        <p>Thanks for reaching out. We'll get back to you within 24 hours.</p>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="contact-info-wrapper">
+                    <div class="info-block">
+                        <h3>Visit Us</h3>
+                        <p>Elyndor Interactive Studio<br>Nashik, Maharashtra<br>India - 422001</p>
+                    </div>
+                    <div class="info-block">
+                        <h3>Email Us</h3>
+                        <p><a href="mailto:interactiveelyndor@gmail.com">interactiveelyndor@gmail.com</a></p>
+                    </div>
+                    <div class="info-block">
+                        <h3>Call Us</h3>
+                        <p><a href="tel:+917219842558">+91 7219842558</a></p>
+                        <p class="sub-text">Mon - Fri, 9am - 6pm IST</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="effects.js"></script>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <img src="assets/logo.png" alt="Elyndor" class="footer-logo" width="240" height="240" loading="lazy">
+                <p>Pioneering Indian narratives in global gaming.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="games.html">Games</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="studio.html">The Studio</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Stay Updated</h4>
+                <p>Subscribe to our newsletter for the latest game releases, beta access, and studio news.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" inputmode="email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p>Nashik, Maharashtra, India</p>
+                <p><a href="mailto:interactiveelyndor@gmail.com">interactiveelyndor@gmail.com</a></p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Elyndor Interactive. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="effects.js"></script>
+
+    <script>
+        // Update dynamic subject line when service changes
+        document.getElementById('service').addEventListener('change', function () {
+            document.getElementById('dynamicSubject').value =
+                'Project Inquiry: ' + this.value;
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const btn  = document.getElementById('submitBtn');
+            const form = document.getElementById('contactForm');
+            const success = document.getElementById('formSuccess');
+
+            btn.textContent  = 'Sending…';
+            btn.disabled     = true;
+
+            const data = new FormData(form);
+
+            try {
+                const res  = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: data
+                });
+                const json = await res.json();
+
+                if (json.success) {
+                    form.style.display    = 'none';
+                    success.style.display = 'block';
+                } else {
+                    btn.textContent = 'Send Message';
+                    btn.disabled    = false;
+                    alert('Something went wrong. Please email us directly at interactiveelyndor@gmail.com');
+                }
+            } catch (err) {
+                btn.textContent = 'Send Message';
+                btn.disabled    = false;
+                alert('Network error. Please email us directly at interactiveelyndor@gmail.com');
+            }
+        });
+    </script>
+</body>
+
+</html>

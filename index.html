@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elyndor Interactive | Premium Game Studio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Cinematic Loading Screen -->
+    <div id="introScreen">
+        <div class="intro-logo">
+            <img src="assets/logo.png" alt="Elyndor Interactive" width="140" height="140">
+        </div>
+        <div class="intro-tagline">Where Stories Become Legends.</div>
+        <div class="intro-bar">
+            <div class="intro-bar-fill"></div>
+        </div>
+    </div>
+
+    <header id="header">
+        <nav>
+            <a href="index.html"><img src="assets/logo.png" alt="Elyndor Interactive" class="logo-img" width="140" height="140"></a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="originals.html">Originals</a></li>
+                <li><a href="games.html">Games</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="studio.html">The Studio</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="page-hero">
+            <video autoplay loop muted playsinline class="hero-video" preload="metadata" poster="assets/background.png">
+                <source src="assets/58017.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+            <div class="hero-content fade-in">
+                <span class="flagship-label">Flagship Title:</span>
+                <h1 class="fade-in delay-1">Kaali: A Mother's Tale</h1>
+                <span class="hero-subtitle fade-in delay-2" data-typewriter="Episode 1: Echoes of the Past">- Episode 1:
+                    Echoes of the Past</span>
+                <span class="coming-soon fade-in delay-2">- Coming Soon</span>
+            </div>
+        </section>
+
+        <section id="about" class="reveal">
+            <div class="container text-center">
+                <h2>Who We Are</h2>
+                <p class="vision-text">Elyndor Interactive is a collective of visionary artists, engineers, and
+                    storytellers dedicated to crafting unforgettable digital experiences. We blend cutting-edge
+                    technology with timeless artistry to transport players to realms beyond imagination.</p>
+            </div>
+        </section>
+
+
+        <section id="games" class="reveal">
+            <div class="container">
+                <h2>Our Creations</h2>
+                <div class="game-grid">
+                    <div class="game-card">
+                        <a href="https://monish39.itch.io/carmine-tangles" target="_blank"
+                            style="text-decoration: none; color: inherit; display: block;">
+                            <div class="game-image"
+                                style="background: url('assets/carmine_tangles.png') center/contain no-repeat; display: flex; align-items: center; justify-content: center; background-color: #1a0505;">
+                            </div>
+                            <div class="game-info" style="padding: 1.5rem;">
+                                <h3>Carmine Tangles</h3>
+                                <p>A chilling maze where reality is unstable. Escape the desolate, mirror-walled
+                                    labyrinth.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="game-card">
+                        <a href="https://monish39.itch.io/drive-me-home" target="_blank"
+                            style="text-decoration: none; color: inherit; display: block;">
+                            <div class="game-image"
+                                style="background: url('assets/drive_me_home.png') center/contain no-repeat; display: flex; align-items: center; justify-content: center; background-color: #1a0525;">
+                            </div>
+                            <div class="game-info" style="padding: 1.5rem;">
+                                <h3>Drive Me Home</h3>
+                                <p>Drop your drunk friend home in just two minutes, but you don't know the address!</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="reveal">
+            <div class="container text-center">
+                <h2>Connect With Us</h2>
+                <p style="text-align: center; max-width: 600px; margin: 0 auto 2rem;">Ready to embark on a journey?
+                    Reach out to us for collaborations, press inquiries, or just to say hello.</p>
+                <a href="mailto:interactiveelyndor@gmail.com" class="cta-button">Get in Touch</a>
+                <div class="social-links">
+                    <a href="https://twitter.com/ElyndorStudios" target="_blank" rel="noopener noreferrer">Twitter</a>
+                    <a href="https://discord.gg/elyndor" target="_blank" rel="noopener noreferrer">Discord</a>
+                    <a href="https://instagram.com/elyndorstudios" target="_blank" rel="noopener noreferrer">Instagram</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <img src="assets/logo.png" alt="Elyndor" class="footer-logo" width="240" height="240" loading="lazy">
+                <p>Pioneering Indian narratives in global gaming.</p>
+
+            </div>
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <ul>
+                    <li><a href="games.html">Games</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="studio.html">The Studio</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Stay Updated</h4>
+                <p>Subscribe to our newsletter for the latest game releases, beta access, and studio news.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" inputmode="email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p>Nashik, Maharashtra, India</p>
+                <p><a href="mailto:interactiveelyndor@gmail.com">interactiveelyndor@gmail.com</a></p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Elyndor Interactive. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="effects.js"></script>
+</body>
+
+</html>
