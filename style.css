@@ -1463,7 +1463,7 @@ footer {
     text-align: center;
     line-height: 1.6;
     padding: 0 1rem;
-    max-width: 90%;
+    width: 100%;
     opacity: 0;
     animation: fadeInUp 0.8s ease 0.4s forwards;
 }
