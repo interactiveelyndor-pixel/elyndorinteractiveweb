@@ -1209,6 +1209,11 @@ footer {
         padding: 0.7rem 1.5rem;
         font-size: 0.85rem;
     }
+
+    .intro-tagline {
+        font-size: 0.85rem;
+        letter-spacing: 2px;
+    }
 }
 
 @keyframes navLinkFade {
@@ -1455,6 +1460,10 @@ footer {
     font-size: 1rem;
     letter-spacing: 4px;
     text-transform: uppercase;
+    text-align: center;
+    line-height: 1.6;
+    padding: 0 1rem;
+    max-width: 90%;
     opacity: 0;
     animation: fadeInUp 0.8s ease 0.4s forwards;
 }
