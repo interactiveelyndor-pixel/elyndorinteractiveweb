@@ -1394,7 +1394,7 @@ footer {
     height: auto;
     z-index: 0;
     /* Behind content and overlays */
-    transform: translate(-50%, -50%) scale(1.35);
+    transform: translate(-50%, -50%) scale(1.5);
     /* Scale to crop watermark */
     object-fit: cover;
 }
