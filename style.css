@@ -796,6 +796,21 @@ footer {
     border-color: var(--color-primary);
 }
 
+.linkedin-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color var(--transition-speed), transform var(--transition-speed);
+}
+
+.linkedin-link:hover {
+    color: var(--color-white);
+    transform: translateY(-2px);
+}
+
 @media (hover: none) {
     .team-card:active {
         transform: scale(0.98);
