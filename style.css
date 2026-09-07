@@ -56,7 +56,7 @@ header {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     z-index: 1000;
-    transition: background 0.3s ease, padding 0.3s ease;
+    transition: background 0.3s ease;
     height: 76px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -77,11 +77,6 @@ nav {
     width: auto;
     object-fit: contain;
     display: block;
-    transition: transform 0.25s ease;
-}
-
-.logo-img:hover {
-    transform: scale(1.03);
 }
 
 .nav-links {
@@ -251,7 +246,7 @@ nav {
     font-size: 0.85rem;
     letter-spacing: 1px;
     text-transform: uppercase;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
 .slide-graphic {
@@ -404,7 +399,7 @@ h2 {
 .cta-button:hover {
     background: var(--color-accent);
     color: var(--color-bg);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
 /* Flagship Label */
@@ -456,7 +451,7 @@ h2 {
 .game-card:hover {
     transform: translateY(-6px);
     border-color: rgba(212, 175, 55, 0.4);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.12);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
 }
 
 .game-card > a {
@@ -478,11 +473,6 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.4s ease;
-}
-
-.game-card:hover .game-image {
-    transform: scale(1.02);
 }
 
 .game-image::before {
@@ -642,7 +632,7 @@ h2 {
     background: var(--color-primary);
     border-color: var(--color-accent);
     transform: translateY(-4px) scale(1.08);
-    box-shadow: 0 6px 20px rgba(128, 0, 0, 0.5), 0 0 12px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
 }
 
 .social-links a:hover svg {
@@ -682,7 +672,7 @@ h2 {
     background: var(--color-primary);
     border-color: var(--color-accent);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .footer-socials a:hover svg {
@@ -766,7 +756,7 @@ h2 {
     margin: 0 auto;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
     background: #000;
 }
 
@@ -821,6 +811,9 @@ footer {
     color: var(--color-accent);
 }
 
+.footer-links h3,
+.footer-contact h3,
+.footer-newsletter h3,
 .footer-links h4,
 .footer-contact h4,
 .footer-newsletter h4 {
@@ -877,7 +870,7 @@ footer {
 .newsletter-form button:hover {
     background: var(--color-accent);
     color: var(--color-bg);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
 .copyright {
@@ -992,7 +985,7 @@ footer {
 .team-card:hover {
     transform: translateY(-6px);
     border-color: rgba(212, 175, 55, 0.4);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.1);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
 }
 
 .avatar-placeholder {
@@ -1009,7 +1002,7 @@ footer {
     font-weight: 700;
     color: var(--color-accent);
     border: 2px solid rgba(212, 175, 55, 0.35);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 0 12px rgba(212, 175, 55, 0.15);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
@@ -1611,7 +1604,7 @@ footer {
 .gallery-item:hover {
     border-color: var(--color-accent);
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
 .gallery-grid::-webkit-scrollbar-thumb {
@@ -1789,7 +1782,6 @@ footer {
     color: var(--color-accent);
     font-weight: 700;
     line-height: 1;
-    text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
 }
 
 .stat-label {
