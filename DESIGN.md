@@ -6,16 +6,22 @@ colors:
   crimson: "#a33a2e"
   neutral-bg: "#050505"
   neutral-surface: "#0c0c0c"
+  neutral-card: "#181614"
   neutral-border: "rgba(255, 255, 255, 0.07)"
+  border-subtle: "#222222"
+  border-muted: "#333333"
   text-primary: "#f0ece4"
   text-heading: "#e8e0d0"
+  text-body: "#c8c4bc"
   text-muted: "#9e988f"
+  text-subtle: "#888888"
+  text-light: "#cccccc"
   badge-playstore: "#247a4a"
   badge-itch: "#b83c30"
 typography:
   display:
     fontFamily: "Cinzel, serif"
-    fontSize: "clamp(2.2rem, 5vw, 4.5rem)"
+    fontSize: "clamp(2.5rem, 5vw, 4.5rem)"
     fontWeight: 700
     lineHeight: 1.1
     letterSpacing: "1px"
@@ -31,23 +37,44 @@ typography:
     fontWeight: 600
     lineHeight: 1.3
     letterSpacing: "0.5px"
+  body-large:
+    fontFamily: "Outfit, sans-serif"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.6
+    letterSpacing: "normal"
   body:
-    fontFamily: "Inter, sans-serif"
+    fontFamily: "Outfit, sans-serif"
     fontSize: "0.95rem"
     fontWeight: 400
     lineHeight: 1.7
     letterSpacing: "normal"
+  body-small:
+    fontFamily: "Outfit, sans-serif"
+    fontSize: "0.85rem"
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: "normal"
+  caption:
+    fontFamily: "Outfit, sans-serif"
+    fontSize: "0.8rem"
+    fontWeight: 400
+    lineHeight: 1.4
+    letterSpacing: "1px"
   label:
-    fontFamily: "Inter, sans-serif"
+    fontFamily: "Outfit, sans-serif"
     fontSize: "0.75rem"
     fontWeight: 700
     lineHeight: 1
     letterSpacing: "1.5px"
 rounded:
+  none: "0px"
+  xs: "2px"
   sm: "4px"
   md: "8px"
   lg: "12px"
   pill: "20px"
+  full: "9999px"
 spacing:
   xs: "0.5rem"
   sm: "1rem"
