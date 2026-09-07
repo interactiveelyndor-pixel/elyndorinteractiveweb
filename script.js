@@ -120,40 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupMobileMenu();
     window.addEventListener('resize', setupMobileMenu, { passive: true });
 
-    // ===== 6. GAME GRID AUTO-SCROLL ON HOVER (Desktop Only, RAF-Powered) =====
-    if (window.innerWidth > 768) {
-        const gameGrids = document.querySelectorAll('.game-grid');
-        gameGrids.forEach(grid => {
-            let mouseX = 0;
-            let rafId = null;
-            let isHovering = false;
 
-            function scrollLoop() {
-                if (!isHovering) return;
-                if (Math.abs(mouseX) > 0.3) {
-                    const speed = (Math.abs(mouseX) - 0.3) * 15;
-                    grid.scrollLeft += (mouseX > 0 ? speed : -speed);
-                }
-                rafId = requestAnimationFrame(scrollLoop);
-            }
-
-            grid.addEventListener('mouseenter', () => {
-                isHovering = true;
-                if (rafId) cancelAnimationFrame(rafId);
-                rafId = requestAnimationFrame(scrollLoop);
-            }, { passive: true });
-
-            grid.addEventListener('mouseleave', () => {
-                isHovering = false;
-                if (rafId) cancelAnimationFrame(rafId);
-            }, { passive: true });
-
-            grid.addEventListener('mousemove', (e) => {
-                const rect = grid.getBoundingClientRect();
-                mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-            }, { passive: true });
-        });
-    }
 
     // ===== 7. NEWSLETTER FORM HANDLING =====
     const newsletterForms = document.querySelectorAll('.newsletter-form');
