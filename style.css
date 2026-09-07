@@ -200,17 +200,19 @@ nav {
 }
 
 .slide-text {
-    max-width: 600px;
+    max-width: 660px;
 }
 
 .slide-title {
     font-family: var(--font-heading);
-    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    font-size: clamp(2rem, 4.2vw, 3.8rem);
     line-height: 1.1;
     margin-bottom: 0.5rem;
     color: var(--color-white);
     text-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
     text-transform: uppercase;
+    word-break: keep-all;
+    hyphens: none;
 }
 
 .slide-subtitle {
