@@ -1,20 +1,18 @@
 :root {
     --color-bg: #050505;
-    --color-text: #e0e0e0;
-    --color-primary: #800000;
-    /* Maroon */
-    --color-secondary: #b30000;
-    /* Red */
+    --color-text: #c8c4bc;
+    --color-primary: #a33a2e;
+    --color-secondary: #8b2e24;
     --color-accent: #d4af37;
-    /* Gold */
-    --color-white: #ffffff;
+    --color-white: #f0ece4;
+    --color-heading: #e8e0d0;
+    --color-muted: #7a756d;
 
     --font-heading: 'Cinzel', serif;
     --font-body: 'Inter', sans-serif;
 
     --transition-speed: 0.3s;
 
-    /* Spacing Variables */
     --spacing-xs: 0.5rem;
     --spacing-sm: 1rem;
     --spacing-md: 1.5rem;
@@ -22,7 +20,6 @@
     --spacing-xl: 3rem;
     --spacing-2xl: 4rem;
 
-    /* Hero Padding */
     --hero-padding-top: 160px;
     --hero-padding-top-mobile: 100px;
 }
@@ -43,7 +40,7 @@ body {
     background-color: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-body);
-    line-height: 1.6;
+    line-height: 1.7;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -54,15 +51,16 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 0.5rem 1rem;
-    background: rgba(5, 5, 5, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    padding: 0.4rem 1.5rem;
+    background: rgba(5, 5, 5, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     z-index: 1000;
     transition: background 0.3s ease, padding 0.3s ease;
     overflow-x: auto;
     overflow-y: hidden;
-    max-height: 120px;
+    max-height: 80px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 
 nav {
@@ -81,7 +79,7 @@ nav {
 }
 
 .logo-img {
-    height: 100px;
+    height: 68px;
     width: auto;
     object-fit: contain;
     flex-shrink: 0;
@@ -96,14 +94,13 @@ nav {
 }
 
 .nav-links a {
-    color: var(--color-text);
+    color: var(--color-muted);
     text-decoration: none;
     font-weight: 500;
     transition: color var(--transition-speed);
     text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
     position: relative;
 }
 
@@ -132,7 +129,7 @@ nav {
     height: 100vh;
     position: relative;
     overflow: hidden;
-    margin-top: 120px;
+    margin-top: 80px;
     background-color: var(--color-bg);
 }
 
@@ -358,8 +355,8 @@ nav {
 
 /* Sections */
 section {
-    padding: 8rem 2rem;
-    margin-top: 3rem;
+    padding: 5rem 2rem;
+    margin-top: 2rem;
 }
 
 .container {
@@ -377,18 +374,15 @@ section {
 
 h2 {
     font-family: var(--font-heading);
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: var(--color-primary);
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+    color: var(--color-heading);
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     text-align: center;
-    border-bottom: 2px solid var(--color-accent);
-    display: table;
-    margin: 0 auto 3rem auto;
-    padding-bottom: 0.5rem;
+    display: block;
+    margin: 0 auto 2.5rem auto;
     position: relative;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
 }
 
 /* Buttons */
@@ -512,34 +506,35 @@ h2 {
 }
 
 .game-badge.badge-playstore {
-    background: #00e676;
-    color: #000;
+    background: #2d8a56;
+    color: #fff;
 }
 
 .game-badge.badge-itch {
-    background: #fa5c5c;
+    background: #c05746;
     color: #fff;
 }
 
 .game-badge.badge-upcoming {
-    background: var(--color-accent);
-    color: #000;
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--color-accent);
+    border: 1px solid rgba(212, 175, 55, 0.4);
 }
 
 .game-badge.badge-dev {
-    background: rgba(212, 175, 55, 0.2);
-    border: 1px solid var(--color-accent);
-    color: var(--color-accent);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--color-muted);
 }
 
 /* Section Subtitle */
 .section-subtitle {
     text-align: center;
-    color: #999;
-    font-size: 1.05rem;
-    max-width: 680px;
-    margin: -1.5rem auto 2.5rem auto;
-    line-height: 1.6;
+    color: var(--color-muted);
+    font-size: 1rem;
+    max-width: 580px;
+    margin: -1rem auto 2rem auto;
+    line-height: 1.7;
 }
 
 /* Contact */
@@ -640,7 +635,7 @@ h2 {
     position: relative;
     overflow: hidden;
     background-color: #000;
-    margin-top: 120px;
+    margin-top: 80px;
     padding-top: 3rem;
 }
 
@@ -666,7 +661,7 @@ h2 {
     height: 35vh;
     min-height: 280px;
     padding-bottom: 0;
-    margin-top: 120px;
+    margin-top: 80px;
     padding-top: 2rem;
 }
 
@@ -674,13 +669,13 @@ h2 {
     height: 40vh;
     min-height: 320px;
     padding-top: 3rem;
-    margin-top: 120px;
+    margin-top: 80px;
 }
 
 .vision-hero {
     padding-top: 3rem;
     padding-bottom: var(--spacing-lg);
-    margin-top: 120px;
+    margin-top: 80px;
 }
 
 .vision-hero h1 {
@@ -688,12 +683,12 @@ h2 {
 }
 
 .vision-text {
-    font-size: 1.5rem;
-    font-style: italic;
-    color: var(--color-white);
-    max-width: 800px;
+    font-size: 1.15rem;
+    font-style: normal;
+    color: var(--color-text);
+    max-width: 680px;
     margin: 0 auto 1rem auto;
-    line-height: 1.6;
+    line-height: 1.8;
 }
 
 /* Footer Styling */
@@ -713,12 +708,10 @@ footer {
 }
 
 .footer-logo {
-    height: 240px;
+    height: 80px;
     width: auto;
     margin-bottom: 1rem;
-    margin-top: -100px;
-    /* Pull logo MORE up */
-    /* mix-blend-mode removed as image is now transparent */
+    margin-top: 0;
 }
 
 
@@ -743,9 +736,12 @@ footer {
 .footer-links h4,
 .footer-contact h4,
 .footer-newsletter h4 {
-    color: var(--color-primary);
-    margin-bottom: 1.5rem;
+    color: var(--color-heading);
+    margin-bottom: 1rem;
     font-family: var(--font-heading);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .footer-newsletter p {
@@ -1109,7 +1105,7 @@ footer {
     .page-hero {
         height: auto;
         min-height: 35vh;
-        margin-top: 120px;
+        margin-top: 80px;
         padding-top: 2rem;
         padding-bottom: var(--spacing-lg);
     }
@@ -1117,17 +1113,17 @@ footer {
     .small-hero {
         padding-top: 2rem;
         height: auto;
-        margin-top: 120px;
+        margin-top: 80px;
     }
 
     .games-hero {
         padding-top: 2rem;
-        margin-top: 120px;
+        margin-top: 80px;
     }
 
     .vision-hero {
         padding-top: 2rem;
-        margin-top: 120px;
+        margin-top: 80px;
     }
 
     /* Hero home page */
