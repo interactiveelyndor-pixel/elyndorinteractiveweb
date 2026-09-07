@@ -552,19 +552,54 @@ h2 {
     margin-top: 2rem;
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 1.5rem;
+    flex-wrap: wrap;
 }
 
 .social-links a {
     color: var(--color-text);
     text-decoration: none;
-    font-size: 0.9rem;
-    transition: color var(--transition-speed);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    transition: all var(--transition-speed);
 }
 
 .social-links a:hover {
     color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: rgba(212, 175, 55, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
 }
+
+.footer-socials {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+}
+
+.footer-socials a {
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color var(--transition-speed);
+}
+
+.footer-socials a:hover {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+}
+
+.footer-socials span {
+    color: #444;
+}
+
 
 
 /* Page Heroes */
