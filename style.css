@@ -496,6 +496,52 @@ h2 {
     font-family: var(--font-heading);
 }
 
+/* Game Card Badges */
+.game-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.35rem 0.8rem;
+    font-weight: 700;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.game-badge.badge-playstore {
+    background: #00e676;
+    color: #000;
+}
+
+.game-badge.badge-itch {
+    background: #fa5c5c;
+    color: #fff;
+}
+
+.game-badge.badge-upcoming {
+    background: var(--color-accent);
+    color: #000;
+}
+
+.game-badge.badge-dev {
+    background: rgba(212, 175, 55, 0.2);
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+}
+
+/* Section Subtitle */
+.section-subtitle {
+    text-align: center;
+    color: #999;
+    font-size: 1.05rem;
+    max-width: 680px;
+    margin: -1.5rem auto 2.5rem auto;
+    line-height: 1.6;
+}
+
 /* Contact */
 #contact {
     text-align: center;
