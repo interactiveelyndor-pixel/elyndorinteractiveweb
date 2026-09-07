@@ -1,83 +1,74 @@
+/**
+ * Elyndor Interactive - Core Script (High-Performance)
+ * Zero scroll listeners, zero mousemove recalculations, instant responsiveness.
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
-    // ===== 1. SCROLL PROGRESS BAR (GPU Hardware Composited) =====
-    const progressBar = document.createElement('div');
-    progressBar.style.cssText = `
-        position: fixed; top: 0; left: 0; height: 3px;
-        background-color: #d4af37; z-index: 2000; width: 100%;
-        transform-origin: left; transform: scaleX(0);
-        will-change: transform; pointer-events: none;
-    `;
-    document.body.appendChild(progressBar);
+    'use strict';
 
-    let scrollTicking = false;
-    let maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-
-    window.addEventListener('resize', () => {
-        maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    }, { passive: true });
-
-    window.addEventListener('scroll', () => {
-        if (!scrollTicking) {
-            requestAnimationFrame(() => {
-                const scrollTop = window.scrollY || document.documentElement.scrollTop;
-                const progress = Math.min(1, Math.max(0, scrollTop / maxScroll));
-                progressBar.style.transform = `scaleX(${progress})`;
-                scrollTicking = false;
-            });
-            scrollTicking = true;
-        }
-    }, { passive: true });
-
-    // ===== 2. SMOOTH SCROLLING FOR ANCHOR LINKS =====
+    // ===== 1. SMOOTH SCROLLING FOR IN-PAGE ANCHORS =====
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
             const targetId = this.getAttribute('href');
             if (targetId && targetId !== '#') {
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
+                    e.preventDefault();
                     targetElement.scrollIntoView({ behavior: 'smooth' });
                 }
             }
         });
     });
 
-    // ===== 3. SCROLL ANIMATIONS WITH INTERSECTION OBSERVER =====
-    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.reveal').forEach(section => observer.observe(section));
-
-    // ===== 4. HERO PARALLAX EFFECT (Desktop Only, Throttled) =====
-    if (window.innerWidth > 768) {
-        const hero = document.querySelector('#hero') || document.querySelector('.page-hero');
-        if (hero) {
-            let heroTicking = false;
-            let mx = 0, my = 0;
-            window.addEventListener('mousemove', (e) => {
-                mx = e.clientX / window.innerWidth;
-                my = e.clientY / window.innerHeight;
-                if (!heroTicking) {
-                    requestAnimationFrame(() => {
-                        // Only calculate and repaint if hero is within view
-                        if (window.scrollY < window.innerHeight) {
-                            hero.style.backgroundPosition = `${50 + mx * 2}% ${50 + my * 2}%`;
-                        }
-                        heroTicking = false;
-                    });
-                    heroTicking = true;
+    // ===== 2. HERO VIDEO GPU OPTIMIZATION (Pause when off-screen) =====
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo && 'IntersectionObserver' in window) {
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    heroVideo.play().catch(() => {});
+                } else {
+                    heroVideo.pause();
                 }
-            }, { passive: true });
-        }
+            });
+        }, { threshold: 0.1 });
+        videoObserver.observe(heroVideo);
     }
 
-    // ===== 5. MOBILE NAVIGATION HAMBURGER MENU =====
+    // ===== 3. ANIMATED COUNTER STATS (Passive Observer) =====
+    const counters = document.querySelectorAll('.stat-number');
+    if (counters.length && 'IntersectionObserver' in window) {
+        const counterObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                const target = parseInt(el.getAttribute('data-target'), 10);
+                if (isNaN(target)) return;
+
+                const duration = 1200;
+                const start = performance.now();
+
+                function update(now) {
+                    const elapsed = now - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.floor(eased * target);
+                    el.textContent = target >= 1000 ? current.toLocaleString() : current;
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        el.textContent = target >= 1000 ? target.toLocaleString() : target;
+                    }
+                }
+                requestAnimationFrame(update);
+                counterObserver.unobserve(el);
+            });
+        }, { threshold: 0.3 });
+
+        counters.forEach(c => counterObserver.observe(c));
+    }
+
+    // ===== 4. MOBILE NAVIGATION HAMBURGER MENU =====
     function setupMobileMenu() {
         const nav = document.querySelector('nav');
         const navLinks = document.querySelector('.nav-links');
@@ -98,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 navLinks.classList.toggle('active');
                 const isExpanded = navLinks.classList.contains('active');
                 burger.setAttribute('aria-expanded', isExpanded);
-                
+
                 const spans = burger.querySelectorAll('span');
                 burger.classList.toggle('toggle');
 
@@ -120,19 +111,17 @@ document.addEventListener('DOMContentLoaded', () => {
     setupMobileMenu();
     window.addEventListener('resize', setupMobileMenu, { passive: true });
 
-
-
-    // ===== 7. NEWSLETTER FORM HANDLING =====
+    // ===== 5. NEWSLETTER FORM HANDLING =====
     const newsletterForms = document.querySelectorAll('.newsletter-form');
     newsletterForms.forEach(form => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             const email = form.querySelector('input[type="email"]');
             const button = form.querySelector('button');
+            if (!email || !button) return;
             const originalText = button.textContent;
 
-            if (email && email.value) {
-                // Validate email format
+            if (email.value) {
                 if (!email.value.includes('@')) {
                     button.textContent = '✗ Invalid email';
                     button.style.color = '#d4af37';
@@ -143,14 +132,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Store newsletter subscription
                 const subscribedEmails = JSON.parse(localStorage.getItem('subscribedEmails') || '[]');
                 if (!subscribedEmails.includes(email.value)) {
                     subscribedEmails.push(email.value);
                     localStorage.setItem('subscribedEmails', JSON.stringify(subscribedEmails));
                 }
 
-                // Show success message
                 button.textContent = '✓ Subscribed!';
                 button.style.color = '#4CAF50';
                 email.value = '';
@@ -162,58 +149,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ===== 8. HERO SLIDER FUNCTIONALITY =====
+    // ===== 6. HERO SLIDER (Only initialized if multiple slides exist) =====
     const slides = document.querySelectorAll('.slide');
     const dots = document.querySelectorAll('.dot');
-    let currentSlide = 0;
-    let slideInterval;
-    const intervalTime = 6000; // Switch slide every 6 seconds
+    if (slides.length > 1) {
+        let currentSlide = 0;
+        let slideInterval;
+        const intervalTime = 6000;
 
-    function showSlide(index) {
-        if (slides.length === 0) return;
-        
-        // Remove active class from all slides and dots
-        slides.forEach(slide => slide.classList.remove('active'));
-        dots.forEach(dot => dot.classList.remove('active'));
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            if (slides[index]) slides[index].classList.add('active');
+            if (dots[index]) dots[index].classList.add('active');
+            currentSlide = index;
+        }
 
-        // Activate selected slide and dot if they exist
-        if (slides[index]) slides[index].classList.add('active');
-        if (dots[index]) dots[index].classList.add('active');
-        currentSlide = index;
-    }
+        function nextSlide() {
+            const next = (currentSlide + 1) % slides.length;
+            showSlide(next);
+        }
 
-    function nextSlide() {
-        if (slides.length <= 1) return;
-        let next = (currentSlide + 1) % slides.length;
-        showSlide(next);
-    }
-
-    function startSlideTimer() {
-        stopSlideTimer();
-        if (slides.length > 1) {
+        function startSlideTimer() {
+            stopSlideTimer();
             slideInterval = setInterval(nextSlide, intervalTime);
         }
-    }
 
-    function stopSlideTimer() {
-        if (slideInterval) {
-            clearInterval(slideInterval);
+        function stopSlideTimer() {
+            if (slideInterval) clearInterval(slideInterval);
         }
-    }
 
-    // Set up click events for dots
-    dots.forEach(dot => {
-        dot.addEventListener('click', (e) => {
-            const slideTo = parseInt(e.target.getAttribute('data-slide-to'), 10);
-            if (!isNaN(slideTo)) {
-                showSlide(slideTo);
-                startSlideTimer(); // Reset timer on click
-            }
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                const slideTo = parseInt(e.target.getAttribute('data-slide-to'), 10);
+                if (!isNaN(slideTo)) {
+                    showSlide(slideTo);
+                    startSlideTimer();
+                }
+            });
         });
-    });
 
-    // Initialize slider auto-play only if multiple slides exist
-    if (slides.length > 1) {
         startSlideTimer();
     }
 });
