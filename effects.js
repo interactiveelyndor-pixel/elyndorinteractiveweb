@@ -1,5 +1,5 @@
 /**
- * Elyndor Interactive - Immersive Effects Engine v2
+ * Elyndor Interactive - Immersive Effects Engine v2 (High-Performance Edition)
  * Particles, cursor trail, 3D card tilt, glitch text, cinematic reveals,
  * intro screen, typewriter, counter stats, page transitions, ambient sound
  */
@@ -8,7 +8,7 @@
     'use strict';
 
     /* =========================================================
-       1. INTERACTIVE PARTICLE CANVAS
+       1. INTERACTIVE PARTICLE CANVAS (GPU-Optimized, No ShadowBlur)
     ========================================================= */
     function initParticles() {
         // Disable particles on mobile for better performance
@@ -20,24 +20,46 @@
             width: 100%; height: 100%;
             pointer-events: none; z-index: 0;
             opacity: 0.55;
+            will-change: transform;
         `;
         document.body.prepend(canvas);
 
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { alpha: true });
         let W = canvas.width = window.innerWidth;
         let H = canvas.height = window.innerHeight;
         let mouse = { x: W / 2, y: H / 2 };
+        let isRunning = true;
+        let animId = null;
 
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            W = canvas.width = window.innerWidth;
-            H = canvas.height = window.innerHeight;
-        });
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                W = canvas.width = window.innerWidth;
+                H = canvas.height = window.innerHeight;
+            }, 100);
+        }, { passive: true });
+
         window.addEventListener('mousemove', e => {
             mouse.x = e.clientX;
             mouse.y = e.clientY;
+        }, { passive: true });
+
+        // Pause animation when tab is not visible to save CPU/battery
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                isRunning = false;
+                if (animId) cancelAnimationFrame(animId);
+            } else {
+                if (!isRunning) {
+                    isRunning = true;
+                    animId = requestAnimationFrame(animateParticles);
+                }
+            }
         });
 
-        const PARTICLE_COUNT = 80;
+        // 35 particles provide elegant ambiance without degrading framerate
+        const PARTICLE_COUNT = 35;
         const particles = [];
 
         class Particle {
@@ -45,20 +67,20 @@
             reset(init = false) {
                 this.x = Math.random() * W;
                 this.y = init ? Math.random() * H : H + 10;
-                this.size = Math.random() * 1.8 + 0.4;
+                this.size = Math.random() * 1.8 + 0.5;
                 this.speedX = (Math.random() - 0.5) * 0.4;
                 this.speedY = -(Math.random() * 0.6 + 0.2);
                 this.life = 1;
                 this.decay = Math.random() * 0.003 + 0.001;
-                this.color = Math.random() > 0.5
-                    ? `rgba(212, 175, 55, ${this.life})`
-                    : `rgba(180, 30, 30, ${this.life})`;
+                this.isGold = Math.random() > 0.5;
             }
             update() {
                 const dx = mouse.x - this.x;
                 const dy = mouse.y - this.y;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 200) {
+                const distSq = dx * dx + dy * dy;
+                // Avoid Math.sqrt unless within 180px radius (distSq < 32400)
+                if (distSq < 32400 && distSq > 0) {
+                    const dist = Math.sqrt(distSq);
                     this.speedX += (dx / dist) * 0.015;
                     this.speedY += (dy / dist) * 0.015;
                 }
@@ -68,99 +90,111 @@
                 if (this.life <= 0 || this.y < -10) this.reset();
             }
             draw() {
-                ctx.save();
-                ctx.globalAlpha = Math.max(0, this.life);
-                ctx.fillStyle = this.color;
-                ctx.shadowBlur = 6;
-                ctx.shadowColor = this.color;
+                const alpha = Math.max(0, this.life);
+                // Zero shadowBlur - standard clean arc fill runs at 120+ FPS
+                ctx.fillStyle = this.isGold
+                    ? `rgba(212, 175, 55, ${alpha})`
+                    : `rgba(180, 30, 30, ${alpha})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.restore();
             }
         }
 
         for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
 
         function animateParticles() {
+            if (!isRunning) return;
             ctx.clearRect(0, 0, W, H);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animateParticles);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            animId = requestAnimationFrame(animateParticles);
         }
-        animateParticles();
+        animId = requestAnimationFrame(animateParticles);
     }
 
     /* =========================================================
-       2. CUSTOM CURSOR + GLOWING TRAIL
+       2. CUSTOM CURSOR + GLOWING TRAIL (Hardware Composited)
     ========================================================= */
     function initCursor() {
-        // Disable on mobile for better performance
-        if (window.innerWidth <= 768) return;
-        
-        // Check if custom cursor is disabled via preference
+        // Disable on mobile/touch devices for responsiveness
+        if (window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches) return;
         if (localStorage.getItem('disableCustomCursor')) return;
 
         const dot = document.createElement('div');
         dot.style.cssText = `
-            position: fixed; width: 10px; height: 10px;
+            position: fixed; width: 8px; height: 8px;
             background: #d4af37; border-radius: 50%;
             pointer-events: none; z-index: 10000;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37;
-            mix-blend-mode: screen; transition: background 0.3s;
+            top: 0; left: 0;
+            transform: translate3d(-100px, -100px, 0);
+            box-shadow: 0 0 8px #d4af37;
+            will-change: transform;
         `;
         const ring = document.createElement('div');
         ring.style.cssText = `
-            position: fixed; width: 36px; height: 36px;
+            position: fixed; width: 34px; height: 34px;
             border: 1.5px solid rgba(212,175,55,0.6);
             border-radius: 50%; pointer-events: none;
-            z-index: 9999; transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, border-color 0.3s;
+            z-index: 9999; top: 0; left: 0;
+            transform: translate3d(-100px, -100px, 0);
+            transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+            will-change: transform;
         `;
 
         document.body.appendChild(ring);
         document.body.appendChild(dot);
         document.body.style.cursor = 'none';
 
-        let mx = 0, my = 0, rx = 0, ry = 0;
-        document.addEventListener('mousemove', e => {
-            mx = e.clientX; my = e.clientY;
-            dot.style.left = mx + 'px';
-            dot.style.top = my + 'px';
-        });
+        let mx = -100, my = -100, rx = -100, ry = -100;
+        let isRingActive = false;
+
+        window.addEventListener('mousemove', e => {
+            mx = e.clientX;
+            my = e.clientY;
+            // Hardware-accelerated translate3d without style recalc/layout reflow
+            dot.style.transform = `translate3d(${mx - 4}px, ${my - 4}px, 0)`;
+            if (!isRingActive) {
+                rx = mx;
+                ry = my;
+                isRingActive = true;
+            }
+        }, { passive: true });
 
         (function followRing() {
-            rx += (mx - rx) * 0.12;
-            ry += (my - ry) * 0.12;
-            ring.style.left = rx + 'px';
-            ring.style.top = ry + 'px';
+            if (isRingActive) {
+                rx += (mx - rx) * 0.18;
+                ry += (my - ry) * 0.18;
+                ring.style.transform = `translate3d(${rx - 17}px, ${ry - 17}px, 0)`;
+            }
             requestAnimationFrame(followRing);
         })();
 
         document.querySelectorAll('a, button, .game-card, .cta-button').forEach(el => {
             el.addEventListener('mouseenter', () => {
-                ring.style.width = '60px';
-                ring.style.height = '60px';
+                ring.style.width = '52px';
+                ring.style.height = '52px';
                 ring.style.borderColor = 'rgba(212,175,55,0.9)';
-            });
+            }, { passive: true });
             el.addEventListener('mouseleave', () => {
-                ring.style.width = '36px';
-                ring.style.height = '36px';
+                ring.style.width = '34px';
+                ring.style.height = '34px';
                 ring.style.borderColor = 'rgba(212,175,55,0.6)';
-            });
+            }, { passive: true });
         });
     }
 
     /* =========================================================
-       3. MOUSE-TRACKED 3D TILT ON GAME CARDS
+       3. MOUSE-TRACKED 3D TILT ON GAME CARDS (Throttled & Cached)
     ========================================================= */
     function initCardTilt() {
-        // Disable 3D tilt on mobile devices
         if (window.innerWidth <= 768) return;
         const cards = document.querySelectorAll('.game-card');
         cards.forEach(card => {
             card.style.transformStyle = 'preserve-3d';
-            card.style.transition = 'transform 0.1s ease, box-shadow 0.3s ease';
+            card.style.transition = 'transform 0.12s ease-out';
             card.style.willChange = 'transform';
 
             // Add cinematic overlay element
@@ -174,19 +208,29 @@
                 card.appendChild(overlay);
             }
 
+            let rect = null;
+            let rafId = null;
+
+            card.addEventListener('mouseenter', () => {
+                rect = card.getBoundingClientRect();
+            }, { passive: true });
+
             card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const cx = rect.left + rect.width / 2;
-                const cy = rect.top + rect.height / 2;
-                const dx = (e.clientX - cx) / (rect.width / 2);
-                const dy = (e.clientY - cy) / (rect.height / 2);
-                card.style.transform = `perspective(800px) rotateX(${-dy * 12}deg) rotateY(${dx * 15}deg) scale(1.04)`;
-                card.style.boxShadow = `${-dx * 20}px ${dy * 20}px 40px rgba(0,0,0,0.5), 0 0 20px rgba(212,175,55,0.15)`;
-            });
+                if (!rect) rect = card.getBoundingClientRect();
+                if (rafId) cancelAnimationFrame(rafId);
+                rafId = requestAnimationFrame(() => {
+                    const cx = rect.left + rect.width / 2;
+                    const cy = rect.top + rect.height / 2;
+                    const dx = (e.clientX - cx) / (rect.width / 2);
+                    const dy = (e.clientY - cy) / (rect.height / 2);
+                    card.style.transform = `perspective(800px) rotateX(${-dy * 10}deg) rotateY(${dx * 12}deg) scale(1.03)`;
+                });
+            }, { passive: true });
 
             card.addEventListener('mouseleave', () => {
+                if (rafId) cancelAnimationFrame(rafId);
+                rect = null;
                 card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)';
-                card.style.boxShadow = '';
             });
         });
     }
@@ -222,20 +266,20 @@
     }
 
     /* =========================================================
-       5. CINEMATIC SCROLL REVEALS
+       5. CINEMATIC SCROLL REVEALS (GPU-Friendly, No Blur Filter)
     ========================================================= */
     function initCinematicReveals() {
         const style = document.createElement('style');
         style.textContent = `
             .cinematic-hidden {
-                opacity: 0; filter: blur(8px);
-                transform: translateY(40px) scale(0.97);
-                transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1),
-                            filter 0.9s cubic-bezier(0.22,1,0.36,1),
-                            transform 0.9s cubic-bezier(0.22,1,0.36,1);
+                opacity: 0;
+                transform: translateY(30px) scale(0.98);
+                transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1),
+                            transform 0.6s cubic-bezier(0.22,1,0.36,1);
+                will-change: opacity, transform;
             }
             .cinematic-visible {
-                opacity: 1 !important; filter: blur(0px) !important;
+                opacity: 1 !important;
                 transform: translateY(0) scale(1) !important;
             }
         `;
@@ -246,7 +290,7 @@
         );
         targets.forEach((el, i) => {
             el.classList.add('cinematic-hidden');
-            el.style.transitionDelay = `${(i % 4) * 0.1}s`;
+            el.style.transitionDelay = `${(i % 4) * 0.08}s`;
         });
 
         const io = new IntersectionObserver(entries => {

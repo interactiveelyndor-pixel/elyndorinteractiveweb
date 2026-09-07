@@ -1,32 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // ===== 1. SCROLL PROGRESS BAR =====
+    // ===== 1. SCROLL PROGRESS BAR (GPU Hardware Composited) =====
     const progressBar = document.createElement('div');
     progressBar.style.cssText = `
         position: fixed; top: 0; left: 0; height: 3px;
-        background-color: #d4af37; z-index: 2000; width: 0%;
-        transition: width 0.1s;
+        background-color: #d4af37; z-index: 2000; width: 100%;
+        transform-origin: left; transform: scaleX(0);
+        will-change: transform; pointer-events: none;
     `;
     document.body.appendChild(progressBar);
 
-    let scrollTimeout;
+    let scrollTicking = false;
+    let maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+
+    window.addEventListener('resize', () => {
+        maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    }, { passive: true });
+
     window.addEventListener('scroll', () => {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.body.scrollHeight - window.innerHeight;
-            const scrollPercent = (scrollTop / docHeight) * 100;
-            progressBar.style.width = `${scrollPercent}%`;
-        }, 10);
-    });
+        if (!scrollTicking) {
+            requestAnimationFrame(() => {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const progress = Math.min(1, Math.max(0, scrollTop / maxScroll));
+                progressBar.style.transform = `scaleX(${progress})`;
+                scrollTicking = false;
+            });
+            scrollTicking = true;
+        }
+    }, { passive: true });
 
     // ===== 2. SMOOTH SCROLLING FOR ANCHOR LINKS =====
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth' });
+            if (targetId && targetId !== '#') {
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
             }
         });
     });
@@ -43,15 +54,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.reveal').forEach(section => observer.observe(section));
 
-    // ===== 4. HERO PARALLAX EFFECT (Desktop Only) =====
+    // ===== 4. HERO PARALLAX EFFECT (Desktop Only, Throttled) =====
     if (window.innerWidth > 768) {
         const hero = document.querySelector('#hero') || document.querySelector('.page-hero');
         if (hero) {
-            document.addEventListener('mousemove', (e) => {
-                const x = e.clientX / window.innerWidth;
-                const y = e.clientY / window.innerHeight;
-                hero.style.backgroundPosition = `${50 + x * 2}% ${50 + y * 2}%`;
-            });
+            let heroTicking = false;
+            let mx = 0, my = 0;
+            window.addEventListener('mousemove', (e) => {
+                mx = e.clientX / window.innerWidth;
+                my = e.clientY / window.innerHeight;
+                if (!heroTicking) {
+                    requestAnimationFrame(() => {
+                        // Only calculate and repaint if hero is within view
+                        if (window.scrollY < window.innerHeight) {
+                            hero.style.backgroundPosition = `${50 + mx * 2}% ${50 + my * 2}%`;
+                        }
+                        heroTicking = false;
+                    });
+                    heroTicking = true;
+                }
+            }, { passive: true });
         }
     }
 
@@ -96,35 +118,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     setupMobileMenu();
-    window.addEventListener('resize', setupMobileMenu);
+    window.addEventListener('resize', setupMobileMenu, { passive: true });
 
-    // ===== 6. GAME GRID AUTO-SCROLL ON HOVER (Desktop Only) =====
+    // ===== 6. GAME GRID AUTO-SCROLL ON HOVER (Desktop Only, RAF-Powered) =====
     if (window.innerWidth > 768) {
         const gameGrids = document.querySelectorAll('.game-grid');
         gameGrids.forEach(grid => {
             let mouseX = 0;
-            let scrollInterval;
+            let rafId = null;
+            let isHovering = false;
 
-            grid.addEventListener('mouseenter', () => startAutoScroll());
-            grid.addEventListener('mouseleave', () => stopAutoScroll());
+            function scrollLoop() {
+                if (!isHovering) return;
+                if (Math.abs(mouseX) > 0.3) {
+                    const speed = (Math.abs(mouseX) - 0.3) * 15;
+                    grid.scrollLeft += (mouseX > 0 ? speed : -speed);
+                }
+                rafId = requestAnimationFrame(scrollLoop);
+            }
+
+            grid.addEventListener('mouseenter', () => {
+                isHovering = true;
+                if (rafId) cancelAnimationFrame(rafId);
+                rafId = requestAnimationFrame(scrollLoop);
+            }, { passive: true });
+
+            grid.addEventListener('mouseleave', () => {
+                isHovering = false;
+                if (rafId) cancelAnimationFrame(rafId);
+            }, { passive: true });
+
             grid.addEventListener('mousemove', (e) => {
                 const rect = grid.getBoundingClientRect();
                 mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-            });
-
-            function startAutoScroll() {
-                if (scrollInterval) clearInterval(scrollInterval);
-                scrollInterval = setInterval(() => {
-                    if (Math.abs(mouseX) > 0.3) {
-                        const speed = (Math.abs(mouseX) - 0.3) * 15;
-                        grid.scrollLeft += (mouseX > 0 ? speed : -speed);
-                    }
-                }, 16);
-            }
-
-            function stopAutoScroll() {
-                if (scrollInterval) clearInterval(scrollInterval);
-            }
+            }, { passive: true });
         });
     }
 
@@ -182,20 +209,23 @@ document.addEventListener('DOMContentLoaded', () => {
         slides.forEach(slide => slide.classList.remove('active'));
         dots.forEach(dot => dot.classList.remove('active'));
 
-        // Activate selected slide and dot
-        slides[index].classList.add('active');
-        dots[index].classList.add('active');
+        // Activate selected slide and dot if they exist
+        if (slides[index]) slides[index].classList.add('active');
+        if (dots[index]) dots[index].classList.add('active');
         currentSlide = index;
     }
 
     function nextSlide() {
+        if (slides.length <= 1) return;
         let next = (currentSlide + 1) % slides.length;
         showSlide(next);
     }
 
     function startSlideTimer() {
         stopSlideTimer();
-        slideInterval = setInterval(nextSlide, intervalTime);
+        if (slides.length > 1) {
+            slideInterval = setInterval(nextSlide, intervalTime);
+        }
     }
 
     function stopSlideTimer() {
@@ -208,13 +238,15 @@ document.addEventListener('DOMContentLoaded', () => {
     dots.forEach(dot => {
         dot.addEventListener('click', (e) => {
             const slideTo = parseInt(e.target.getAttribute('data-slide-to'), 10);
-            showSlide(slideTo);
-            startSlideTimer(); // Reset timer on click
+            if (!isNaN(slideTo)) {
+                showSlide(slideTo);
+                startSlideTimer(); // Reset timer on click
+            }
         });
     });
 
-    // Initialize slider auto-play
-    if (slides.length > 0) {
+    // Initialize slider auto-play only if multiple slides exist
+    if (slides.length > 1) {
         startSlideTimer();
     }
 });
