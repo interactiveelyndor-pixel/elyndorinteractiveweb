@@ -20,7 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ===== 2. HERO VIDEO GPU OPTIMIZATION (Pause when off-screen) =====
+    // ===== 2. REVEAL SECTIONS (Ensure active and visible) =====
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+
+    // ===== 3. HERO VIDEO GPU OPTIMIZATION (Pause when off-screen) =====
     const heroVideos = document.querySelectorAll('.hero-video');
     if (heroVideos.length && 'IntersectionObserver' in window) {
         const videoObserver = new IntersectionObserver((entries) => {
