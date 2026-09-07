@@ -30,7 +30,19 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=5.0">
+    <style>
+        /* Sitewide Zero-Fail Visibility Guarantee */
+        html, body, main, section, div, .container, .game-grid, .game-card, .team-grid, .team-card {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        .reveal, .reveal.active, .fade-in {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+        }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap"
@@ -61,7 +73,7 @@
             </div>
         </section>
 
-        <section class="team-section reveal">
+        <section class="team-section">
             <div class="container">
                 <h2>The Core Team</h2>
                 <div class="team-grid">
@@ -161,7 +173,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=5.0"></script>
 </body>
 
 </html>

@@ -30,8 +30,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=5.0">
     <style>
+        /* Sitewide Zero-Fail Visibility Guarantee */
+        html, body, main, section, div, .container, .perks-grid, .roles-grid, .role-card {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        .reveal, .reveal.active, .fade-in {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+        }
         .careers-hero {
             background: linear-gradient(180deg, rgba(5, 5, 5, 0.4) 0%, rgba(5, 5, 5, 0.95) 100%), url('assets/background.png') center/cover no-repeat;
             padding: 160px 1.5rem 5rem;
@@ -226,7 +236,7 @@
         </section>
 
         <!-- Why Work With Us -->
-        <section class="reveal" style="padding: 4rem 1.5rem; background: #070707;">
+        <section style="padding: 4rem 1.5rem; background: #070707;">
             <div class="container">
                 <div class="section-title text-center" style="text-align: center; margin-bottom: 2rem;">
                     <h2>Why Elyndor Interactive?</h2>
@@ -259,7 +269,7 @@
         </section>
 
         <!-- Open Positions Section -->
-        <section id="openings" class="reveal" style="padding: 5rem 1.5rem;">
+        <section id="openings" style="padding: 5rem 1.5rem;">
             <div class="container">
                 <div class="section-title text-center" style="text-align: center; margin-bottom: 1rem;">
                     <h2>Open Positions</h2>
@@ -453,7 +463,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=5.0"></script>
 </body>
 
 </html>

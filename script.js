@@ -21,7 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===== 2. REVEAL SECTIONS (Ensure active and visible) =====
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
+    document.querySelectorAll('.reveal').forEach(el => {
+        el.classList.add('active');
+        el.style.opacity = '1';
+        el.style.visibility = 'visible';
+        el.style.transform = 'none';
+    });
 
     // ===== 3. HERO VIDEO GPU OPTIMIZATION (Pause when off-screen) =====
     const heroVideos = document.querySelectorAll('.hero-video');

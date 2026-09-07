@@ -28,7 +28,19 @@
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=5.0">
+    <style>
+        /* Sitewide Zero-Fail Visibility Guarantee */
+        html, body, main, section, div, .container, .game-grid, .game-card, .team-grid, .team-card {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        .reveal, .reveal.active, .fade-in {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+        }
+    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap"
@@ -112,7 +124,7 @@
             </div>
         </section>
 
-        <section id="about" class="reveal">
+        <section id="about">
             <div class="container text-center">
                 <h2>Who We Are</h2>
                 <p class="vision-text">We're a game studio based in Nashik, India. We make games we'd want to play — from tactical chess battlers to GPS-powered street games. Small team, real ambition, shipping titles across Play Store and itch.io.</p>
@@ -120,7 +132,7 @@
         </section>
 
 
-        <section id="games" class="reveal">
+        <section id="games">
             <div class="container">
                 <h2>Live Games</h2>
                 <p class="section-subtitle">Play our titles available now across Google Play and itch.io.</p>
@@ -223,7 +235,7 @@
             </div>
         </section>
 
-        <section id="upcoming" class="reveal" style="padding-top: 1rem;">
+        <section id="upcoming" style="padding-top: 1rem;">
             <div class="container">
                 <h2>Upcoming Games</h2>
                 <p class="section-subtitle">Exciting new worlds and experiences currently in active development.</p>
@@ -298,7 +310,7 @@
             </div>
         </section>
 
-        <section id="contact" class="reveal">
+        <section id="contact">
             <div class="container text-center">
                 <h2>Connect With Us</h2>
                 <p style="text-align: center; max-width: 500px; margin: 0 auto 2rem;">Got a project, a press inquiry, or just want to say hey — we'd love to hear from you.</p>
@@ -370,7 +382,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=5.0"></script>
 </body>
 
 </html>

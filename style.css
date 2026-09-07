@@ -328,9 +328,8 @@ a.play-store-badge:hover {
 
 /* Animations */
 .fade-in {
-    opacity: 0;
-    transform: translateX(-20px);
-    animation: fadeInLeft 0.8s ease forwards;
+    opacity: 1;
+    transform: none;
 }
 
 .delay-1 {
