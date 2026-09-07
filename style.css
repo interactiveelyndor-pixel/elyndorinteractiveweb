@@ -252,6 +252,15 @@ nav {
     letter-spacing: 1px;
     text-transform: uppercase;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: all var(--transition-speed);
+    text-decoration: none;
+}
+
+a.play-store-badge:hover {
+    background: var(--color-accent);
+    color: #050505;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
 }
 
 .slide-graphic {

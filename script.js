@@ -21,18 +21,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===== 2. HERO VIDEO GPU OPTIMIZATION (Pause when off-screen) =====
-    const heroVideo = document.querySelector('.hero-video');
-    if (heroVideo && 'IntersectionObserver' in window) {
+    const heroVideos = document.querySelectorAll('.hero-video');
+    if (heroVideos.length && 'IntersectionObserver' in window) {
         const videoObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    heroVideo.play().catch(() => {});
+                const video = entry.target;
+                const slide = video.closest('.slide');
+                const isActive = slide ? slide.classList.contains('active') : true;
+                if (entry.isIntersecting && isActive) {
+                    video.play().catch(() => {});
                 } else {
-                    heroVideo.pause();
+                    video.pause();
                 }
             });
         }, { threshold: 0.1 });
-        videoObserver.observe(heroVideo);
+        heroVideos.forEach(v => videoObserver.observe(v));
     }
 
     // ===== 3. ANIMATED COUNTER STATS (Passive Observer) =====
@@ -158,9 +161,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const intervalTime = 6000;
 
         function showSlide(index) {
-            slides.forEach(slide => slide.classList.remove('active'));
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                const v = slide.querySelector('video');
+                if (v) v.pause();
+            });
             dots.forEach(dot => dot.classList.remove('active'));
-            if (slides[index]) slides[index].classList.add('active');
+            if (slides[index]) {
+                slides[index].classList.add('active');
+                const activeVideo = slides[index].querySelector('video');
+                if (activeVideo) activeVideo.play().catch(() => {});
+            }
             if (dots[index]) dots[index].classList.add('active');
             currentSlide = index;
         }

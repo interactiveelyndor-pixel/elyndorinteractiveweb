@@ -54,9 +54,35 @@
     <main>
         <section id="hero" class="hero-slider-section">
             <div class="slider-container">
-                <!-- Featured Game: Hop'n Top -->
+                <!-- Featured Game 1: Spook-A-Chess -->
                 <div class="slide active" data-slide-index="0">
-                    <video autoplay loop muted playsinline class="hero-video" preload="metadata" poster="assets/background.png">
+                    <video autoplay loop muted playsinline class="hero-video" preload="metadata" poster="assets/spook_a_chess_poster.jpg">
+                        <source src="assets/spook_a_chess.mp4" type="video/mp4">
+                    </video>
+                    <div class="hero-overlay"></div>
+                    <div class="slide-content split-layout">
+                        <div class="slide-text">
+                            <span class="flagship-label">Live on Google Play</span>
+                            <h1 class="slide-title">Spook-A-Chess</h1>
+                            <span class="slide-subtitle">Dark Fantasy Tactical Chess</span>
+                            <p class="slide-description">A dark fantasy tactical chess battler blending classic strategy with arcane spellcasting, gothic isometric battlegrounds, and daily challenges. Play free now on Android!</p>
+                            <div class="slide-actions">
+                                <a href="https://play.google.com/store/apps/details?id=com.spookachess.game" target="_blank" rel="noopener noreferrer" class="play-store-badge">
+                                    ▶ Play on Google Play
+                                </a>
+                            </div>
+                        </div>
+                        <div class="slide-graphic">
+                            <div class="phone-mockup">
+                                <img src="assets/spook_a_chess_poster.jpg" alt="Spook-A-Chess Gameplay" class="phone-screenshot">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Game 2: Hop'n Top -->
+                <div class="slide" data-slide-index="1">
+                    <video loop muted playsinline class="hero-video" preload="metadata" poster="assets/background.png">
                         <source src="assets/hop_n_top.mp4" type="video/mp4">
                     </video>
                     <div class="hero-overlay"></div>
@@ -77,6 +103,12 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Slider Dots Navigation -->
+            <div class="slider-dots">
+                <div class="dot active" data-slide-to="0" role="button" aria-label="Spook-A-Chess Slide"></div>
+                <div class="dot" data-slide-to="1" role="button" aria-label="Hop'n Top Slide"></div>
             </div>
         </section>
 
