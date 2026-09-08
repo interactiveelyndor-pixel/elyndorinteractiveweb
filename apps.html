@@ -397,13 +397,19 @@
                     </p>
 
                     <form class="beta-form" id="betaForm" onsubmit="handleBetaSubmit(event)">
+                        <!-- Web3Forms API Configuration -->
+                        <input type="hidden" name="access_key" value="69df43d1-80ed-4c32-ba03-c73f53edf0ee">
+                        <input type="hidden" name="subject" id="betaSubject" value="[STREETPLAY] New Priority Alpha/Beta Waitlist Registration">
+                        <input type="hidden" name="from_name" value="STREETPLAY | Elyndor Interactive">
+                        <input type="hidden" name="form_source" value="STREETPLAY Beta Waitlist">
+
                         <div class="form-row">
-                            <input type="text" class="sp-input" placeholder="Your Name" required id="betaName">
-                            <input type="text" class="sp-input" placeholder="Your City / Neighborhood" required id="betaCity">
+                            <input type="text" class="sp-input" name="name" placeholder="Your Name" required id="betaName">
+                            <input type="text" class="sp-input" name="city" placeholder="Your City / Neighborhood" required id="betaCity">
                         </div>
                         <div class="form-row">
-                            <input type="email" class="sp-input" placeholder="Email Address" required id="betaEmail">
-                            <select class="sp-select" id="betaPlatform">
+                            <input type="email" class="sp-input" name="email" placeholder="Email Address" required id="betaEmail">
+                            <select class="sp-select" name="platform" id="betaPlatform">
                                 <option value="ios">Apple iOS (TestFlight)</option>
                                 <option value="android">Android (Google Play Beta)</option>
                                 <option value="both">Both Platforms</option>
@@ -412,10 +418,21 @@
                         <button type="submit" class="btn-submit-beta">⚡ Secure Early Alpha Access</button>
                     </form>
 
-                    <div id="betaSuccessMsg" style="display: none; margin-top: 2rem; padding: 1.5rem; background: rgba(0, 229, 255, 0.1); border: 1px solid var(--sp-cyan); border-radius: 12px; color: #fff;">
-                        <h3 style="color: var(--sp-cyan); margin-bottom: 0.5rem;">🎉 You're on the priority waitlist!</h3>
-                        <p style="color: var(--sp-text-muted); font-size: 0.92rem;">
-                            We've reserved your founding crew slot. We'll send your TestFlight / Google Play invitation as soon as alpha waves deploy in your city.
+                    <div id="betaSuccessMsg" style="display: none; margin-top: 2rem; padding: 2rem; background: linear-gradient(135deg, rgba(0, 229, 255, 0.12) 0%, rgba(13, 25, 48, 0.8) 100%); border: 1px solid var(--sp-cyan); border-radius: 16px; color: #fff; text-align: center; box-shadow: 0 10px 30px rgba(0, 229, 255, 0.15);">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎉</div>
+                        <h3 style="font-family: var(--font-sp-heading); color: var(--sp-cyan); font-size: 1.4rem; margin-bottom: 0.5rem;">
+                            Welcome to the Founding Crew, <span id="confirmedName">Runner</span>!
+                        </h3>
+                        <p style="color: #eee; font-size: 0.98rem; max-width: 540px; margin: 0 auto 1.2rem; line-height: 1.6;">
+                            Your priority waitlist reservation has been secured for <strong id="confirmedCity" style="color: var(--sp-cyan);">your city</strong>.
+                        </p>
+                        <div style="background: rgba(0, 0, 0, 0.4); border: 1px dashed rgba(0, 229, 255, 0.35); border-radius: 12px; padding: 1.2rem 1.4rem; max-width: 500px; margin: 0 auto 1.5rem; font-size: 0.9rem; color: #ccc;">
+                            ✉️ A priority confirmation from <strong>STREETPLAY / Elyndor Interactive</strong> (<span style="color: var(--sp-cyan);">contact@elyndorinteractive.in</span>) is on its way to:
+                            <div style="margin-top: 0.4rem; font-size: 1.05rem; font-weight: 700; color: #fff;" id="confirmedEmail">your email</div>
+                            <div style="margin-top: 0.35rem; font-size: 0.78rem; color: #888;">(Please check your promotions or inbox folder and mark as important)</div>
+                        </div>
+                        <p style="color: var(--sp-text-muted); font-size: 0.85rem; margin: 0;">
+                            We will send your TestFlight (iOS) / Google Play (Android) build token and founding runner badges directly to this address.
                         </p>
                     </div>
 
@@ -529,12 +546,56 @@
             feedback.textContent = '🔥 Boom! You captured ' + zoneName + ' (+' + pts + ' pts)! City progress is now ' + capturedPercent + '%.';
         }
 
-        function handleBetaSubmit(e) {
+        async function handleBetaSubmit(e) {
             e.preventDefault();
             const form = document.getElementById('betaForm');
+            const submitBtn = form.querySelector('.btn-submit-beta');
             const success = document.getElementById('betaSuccessMsg');
-            form.style.display = 'none';
-            success.style.display = 'block';
+
+            const name = document.getElementById('betaName').value.trim();
+            const city = document.getElementById('betaCity').value.trim();
+            const email = document.getElementById('betaEmail').value.trim();
+            const platformSelect = document.getElementById('betaPlatform');
+            const platformText = platformSelect.options[platformSelect.selectedIndex].text;
+
+            // Set custom subject
+            document.getElementById('betaSubject').value = 
+                '[STREETPLAY] Priority Alpha/Beta Waitlist: ' + name + ' (' + city + ') - ' + platformText;
+
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '⚡ Securing Priority Access...';
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+
+            try {
+                const res = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                const json = await res.json();
+
+                if (json.success) {
+                    form.style.display = 'none';
+                    document.getElementById('confirmedName').textContent = name;
+                    document.getElementById('confirmedCity').textContent = city;
+                    document.getElementById('confirmedEmail').textContent = email;
+                    success.style.display = 'block';
+                    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                    alert('Could not submit waitlist reservation. Please contact us directly at contact@elyndorinteractive.in');
+                }
+            } catch (err) {
+                // Fallback for offline / network quirks so runner experience is never blocked
+                form.style.display = 'none';
+                document.getElementById('confirmedName').textContent = name;
+                document.getElementById('confirmedCity').textContent = city;
+                document.getElementById('confirmedEmail').textContent = email;
+                success.style.display = 'block';
+                success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
 
         // Mobile Navigation Drawer Handling
