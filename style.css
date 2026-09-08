@@ -56,13 +56,13 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 0.6rem 2rem;
+    padding: 0.5rem 2rem;
     background: rgba(5, 5, 5, 0.94);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     z-index: 1000;
     transition: background 0.3s ease;
-    height: 76px;
+    height: 82px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -78,10 +78,15 @@ nav {
 }
 
 .logo-img {
-    height: 54px;
+    height: 66px;
     width: auto;
     object-fit: contain;
     display: block;
+    transition: transform 0.25s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.04);
 }
 
 .nav-links {
@@ -1425,7 +1430,7 @@ footer {
     }
 
     .logo-img {
-        height: 50px;
+        height: 58px;
     }
 
     .nav-links {
