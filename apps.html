@@ -27,7 +27,14 @@
     <meta property="twitter:image" content="https://elyndorinteractive.in/assets/streetplay_mockup.png">
 
     <!-- Dedicated Stylesheet for Apps Visual Identity -->
-    <link rel="stylesheet" href="apps.css">
+    <link rel="stylesheet" href="apps.css?v=2.0">
+    <style>
+        /* Sitewide Zero-Fail Visibility Guarantee */
+        html, body, main, section, .apps-container, .screen-card, .pillar-card, .beta-card {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    </style>
 </head>
 
 <body class="apps-body">
@@ -40,7 +47,8 @@
                 <span class="apps-brand-badge">⚡ STREETPLAY</span>
             </a>
 
-            <ul class="apps-nav-links">
+            <!-- Desktop Nav Links -->
+            <ul class="apps-nav-links desktop-only">
                 <li><a href="#overview" class="active">Overview</a></li>
                 <li><a href="#screens">The App</a></li>
                 <li><a href="#simulator">Live Capture</a></li>
@@ -48,14 +56,53 @@
                 <li><a href="#preregister">Beta Access</a></li>
             </ul>
 
-            <div class="apps-nav-actions">
+            <!-- Desktop Nav Actions -->
+            <div class="apps-nav-actions desktop-only">
                 <a href="games.html" class="btn-studio-back">◀ Games</a>
-                <a href="careers.html" class="btn-studio-back">Careers</a>
                 <a href="index.html" class="btn-studio-back">Studio Home</a>
+                <a href="careers.html" class="btn-studio-back">Careers</a>
                 <a href="#preregister" class="btn-cta-cyan">Get Early Access</a>
             </div>
+
+            <!-- Mobile Hamburger Toggle -->
+            <button class="apps-mobile-toggle" id="appsMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
+
+    <!-- Dedicated Full-Screen Mobile Drawer (Outside header to avoid backdrop-filter traps) -->
+    <div class="apps-mobile-drawer" id="appsMobileDrawer">
+        <div class="drawer-header">
+            <a href="apps.html" class="apps-brand">
+                <img src="assets/logo.png" alt="Elyndor Interactive" class="apps-brand-logo">
+                <span class="apps-brand-badge">⚡ STREETPLAY</span>
+            </a>
+            <button class="drawer-close-btn" id="appsDrawerClose" aria-label="Close menu">✕</button>
+        </div>
+
+        <div class="drawer-body">
+            <ul class="drawer-nav-links">
+                <li><a href="#overview" class="drawer-link active"><span>01</span> Overview</a></li>
+                <li><a href="#screens" class="drawer-link"><span>02</span> The App Interface</a></li>
+                <li><a href="#simulator" class="drawer-link"><span>03</span> Interactive Simulator</a></li>
+                <li><a href="#features" class="drawer-link"><span>04</span> Core Pillars</a></li>
+                <li><a href="#preregister" class="drawer-link"><span>05</span> Beta Access</a></li>
+            </ul>
+
+            <div class="drawer-actions">
+                <a href="#preregister" class="drawer-cta-primary">⚡ Pre-Register for Beta</a>
+                <div class="drawer-sublinks">
+                    <a href="games.html" class="drawer-sublink">◀ Games Catalog</a>
+                    <a href="index.html" class="drawer-sublink">Studio Home</a>
+                    <a href="careers.html" class="drawer-sublink">Careers</a>
+                    <a href="contact.html" class="drawer-sublink">Contact</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <main>
         <!-- Hero Section -->
@@ -463,6 +510,35 @@
             const success = document.getElementById('betaSuccessMsg');
             form.style.display = 'none';
             success.style.display = 'block';
+        }
+
+        // Mobile Navigation Drawer Handling
+        const menuToggle = document.getElementById('appsMenuToggle');
+        const drawer = document.getElementById('appsMobileDrawer');
+        const drawerClose = document.getElementById('appsDrawerClose');
+
+        function openDrawer() {
+            if (!drawer) return;
+            drawer.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            if (menuToggle) menuToggle.setAttribute('aria-expanded', 'true');
+        }
+
+        function closeDrawer() {
+            if (!drawer) return;
+            drawer.classList.remove('open');
+            document.body.style.overflow = '';
+            if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+        }
+
+        if (menuToggle) menuToggle.addEventListener('click', openDrawer);
+        if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+
+        // Close on clicking any drawer link
+        if (drawer) {
+            drawer.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', closeDrawer);
+            });
         }
     </script>
 </body>
