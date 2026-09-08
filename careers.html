@@ -165,30 +165,92 @@
         }
 
         .perk-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
-            padding: 1.8rem;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 16px;
+            padding: 2.4rem 1.6rem 2rem;
             text-align: center;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .perk-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            display: inline-block;
+        .perk-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 25%;
+            right: 25%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+            opacity: 0.6;
+            transition: all 0.35s ease;
+        }
+
+        .perk-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.35);
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.04) 0%, rgba(255, 255, 255, 0.015) 100%);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 25px rgba(212, 175, 55, 0.08);
+        }
+
+        .perk-card:hover::before {
+            opacity: 1;
+            left: 8%;
+            right: 8%;
+            background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+        }
+
+        .perk-icon-wrap {
+            width: 58px;
+            height: 58px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(163, 58, 46, 0.1) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.28);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.3rem;
+            color: var(--color-accent);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .perk-card:hover .perk-icon-wrap {
+            transform: scale(1.1) translateY(-2px);
+            border-color: var(--color-accent);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            color: #fff;
+        }
+
+        .perk-svg {
+            width: 26px;
+            height: 26px;
+            stroke-width: 1.8;
+            transition: transform 0.35s ease;
+        }
+
+        .perk-card:hover .perk-svg {
+            transform: scale(1.06);
         }
 
         .perk-card h3 {
             font-family: var(--font-heading);
             color: #fff;
-            font-size: 1.15rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.12rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.65rem;
+            text-transform: uppercase;
         }
 
         .perk-card p {
             font-size: 0.88rem;
-            color: #888;
-            line-height: 1.55;
+            color: #999;
+            line-height: 1.6;
+            margin: 0;
         }
 
         .apply-box {
@@ -245,22 +307,46 @@
 
                 <div class="perks-grid">
                     <div class="perk-card">
-                        <span class="perk-icon">🛡️</span>
+                        <div class="perk-icon-wrap" aria-hidden="true">
+                            <svg class="perk-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <path d="m9 12 2 2 4-4"/>
+                            </svg>
+                        </div>
                         <h3>True Creative Autonomy</h3>
                         <p>No corporate roadblocks. Work directly with founders and take complete ownership of your code, models, and features.</p>
                     </div>
                     <div class="perk-card">
-                        <span class="perk-icon">🚀</span>
+                        <div class="perk-icon-wrap" aria-hidden="true">
+                            <svg class="perk-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+                                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+                                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+                                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+                                <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"/>
+                            </svg>
+                        </div>
                         <h3>Global Ambition</h3>
                         <p>Ship games and apps deployed internationally on Google Play, Steam, App Store, and consoles.</p>
                     </div>
                     <div class="perk-card">
-                        <span class="perk-icon">📍</span>
+                        <div class="perk-icon-wrap" aria-hidden="true">
+                            <svg class="perk-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                        </div>
                         <h3>Hybrid & Flexible</h3>
                         <p>Collaborate from our studio in Nashik, Maharashtra or contribute remotely with flexible working schedules.</p>
                     </div>
                     <div class="perk-card">
-                        <span class="perk-icon">💎</span>
+                        <div class="perk-icon-wrap" aria-hidden="true">
+                            <svg class="perk-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 3h12l4 6-10 13L2 9Z"/>
+                                <path d="M11 3 8 9l4 13 4-13-3-6"/>
+                                <path d="M2 9h20"/>
+                            </svg>
+                        </div>
                         <h3>End-to-End Shipping</h3>
                         <p>Experience the thrill of launching complete titles from initial napkin sketch to worldwide release and player live-ops.</p>
                     </div>
