@@ -8,7 +8,7 @@ web
 
 ## Users
 
-- **Gamers & Players**: Looking to discover, download, and play studio titles on Google Play Store (Spook-A-Chess, Run Mania, Hop'n Top) and itch.io (Carmine Tangles, Drive Me Home, Neo Mania).
+- **Gamers & Players**: Looking to discover, download, and play studio titles on Google Play Store (Spook-A-Chess, Run Mania) and itch.io (Carmine Tangles, Drive Me Home, Neo Mania).
 - **Publishers, Investors & Press**: Evaluating the studio's portfolio, production quality, narrative IP (Project Origin / Kaali lore), and trajectory.
 - **Enterprise & Creative Clients**: Businesses and brands seeking custom game development, AR/VR experiences, gamification, or mobile app engineering.
 - **Talent & Job Applicants**: Game developers, 3D artists, designers, and engineers exploring open roles and studio culture in Nashik, India.
@@ -30,7 +30,7 @@ A grounded, ambitious indie game studio hailing from Nashik, India, creating tac
 ## Capabilities and Constraints
 
 - **Live Game Catalog**: Direct links, platform badges, gameplay descriptions, and playable builds.
-- **Upcoming Games Pipeline**: Teaser art, trailers, and status indicators for upcoming titles (Hop'n Top, Project Origin, Project Homies, Can You Escape My Brain?).
+- **Upcoming Games Pipeline**: Teaser art, trailers, and status indicators for upcoming titles (Project Origin, Project Homies, Can You Escape My Brain?).
 - **STREETPLAY Showcase**: Dedicated high-energy sub-brand page for the real-world GPS territory gaming app.
 - **Service Inquiries**: Functional Web3Forms contact form routing client leads.
 - **Careers Hub**: Direct role application workflows via email.
