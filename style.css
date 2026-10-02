@@ -165,7 +165,8 @@ nav {
     z-index: 2;
 }
 
-.hero-video {
+.hero-video,
+.hero-backdrop {
     position: absolute;
     top: 0;
     left: 0;

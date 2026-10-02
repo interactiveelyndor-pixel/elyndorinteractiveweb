@@ -30,7 +30,7 @@ A grounded, ambitious indie game studio hailing from Nashik, India, creating tac
 ## Capabilities and Constraints
 
 - **Live Game Catalog**: Direct links, platform badges, gameplay descriptions, and playable builds.
-- **Upcoming Games Pipeline**: Teaser art, trailers, and status indicators for upcoming titles (Project Origin, Project Homies, Can You Escape My Brain?).
+- **Upcoming Games Pipeline**: Teaser art, trailers, and status indicators for upcoming titles (Turning Tides: Broken Rules [Google Play Pre-Registration], Project Origin, Project Homies, Can You Escape My Brain?).
 - **STREETPLAY Showcase**: Dedicated high-energy sub-brand page for the real-world GPS territory gaming app.
 - **Service Inquiries**: Functional Web3Forms contact form routing client leads.
 - **Careers Hub**: Direct role application workflows via email.
