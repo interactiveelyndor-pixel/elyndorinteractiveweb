@@ -1,0 +1,209 @@
+{
+  "liveGames": [
+    {
+      "id": "live-1",
+      "title": "Spook-A-Chess",
+      "badge": "Play Store",
+      "badgeClass": "badge-playstore",
+      "desc": "A dark fantasy tactical chess battler blending classic strategy with arcane spellcasting, gothic isometric battlegrounds, and daily challenges.",
+      "link": "https://play.google.com/store/apps/details?id=com.spookachess.game",
+      "img": "assets/spook_a_chess.png",
+      "overlayTag": "Available on Google Play",
+      "overlayCta": "Play Now"
+    },
+    {
+      "id": "live-2",
+      "title": "Run Mania",
+      "badge": "Play Store",
+      "badgeClass": "badge-playstore",
+      "desc": "An exhilarating endless runner! Jump, survive, and repeat across challenging obstacles in this high-energy arcade adventure.",
+      "link": "https://play.google.com/store/apps/details?id=com.elyndorinteractive.runmania&pcampaignid=web_share",
+      "img": "assets/run_mania.png",
+      "overlayTag": "Available on Google Play",
+      "overlayCta": "Play Now"
+    },
+    {
+      "id": "live-3",
+      "title": "Carmine Tangles",
+      "badge": "itch.io",
+      "badgeClass": "badge-itch",
+      "desc": "A chilling maze where reality is unstable. Escape the desolate, mirror-walled labyrinth before time runs out.",
+      "link": "https://monish39.itch.io/carmine-tangles",
+      "img": "assets/carmine_tangles.png",
+      "overlayTag": "Available on itch.io",
+      "overlayCta": "Play Now"
+    },
+    {
+      "id": "live-4",
+      "title": "Drive Me Home",
+      "badge": "itch.io",
+      "badgeClass": "badge-itch",
+      "desc": "Drop your drunk friend home in just two minutes, but you don't know the address! Navigate unpredictable streets and chaos.",
+      "link": "https://monish39.itch.io/drive-me-home",
+      "img": "assets/drive_me_home.png",
+      "overlayTag": "Available on itch.io",
+      "overlayCta": "Play Now"
+    },
+    {
+      "id": "live-5",
+      "title": "Neo Mania",
+      "badge": "itch.io",
+      "badgeClass": "badge-itch",
+      "desc": "A thrilling precision platformer. Jump, dash, and navigate through neon-lit obstacles in this intense arcade challenge.",
+      "link": "https://monish39.itch.io/neo-mania",
+      "img": "assets/neo_mania.png",
+      "overlayTag": "Available on itch.io",
+      "overlayCta": "Play Now"
+    }
+  ],
+  "upcomingGames": [
+    {
+      "id": "up-1",
+      "title": "Turning Tides: Broken Rules",
+      "badge": "Pre-Register",
+      "badgeClass": "badge-upcoming",
+      "desc": "A 2.5D tabletop puzzle adventure where every step rewires reality! Outsmart the board and pre-register now on Google Play.",
+      "link": "https://play.google.com/store/apps/details?id=com.turningtides.plottwist&pcampaignid=web_share",
+      "img": "assets/turning_tides_1.jpg",
+      "overlayTag": "Google Play Pre-Registration",
+      "overlayCta": "Pre-Register Now"
+    },
+    {
+      "id": "up-2",
+      "title": "Can you escape my brain?",
+      "badge": "In Development",
+      "badgeClass": "badge-dev",
+      "desc": "A surreal psychological puzzle adventure navigating the labyrinthine corridors and hidden mysteries of the human subconscious.",
+      "link": "#",
+      "img": "assets/escape_my_brain.png",
+      "overlayTag": "Psychological Puzzle",
+      "overlayCta": "In Development"
+    },
+    {
+      "id": "up-3",
+      "title": "Project Origin",
+      "badge": "Flagship",
+      "badgeClass": "badge-upcoming",
+      "desc": "A narrative-driven atmospheric action-adventure game set in Modern India. Experience the protagonist's journey through grief and vengeance.",
+      "link": "originals.html",
+      "img": "assets/turning_tides_bg.jpg",
+      "overlayTag": "Flagship Title",
+      "overlayCta": "View Details"
+    },
+    {
+      "id": "up-4",
+      "title": "Project Homies",
+      "badge": "In Development",
+      "badgeClass": "badge-dev",
+      "desc": "An upcoming multiplayer social adventure exploring camaraderie, cityscapes, street culture, and shared journeys.",
+      "link": "#",
+      "img": "assets/project_homies.png",
+      "overlayTag": "Multiplayer Social Adventure",
+      "overlayCta": "In Development"
+    }
+  ],
+  "hero": {
+    "slide1": {
+      "label": "Live on Google Play",
+      "title": "Spook-A-Chess",
+      "subtitle": "Dark Fantasy Tactical Chess",
+      "desc": "A dark fantasy tactical chess battler blending classic strategy with arcane spellcasting, gothic isometric battlegrounds, and daily challenges. Play free now on Android!",
+      "btnText": "Play on Google Play",
+      "btnLink": "https://play.google.com/store/apps/details?id=com.spookachess.game"
+    },
+    "slide2": {
+      "label": "Pre-Registration Live",
+      "title": "Turning Tides",
+      "subtitle": "Broken Rules • 2.5D Tabletop Puzzle",
+      "desc": "When the board breaks its own rules, will you outsmart the twist? Guide a plucky hooded pawn across an ancient tabletop diorama where physics and reality rewire with every step. Pre-register now on Google Play!",
+      "btnText": "Pre-Register on Google Play",
+      "btnLink": "https://play.google.com/store/apps/details?id=com.turningtides.plottwist&pcampaignid=web_share"
+    }
+  },
+  "about": {
+    "heading": "Who We Are",
+    "text": "We're a game studio based in Nashik, India. We make games we'd want to play — from tactical chess battlers to GPS-powered street games. Small team, real ambition, shipping titles across Play Store and itch.io."
+  },
+  "contact": {
+    "heading": "Connect With Us",
+    "desc": "Got a project, a press inquiry, or just want to say hey — we'd love to hear from you.",
+    "btnText": "Get in Touch",
+    "email": "contact@elyndorinteractive.in"
+  },
+  "footer": {
+    "tagline": "An Indian game studio.",
+    "location": "Nashik, Maharashtra, India",
+    "email": "contact@elyndorinteractive.in",
+    "copyright": "© 2026 Elyndor Interactive. All Rights Reserved."
+  },
+  "careers": {
+    "hero": {
+      "badge": "✦ STUDENT & FRESHER INTERNSHIPS",
+      "title": "Build The Future with Elyndor",
+      "desc": "Hands-on mentorship, real commercial game credits, and direct production experience building indie titles and civic platforms. Explore our active internship programs.",
+      "ctaText": "Explore Internship Openings"
+    },
+    "openings": [
+      {
+        "id": "intern-1",
+        "category": "Internship • Game Engineering",
+        "title": "Game Development Intern (Unity / Unreal)",
+        "desc": "Work directly with our engineering leads on gameplay mechanics, character controllers, mobile optimization, and AI systems for commercial titles.",
+        "tags": ["Unity (C#)", "Unreal Engine", "Gameplay Logic", "Mobile Profiling"],
+        "emailSubject": "Internship Application: Game Development Intern - Elyndor Interactive",
+        "applyBody": "Hi Elyndor Interactive Team,\n\nI would like to apply for the Game Development Internship at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Graduation Year: \n• Portfolio / GitHub / itch.io: \n• Primary Engine & Languages (Unity / C# / UE5): \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!"
+      },
+      {
+        "id": "intern-2",
+        "category": "Internship • 3D Art & Animation",
+        "title": "3D Art & Modeling Intern",
+        "desc": "Create stylized low-poly environments, mythological prop models, and character textures under the direct mentorship of our 3D art team.",
+        "tags": ["Blender / Maya", "Substance 3D", "Low-Poly Assets", "Stylized Art"],
+        "emailSubject": "Internship Application: 3D Art & Modeling Intern - Elyndor Interactive",
+        "applyBody": "Hi Elyndor Interactive Team,\n\nI would like to apply for the 3D Art & Modeling Internship at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Graduation Year: \n• ArtStation / Portfolio Link: \n• Primary Software (Blender, Maya, Substance): \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!"
+      },
+      {
+        "id": "intern-3",
+        "category": "Internship • 2D Art & UI",
+        "title": "2D Concept & UI/UX Intern",
+        "desc": "Design intuitive game HUDs, concept character silhouettes, dark fantasy mood sketches, and store marketing art alongside our lead 2D artist.",
+        "tags": ["Photoshop", "UI / UX", "Concept Art", "Figma"],
+        "emailSubject": "Internship Application: 2D Concept & UI/UX Intern - Elyndor Interactive",
+        "applyBody": "Hi Elyndor Interactive Team,\n\nI would like to apply for the 2D Concept & UI/UX Internship at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Graduation Year: \n• Portfolio / ArtStation / Behance: \n• Design / Art Tools: \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!"
+      },
+      {
+        "id": "intern-4",
+        "category": "Internship • Mobile Apps",
+        "title": "Mobile App Engineer Intern (STREETPLAY)",
+        "desc": "Contribute to real-world geolocation mechanics, interactive territory maps, and responsive mobile interfaces for our flagship civic platform.",
+        "tags": ["Flutter / React Native", "Geolocation APIs", "Firebase", "UI Integration"],
+        "emailSubject": "Internship Application: Mobile App Engineer Intern - Elyndor Interactive",
+        "applyBody": "Hi Elyndor Interactive Team,\n\nI would like to apply for the Mobile App Engineer Internship at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Graduation Year: \n• GitHub / App Demos: \n• Primary Tech Stack: \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!"
+      },
+      {
+        "id": "intern-5",
+        "category": "Internship • Design & QA",
+        "title": "Game Design & QA Playtesting Intern",
+        "desc": "Design level layouts, test gameplay balance, draft design documents (GDDs), and lead playtesting sessions across our release pipeline.",
+        "tags": ["Level Design", "Playtesting", "Bug Reporting", "Game Balance"],
+        "emailSubject": "Internship Application: Game Design & QA Intern - Elyndor Interactive",
+        "applyBody": "Hi Elyndor Interactive Team,\n\nI would like to apply for the Game Design & QA Playtesting Internship at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Graduation Year: \n• Portfolio / Articles / GDDs: \n• Favorite Games & Mechanics: \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!"
+      },
+      {
+        "id": "intern-6",
+        "category": "Open Pitch • Any Discipline",
+        "title": "Open Pitch Student Internship",
+        "desc": "Bring your talent in audio engineering, motion graphics, video editing, community management, or writing to our indie game universe.",
+        "tags": ["Audio & SFX", "Video Editing", "Community", "Storytelling"],
+        "emailSubject": "Internship Pitch: Open Pitch Internship - Elyndor Interactive",
+        "applyBody": "Hi Elyndor Interactive Team,\n\nI would like to pitch for an internship role at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Year: \n• Discipline / Focus Area: \n• Portfolio / Work Samples: \n• Why Elyndor Interactive?: \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!",
+        "isOpenPitch": true
+      }
+    ],
+    "applyBox": {
+      "heading": "How To Apply",
+      "desc": "Send your resume, portfolio link (ArtStation, GitHub, itch.io, or Demo Reel), and a brief note about why you want to build with Elyndor Interactive to:",
+      "email": "contact@elyndorinteractive.in"
+    }
+  }
+}

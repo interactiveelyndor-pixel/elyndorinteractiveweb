@@ -594,20 +594,186 @@
                 <p><a href="mailto:contact@elyndorinteractive.in">contact@elyndorinteractive.in</a></p>
             </div>
         </div>
-        <div class="copyright">
+        <div class="copyright" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
             <p>&copy; 2026 Elyndor Interactive. All Rights Reserved.</p>
+            <a href="index.html?openAdmin=careers" style="display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; background: rgba(212, 175, 55, 0.12); border: 1px solid rgba(212, 175, 55, 0.35); border-radius: 6px; color: #d4af37; text-decoration: none; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;" title="Open Studio Admin Portal to manage Careers &amp; Internships">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                <span>Admin Portal</span>
+            </a>
         </div>
     </footer>
 
+    <!-- Firebase Compat SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="script.js?v=5.0"></script>
     <script>
-        document.querySelectorAll('.role-apply-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const prev = this.innerHTML;
-                this.innerHTML = 'Opening Mail... ✉️';
-                setTimeout(() => { this.innerHTML = prev; }, 2800);
-            });
-        });
+        (function() {
+            'use strict';
+
+            const FIREBASE_CONFIG = {
+                apiKey: "AIzaSyAOQc6o3x1b-52iIrxU72QNm3MeUqKEiI8",
+                authDomain: "elyndor-website.firebaseapp.com",
+                projectId: "elyndor-website",
+                storageBucket: "elyndor-website.firebasestorage.app",
+                messagingSenderId: "618519757014",
+                appId: "1:618519757014:web:25ef16d8851d8dd4a68977",
+                measurementId: "G-G61EPP2JY4"
+            };
+
+            function escapeHtml(str) {
+                if (!str) return '';
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function attachApplyBtnListeners() {
+                document.querySelectorAll('.role-apply-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const prev = this.innerHTML;
+                        this.innerHTML = 'Opening Mail... ✉️';
+                        setTimeout(() => { this.innerHTML = prev; }, 2800);
+                    });
+                });
+            }
+
+            function renderCareers(careersData) {
+                if (!careersData) return;
+
+                // 1. Hero
+                if (careersData.hero) {
+                    const badgeEl = document.querySelector('.careers-hero .flagship-label');
+                    if (badgeEl && careersData.hero.badge) badgeEl.textContent = careersData.hero.badge;
+                    const titleEl = document.querySelector('.careers-hero h1');
+                    if (titleEl && careersData.hero.title) titleEl.textContent = careersData.hero.title;
+                    const descEl = document.querySelector('.careers-hero p');
+                    if (descEl && careersData.hero.desc) descEl.textContent = careersData.hero.desc;
+                }
+
+                // 2. How To Apply Box
+                const targetEmail = (careersData.applyBox && careersData.applyBox.email) || 'contact@elyndorinteractive.in';
+                if (careersData.applyBox) {
+                    const hEl = document.querySelector('.apply-box h3');
+                    if (hEl && careersData.applyBox.heading) hEl.textContent = careersData.applyBox.heading;
+                    const dEl = document.querySelector('.apply-box p');
+                    if (dEl && careersData.applyBox.desc) dEl.textContent = careersData.applyBox.desc;
+                    const aEl = document.querySelector('.apply-box a');
+                    if (aEl && careersData.applyBox.email) {
+                        aEl.textContent = careersData.applyBox.email;
+                        aEl.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(targetEmail)}&su=${encodeURIComponent('General Application - Elyndor Interactive')}`;
+                    }
+                }
+
+                // 3. Roles Grid
+                if (Array.isArray(careersData.openings) && careersData.openings.length > 0) {
+                    const rolesGrid = document.querySelector('.roles-grid');
+                    if (rolesGrid) {
+                        rolesGrid.innerHTML = careersData.openings.map(role => {
+                            const isPitch = !!role.isOpenPitch;
+                            const tags = Array.isArray(role.tags) ? role.tags : (role.tags ? role.tags.split(',').map(t => t.trim()) : []);
+                            const subject = role.emailSubject || `Internship Application: ${role.title} - Elyndor Interactive`;
+                            const body = role.applyBody || `Hi Elyndor Interactive Team,\n\nI would like to apply for the ${role.title} at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Graduation Year: \n• Portfolio / GitHub / itch.io: \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!`;
+
+                            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(targetEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                            const mailtoUrl = `mailto:${encodeURIComponent(targetEmail)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                            const btnLabel = isPitch ? 'Pitch via Gmail →' : 'Apply with Gmail →';
+                            const cardStyle = isPitch ? 'border-style: dashed; border-color: rgba(212, 175, 55, 0.3);' : '';
+
+                            return `
+                            <div class="role-card" style="${cardStyle}">
+                                <div>
+                                    <span class="role-type-tag">${escapeHtml(role.category || 'Internship')}</span>
+                                    <h3 class="role-title">${escapeHtml(role.title)}</h3>
+                                    <p class="role-desc">${escapeHtml(role.desc)}</p>
+                                    <div class="role-tags">
+                                        ${tags.map(t => `<span class="tag-pill">${escapeHtml(t)}</span>`).join('')}
+                                    </div>
+                                </div>
+                                <div style="margin-top: 1rem;">
+                                    <a href="${gmailUrl}" target="_blank" rel="noopener noreferrer" class="role-apply-btn">
+                                        ${btnLabel}
+                                    </a>
+                                    <br>
+                                    <a href="${mailtoUrl}" class="alt-mail-link">
+                                        Or open other mail app
+                                    </a>
+                                </div>
+                            </div>
+                            `;
+                        }).join('');
+
+                        attachApplyBtnListeners();
+                    }
+                }
+            }
+
+            // Initial button click listeners
+            attachApplyBtnListeners();
+
+            // Firebase Live Synchronization
+            async function initCareersSync() {
+                // 1. Try local storage cache first for instant update
+                try {
+                    const localCache = localStorage.getItem('elyndor_admin_state_v1');
+                    if (localCache) {
+                        const parsed = JSON.parse(localCache);
+                        if (parsed && parsed.careers) {
+                            renderCareers(parsed.careers);
+                        }
+                    }
+                } catch (e) {}
+
+                // 2. Try Firestore sync
+                try {
+                    if (window.firebase) {
+                        if (!firebase.apps || !firebase.apps.length) {
+                            firebase.initializeApp(FIREBASE_CONFIG);
+                        }
+                        const db = firebase.firestore();
+
+                        // Fetch initial
+                        const doc = await db.collection('content').doc('site').get();
+                        if (doc.exists) {
+                            const data = doc.data();
+                            if (data && data.careers) {
+                                renderCareers(data.careers);
+                                console.log('✓ Synced live careers from Firestore.');
+                            }
+                        }
+
+                        // Real-time listener
+                        db.collection('content').doc('site').onSnapshot(snap => {
+                            if (snap.exists) {
+                                const liveData = snap.data();
+                                if (liveData && liveData.careers) {
+                                    renderCareers(liveData.careers);
+                                }
+                            }
+                        });
+                        return;
+                    }
+                } catch (err) {
+                    console.warn('Firebase careers sync notice:', err);
+                }
+
+                // 3. Fallback to data/content.json
+                try {
+                    const res = await fetch('./data/content.json?v=' + Date.now(), { cache: 'no-store' });
+                    if (res.ok) {
+                        const json = await res.json();
+                        if (json && json.careers) {
+                            renderCareers(json.careers);
+                        }
+                    }
+                } catch (e) {}
+            }
+
+            document.addEventListener('DOMContentLoaded', initCareersSync);
+        })();
     </script>
 </body>
 

@@ -51,7 +51,7 @@
         .slide.active {
             opacity: 1 !important;
             visibility: visible !important;
-            pointer-events: all !important;
+            pointer-events: auto !important;
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -392,10 +392,2986 @@
                 <p><a href="mailto:contact@elyndorinteractive.in">contact@elyndorinteractive.in</a></p>
             </div>
         </div>
-        <div class="copyright">
-            <p>&copy; 2026 Elyndor Interactive. All Rights Reserved.</p>
+        <div class="copyright" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; padding: 1.5rem 0 2rem;">
+            <p style="margin: 0; color: #7a756d; font-size: 0.85rem;">&copy; 2026 Elyndor Interactive. All Rights Reserved.</p>
+            <div id="ea-portal-launcher" title="Elyndor Admin Portal">
+                <button id="ea-launch-btn" type="button" aria-label="Open Studio Admin Portal">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <span>Admin</span>
+                    <span id="ea-launcher-status" class="ea-status-dot"></span>
+                </button>
+            </div>
         </div>
     </footer>
+
+    <!-- Admin Portal Styles -->
+    <style id="ea-admin-styles">
+        #ea-portal-launcher {
+            display: inline-flex !important;
+            align-items: center !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            position: static !important;
+            z-index: 10 !important;
+        }
+        #ea-launch-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            background: #12131d !important;
+            color: #d4af37 !important;
+            border: 1px solid rgba(212, 175, 55, 0.45) !important;
+            border-radius: 9999px !important;
+            padding: 7px 16px !important;
+            font-size: 0.84rem !important;
+            font-weight: 600 !important;
+            font-family: 'Outfit', sans-serif !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+            transition: all 0.25s ease !important;
+            outline: none !important;
+        }
+        #ea-launch-btn:hover {
+            background: rgba(212, 175, 55, 0.15) !important;
+            border-color: #d4af37 !important;
+            color: #ffffff !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3) !important;
+        }
+        .ea-status-dot {
+            width: 8px !important;
+            height: 8px !important;
+            border-radius: 50% !important;
+            background: #4CAF50 !important;
+            box-shadow: 0 0 8px #4CAF50 !important;
+        }
+
+        /* Fullscreen Overlay Portal (Strict Zero-Leak Isolation) */
+        #ea-admin-portal {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: rgba(8, 9, 14, 0.98) !important;
+            backdrop-filter: blur(14px) !important;
+            z-index: 100000 !important;
+            display: none !important;
+            overflow-y: auto !important;
+            box-sizing: border-box !important;
+            padding: 35px 20px 60px !important;
+            color: #e5e5e5 !important;
+            font-family: 'Outfit', sans-serif !important;
+        }
+        #ea-admin-portal.ea-open {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+        }
+
+        #ea-admin-portal:not(.ea-open),
+        .ea-modal-backdrop.ea-hidden,
+        #ea-game-modal.ea-hidden,
+        #ea-internship-modal.ea-hidden,
+        .ea-visual-bar.ea-hidden,
+        #ea-visual-edit-bar.ea-hidden {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            max-width: 0 !important;
+            max-height: 0 !important;
+            overflow: hidden !important;
+            position: fixed !important;
+            top: -9999px !important;
+            left: -9999px !important;
+            z-index: -9999 !important;
+        }
+
+        .ea-container {
+            max-width: 1180px !important;
+            margin: 0 auto !important;
+        }
+        .ea-hidden {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        /* Portal Header */
+        .ea-header {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            flex-wrap: wrap !important;
+            gap: 16px !important;
+            margin-bottom: 30px !important;
+            padding-bottom: 22px !important;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25) !important;
+        }
+        .ea-header-left {
+            display: flex !important;
+            align-items: center !important;
+            gap: 14px !important;
+        }
+        .ea-logo-badge {
+            background: linear-gradient(135deg, #d4af37 0%, #aa8214 100%) !important;
+            color: #000 !important;
+            font-family: 'Cinzel', serif !important;
+            font-weight: 900 !important;
+            font-size: 0.8rem !important;
+            letter-spacing: 2px !important;
+            padding: 6px 12px !important;
+            border-radius: 6px !important;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
+        }
+        .ea-title {
+            font-family: 'Cinzel', serif !important;
+            font-size: 1.65rem !important;
+            color: #ffffff !important;
+            margin: 0 0 3px 0 !important;
+            letter-spacing: 0.5px !important;
+        }
+        .ea-subtitle {
+            font-size: 0.88rem !important;
+            color: #9e9ea7 !important;
+            margin: 0 !important;
+        }
+        .ea-header-right {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+        }
+        .ea-user-badge {
+            font-size: 0.85rem !important;
+            background: rgba(212, 175, 55, 0.12) !important;
+            border: 1px solid rgba(212, 175, 55, 0.3) !important;
+            padding: 5px 12px !important;
+            border-radius: 9999px !important;
+            color: #d4af37 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        /* Buttons & Controls */
+        .ea-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-weight: 600 !important;
+            border-radius: 8px !important;
+            padding: 9px 18px !important;
+            font-size: 0.92rem !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            text-decoration: none !important;
+            border: none !important;
+            outline: none !important;
+            box-sizing: border-box !important;
+        }
+        .ea-btn:active {
+            transform: scale(0.98) !important;
+        }
+        .ea-btn-sm {
+            padding: 7px 13px !important;
+            font-size: 0.84rem !important;
+        }
+        .ea-btn-xs {
+            padding: 4px 9px !important;
+            font-size: 0.76rem !important;
+        }
+        .ea-btn-block {
+            width: 100% !important;
+        }
+        .ea-btn-gold {
+            background: linear-gradient(135deg, #d4af37 0%, #aa8214 100%) !important;
+            color: #08080c !important;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35) !important;
+        }
+        .ea-btn-gold:hover {
+            background: linear-gradient(135deg, #f5cf53 0%, #c1961e 100%) !important;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5) !important;
+        }
+        .ea-btn-cyan {
+            background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3) !important;
+        }
+        .ea-btn-cyan:hover {
+            background: linear-gradient(135deg, #48cae4 0%, #0096c7 100%) !important;
+        }
+        .ea-btn-outline {
+            background: transparent !important;
+            color: #d4af37 !important;
+            border: 1px solid rgba(212, 175, 55, 0.45) !important;
+        }
+        .ea-btn-outline:hover {
+            background: rgba(212, 175, 55, 0.12) !important;
+            border-color: #d4af37 !important;
+        }
+        .ea-btn-danger {
+            background: rgba(239, 68, 68, 0.15) !important;
+            color: #f87171 !important;
+            border: 1px solid rgba(239, 68, 68, 0.35) !important;
+        }
+        .ea-btn-danger:hover {
+            background: rgba(239, 68, 68, 0.3) !important;
+            color: #ff9999 !important;
+        }
+        .ea-close-portal-btn {
+            background: rgba(255, 255, 255, 0.08) !important;
+            color: #e5e5e5 !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 8px !important;
+            padding: 8px 14px !important;
+            font-size: 0.88rem !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            transition: all 0.2s ease !important;
+        }
+        .ea-close-portal-btn:hover {
+            background: rgba(255, 255, 255, 0.18) !important;
+            color: #ffffff !important;
+        }
+
+        /* Cards */
+        .ea-card {
+            background: #11121a !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 12px !important;
+            padding: 24px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+            box-sizing: border-box !important;
+        }
+        .ea-subcard {
+            background: #151622 !important;
+            border: 1px solid rgba(212, 175, 55, 0.18) !important;
+            padding: 20px !important;
+        }
+        .ea-subcard h5 {
+            color: #d4af37 !important;
+            font-family: 'Cinzel', serif !important;
+            font-size: 1.1rem !important;
+            margin: 0 0 16px 0 !important;
+            padding-bottom: 10px !important;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15) !important;
+        }
+
+        /* Login Card */
+        .ea-login-card {
+            max-width: 480px !important;
+            margin: 40px auto !important;
+            text-align: center !important;
+            border: 1px solid rgba(212, 175, 55, 0.35) !important;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 25px rgba(212, 175, 55, 0.12) !important;
+        }
+        .ea-icon-wrapper {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 58px !important;
+            height: 58px !important;
+            border-radius: 50% !important;
+            background: rgba(212, 175, 55, 0.1) !important;
+            border: 1px solid rgba(212, 175, 55, 0.3) !important;
+            color: #d4af37 !important;
+            margin-bottom: 16px !important;
+        }
+        .ea-login-header h3 {
+            font-family: 'Cinzel', serif !important;
+            font-size: 1.45rem !important;
+            color: #fff !important;
+            margin: 0 0 8px 0 !important;
+        }
+        .ea-login-header p {
+            color: #999 !important;
+            font-size: 0.9rem !important;
+            margin: 0 0 20px 0 !important;
+        }
+
+        /* Demo Credentials Box */
+        .ea-demo-credentials-box {
+            background: rgba(212, 175, 55, 0.08) !important;
+            border: 1px dashed rgba(212, 175, 55, 0.4) !important;
+            border-radius: 10px !important;
+            padding: 14px 18px !important;
+            margin-bottom: 22px !important;
+            text-align: left !important;
+        }
+        .ea-demo-badge {
+            font-size: 0.72rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 1px !important;
+            color: #d4af37 !important;
+            margin-bottom: 8px !important;
+        }
+        .ea-demo-creds-list {
+            font-size: 0.88rem !important;
+            color: #eee !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 4px !important;
+            margin-bottom: 12px !important;
+        }
+        .ea-demo-creds-list code {
+            background: #000 !important;
+            color: #d4af37 !important;
+            padding: 2px 7px !important;
+            border-radius: 4px !important;
+            border: 1px solid rgba(212, 175, 55, 0.25) !important;
+            font-family: monospace !important;
+            font-weight: 600 !important;
+        }
+
+        /* Form Controls */
+        .ea-form {
+            text-align: left !important;
+        }
+        .ea-form-group {
+            margin-bottom: 16px !important;
+        }
+        .ea-form-group label {
+            display: block !important;
+            font-size: 0.84rem !important;
+            font-weight: 600 !important;
+            color: #c5c5d0 !important;
+            margin-bottom: 6px !important;
+            letter-spacing: 0.3px !important;
+        }
+        .ea-input, .ea-textarea, .ea-select {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            background: #0c0d13 !important;
+            border: 1px solid rgba(255, 255, 255, 0.14) !important;
+            border-radius: 8px !important;
+            padding: 9px 13px !important;
+            color: #ffffff !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 0.92rem !important;
+            outline: none !important;
+            transition: border-color 0.2s, box-shadow 0.2s !important;
+        }
+        .ea-input:focus, .ea-textarea:focus, .ea-select:focus {
+            border-color: #d4af37 !important;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.25) !important;
+        }
+        .ea-form-row {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 14px !important;
+        }
+        .ea-form-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+            gap: 18px !important;
+        }
+        .ea-alert {
+            padding: 10px 14px !important;
+            border-radius: 8px !important;
+            font-size: 0.85rem !important;
+            margin-bottom: 16px !important;
+        }
+        .ea-alert-error {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border: 1px solid rgba(239, 68, 68, 0.4) !important;
+            color: #fca5a5 !important;
+        }
+
+        /* Quick Bar & Tabs */
+        .ea-quick-bar {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            flex-wrap: wrap !important;
+            gap: 15px !important;
+            background: #14151f !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 10px !important;
+            padding: 12px 18px !important;
+            margin-bottom: 22px !important;
+        }
+        .ea-quick-stats {
+            display: flex !important;
+            gap: 12px !important;
+            flex-wrap: wrap !important;
+        }
+        .ea-stat-pill {
+            font-size: 0.84rem !important;
+            color: #aaa !important;
+            background: #0d0e14 !important;
+            padding: 5px 12px !important;
+            border-radius: 20px !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        }
+        .ea-stat-pill strong {
+            color: #fff !important;
+        }
+        .ea-quick-actions {
+            display: flex !important;
+            gap: 10px !important;
+            flex-wrap: wrap !important;
+        }
+
+        .ea-tabs {
+            display: flex !important;
+            gap: 6px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            margin-bottom: 22px !important;
+            overflow-x: auto !important;
+            padding-bottom: 4px !important;
+        }
+        .ea-tab {
+            background: transparent !important;
+            border: none !important;
+            color: #888894 !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 0.92rem !important;
+            font-weight: 600 !important;
+            padding: 10px 16px !important;
+            border-bottom: 3px solid transparent !important;
+            cursor: pointer !important;
+            transition: all 0.2s !important;
+            white-space: nowrap !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 7px !important;
+        }
+        .ea-tab:hover {
+            color: #fff !important;
+        }
+        .ea-tab.active {
+            color: #d4af37 !important;
+            border-bottom-color: #d4af37 !important;
+        }
+        .ea-tab-content {
+            display: none !important;
+        }
+        .ea-tab-content.active {
+            display: block !important;
+        }
+
+        /* Panel Headers */
+        .ea-panel-header {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            flex-wrap: wrap !important;
+            gap: 15px !important;
+            margin-bottom: 20px !important;
+        }
+        .ea-panel-header h4 {
+            font-family: 'Cinzel', serif !important;
+            font-size: 1.3rem !important;
+            color: #fff !important;
+            margin: 0 0 4px 0 !important;
+        }
+        .ea-panel-header p {
+            color: #888894 !important;
+            font-size: 0.86rem !important;
+            margin: 0 !important;
+        }
+
+        /* Games List in Admin */
+        .ea-games-list {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+        }
+        .ea-game-item {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            background: #151620 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 10px !important;
+            padding: 12px 16px !important;
+            gap: 16px !important;
+            transition: border-color 0.2s !important;
+        }
+        .ea-game-item:hover {
+            border-color: rgba(212, 175, 55, 0.35) !important;
+        }
+        .ea-game-item-left {
+            display: flex !important;
+            align-items: center !important;
+            gap: 14px !important;
+            flex: 1 !important;
+            min-width: 0 !important;
+        }
+        .ea-game-thumb {
+            width: 54px !important;
+            height: 54px !important;
+            border-radius: 8px !important;
+            object-fit: contain !important;
+            background: #08090f !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            flex-shrink: 0 !important;
+        }
+        .ea-game-details {
+            min-width: 0 !important;
+        }
+        .ea-game-details h6 {
+            font-size: 1rem !important;
+            color: #fff !important;
+            margin: 0 0 4px 0 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+        .ea-game-meta {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            font-size: 0.8rem !important;
+            color: #888 !important;
+            flex-wrap: wrap !important;
+        }
+        .ea-pill {
+            font-size: 0.72rem !important;
+            padding: 2px 8px !important;
+            border-radius: 4px !important;
+            font-weight: 600 !important;
+        }
+        .ea-game-actions {
+            display: flex !important;
+            align-items: center !important;
+            gap: 7px !important;
+            flex-shrink: 0 !important;
+        }
+
+        /* Export Cards Grid */
+        .ea-export-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+            gap: 18px !important;
+        }
+        .ea-export-card {
+            text-align: center !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 24px 18px !important;
+        }
+        .ea-export-card.highlight {
+            border-color: rgba(212, 175, 55, 0.45) !important;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15) !important;
+        }
+        .ea-export-icon {
+            color: #d4af37 !important;
+            margin-bottom: 12px !important;
+        }
+        .ea-export-card h5 {
+            color: #fff !important;
+            font-size: 1.05rem !important;
+            margin: 0 0 6px 0 !important;
+        }
+        .ea-export-card p {
+            color: #888 !important;
+            font-size: 0.84rem !important;
+            margin: 0 0 16px 0 !important;
+            line-height: 1.4 !important;
+        }
+
+        /* Modal Dialog */
+        .ea-modal-backdrop {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background: rgba(0, 0, 0, 0.85) !important;
+            backdrop-filter: blur(8px) !important;
+            z-index: 100010 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 20px !important;
+            box-sizing: border-box !important;
+        }
+        .ea-modal-backdrop.ea-hidden,
+        #ea-game-modal.ea-hidden,
+        #ea-internship-modal.ea-hidden {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+        .ea-modal-box {
+            background: #11121a !important;
+            border: 1px solid rgba(212, 175, 55, 0.4) !important;
+            border-radius: 14px !important;
+            width: 100% !important;
+            max-width: 580px !important;
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+            padding: 26px !important;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 30px rgba(212,175,55,0.2) !important;
+            box-sizing: border-box !important;
+        }
+        .ea-modal-header {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            margin-bottom: 20px !important;
+            padding-bottom: 12px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        .ea-modal-header h3 {
+            font-family: 'Cinzel', serif !important;
+            font-size: 1.3rem !important;
+            color: #fff !important;
+            margin: 0 !important;
+        }
+        .ea-modal-close {
+            background: transparent !important;
+            border: none !important;
+            color: #aaa !important;
+            font-size: 1.6rem !important;
+            cursor: pointer !important;
+            line-height: 1 !important;
+        }
+        .ea-modal-close:hover {
+            color: #fff !important;
+        }
+        .ea-modal-actions {
+            display: flex !important;
+            justify-content: flex-end !important;
+            gap: 10px !important;
+            margin-top: 22px !important;
+        }
+
+        /* In-Page Visual Live Editor Top Bar */
+        .ea-visual-bar {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: auto !important;
+            background: linear-gradient(90deg, #12131d 0%, #1c1d2c 100%) !important;
+            border-bottom: 2px solid #d4af37 !important;
+            padding: 10px 20px !important;
+            z-index: 99995 !important;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.8) !important;
+            box-sizing: border-box !important;
+        }
+        .ea-visual-bar.ea-hidden,
+        #ea-visual-edit-bar.ea-hidden {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+        .ea-visual-bar-content {
+            max-width: 1180px !important;
+            margin: 0 auto !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            flex-wrap: wrap !important;
+            gap: 12px !important;
+        }
+        .ea-visual-badge {
+            background: #d4af37 !important;
+            color: #000 !important;
+            font-size: 0.72rem !important;
+            font-weight: 800 !important;
+            padding: 4px 10px !important;
+            border-radius: 4px !important;
+            letter-spacing: 1px !important;
+        }
+        .ea-visual-hint {
+            font-size: 0.88rem !important;
+            color: #e0e0e0 !important;
+            flex: 1 !important;
+        }
+        .ea-visual-actions {
+            display: flex !important;
+            gap: 8px !important;
+        }
+        .ea-editable-active {
+            outline: 2px dashed rgba(212, 175, 55, 0.75) !important;
+            outline-offset: 4px !important;
+            cursor: text !important;
+            background: rgba(212, 175, 55, 0.05) !important;
+            transition: all 0.2s !important;
+        }
+        .ea-editable-active:hover {
+            outline-color: #d4af37 !important;
+            background: rgba(212, 175, 55, 0.12) !important;
+        }
+
+        /* Toast Notifications */
+        .ea-toast-container {
+            position: fixed !important;
+            bottom: 24px !important;
+            left: 24px !important;
+            z-index: 100020 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            pointer-events: none !important;
+        }
+        .ea-toast {
+            pointer-events: auto !important;
+            background: #161722 !important;
+            color: #ffffff !important;
+            border-left: 4px solid #d4af37 !important;
+            border-radius: 6px !important;
+            padding: 11px 16px !important;
+            font-size: 0.88rem !important;
+            font-family: 'Outfit', sans-serif !important;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.7) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            animation: eaFadeIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+        }
+        @keyframes eaFadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .ea-header { flex-direction: column; align-items: flex-start; }
+            .ea-form-row { grid-template-columns: 1fr !important; }
+            .ea-game-item { flex-direction: column; align-items: flex-start; }
+            .ea-game-actions { width: 100%; justify-content: flex-end; }
+        }
+    </style>
+
+    <!-- Fullscreen Admin Portal (Opens ONLY when Admin button is clicked) -->
+    <div id="ea-admin-portal" role="dialog" aria-modal="true" aria-label="Elyndor Studio Admin Portal">
+        <div class="ea-container">
+            <!-- Portal Header -->
+            <div class="ea-header">
+                <div class="ea-header-left">
+                    <div class="ea-logo-badge">ELYNDOR</div>
+                    <div>
+                        <h2 class="ea-title">Studio Admin Management Portal</h2>
+                        <p class="ea-subtitle">Manually modify games, headlines, and content without touching code</p>
+                    </div>
+                </div>
+                <div class="ea-header-right">
+                    <div id="ea-auth-header-actions" style="display: none; align-items: center; gap: 10px;">
+                        <span class="ea-user-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <span>Administrator</span>
+                        </span>
+                        <button type="button" id="ea-logout-btn" class="ea-btn ea-btn-sm ea-btn-outline">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                            <span>Log Out</span>
+                        </button>
+                    </div>
+                    <button type="button" id="ea-close-portal-btn" class="ea-close-portal-btn" title="Exit to Website">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        <span>Return to Website</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- LOGIN VIEW (Shown when not authenticated) -->
+            <div id="ea-login-view" class="ea-card ea-login-card">
+                <div class="ea-icon-wrapper">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div class="ea-login-header">
+                    <h3>Administrator Authentication</h3>
+                    <p>Enter studio administrative credentials to manage games and website content.</p>
+                </div>
+
+                <form id="ea-login-form" class="ea-form" style="margin-top: 10px;">
+                    <div class="ea-form-group">
+                        <label for="ea-username">Username</label>
+                        <input type="text" id="ea-username" class="ea-input" placeholder="Enter username" autocomplete="username" required>
+                    </div>
+                    <div class="ea-form-group">
+                        <label for="ea-password">Password</label>
+                        <input type="password" id="ea-password" class="ea-input" placeholder="Enter password" autocomplete="current-password" required>
+                    </div>
+                    <div id="ea-login-error" class="ea-alert ea-alert-error ea-hidden">
+                        Invalid username or password. Please try again.
+                    </div>
+                    <button type="submit" class="ea-btn ea-btn-gold ea-btn-block">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <span>Log In to Studio Console</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- DASHBOARD VIEW (Shown when authenticated) -->
+            <div id="ea-dashboard-view" class="ea-hidden">
+                <!-- Quick Action Bar -->
+                <div class="ea-quick-bar">
+                    <div class="ea-quick-stats">
+                        <span class="ea-stat-pill">Live Games: <strong id="ea-stat-live-count">0</strong></span>
+                        <span class="ea-stat-pill">Upcoming Games: <strong id="ea-stat-upcoming-count">0</strong></span>
+                        <span class="ea-stat-pill">Internships: <strong id="ea-stat-internships-count" style="color: #d4af37;">0</strong></span>
+                        <span class="ea-stat-pill">Storage: <strong style="color: #4CAF50;">Synced</strong></span>
+                    </div>
+                    <div class="ea-quick-actions">
+                        <button type="button" id="ea-btn-toggle-visual-edit" class="ea-btn ea-btn-sm ea-btn-cyan">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/></svg>
+                            <span>In-Page Click-to-Edit</span>
+                        </button>
+                        <button type="button" id="ea-btn-quick-publish" class="ea-btn ea-btn-sm ea-btn-gold" style="box-shadow: 0 4px 18px rgba(212, 175, 55, 0.45); font-weight: 700;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                            <span>🚀 Publish Live</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="ea-tabs" role="tablist">
+                    <button type="button" class="ea-tab active" data-tab="live-games">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
+                        <span>Live Games</span>
+                    </button>
+                    <button type="button" class="ea-tab" data-tab="upcoming-games">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+                        <span>Upcoming Games</span>
+                    </button>
+                    <button type="button" class="ea-tab" data-tab="careers-internships">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect x="2" y="6" width="20" height="14" rx="2"/></svg>
+                        <span>Careers &amp; Internships</span>
+                    </button>
+                    <button type="button" class="ea-tab" data-tab="hero-about">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <span>Hero &amp; About</span>
+                    </button>
+                    <button type="button" class="ea-tab" data-tab="contact-footer">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        <span>Contact &amp; Footer</span>
+                    </button>
+                    <button type="button" class="ea-tab" data-tab="export-publish">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span>Publish &amp; Export</span>
+                    </button>
+                </div>
+
+                <!-- TAB 1: LIVE GAMES -->
+                <div id="ea-tab-live-games" class="ea-tab-content active">
+                    <div class="ea-panel-header">
+                        <div>
+                            <h4>Live Games Catalog</h4>
+                            <p>Manage cards displayed in the "Live Games" section on the homepage.</p>
+                        </div>
+                        <button type="button" id="ea-add-live-game-btn" class="ea-btn ea-btn-gold">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            <span>Add New Live Game</span>
+                        </button>
+                    </div>
+                    <div id="ea-live-games-list" class="ea-games-list"></div>
+                </div>
+
+                <!-- TAB 2: UPCOMING GAMES -->
+                <div id="ea-tab-upcoming-games" class="ea-tab-content">
+                    <div class="ea-panel-header">
+                        <div>
+                            <h4>Upcoming Games Pipeline</h4>
+                            <p>Manage cards displayed in the "Upcoming Games" section on the homepage.</p>
+                        </div>
+                        <button type="button" id="ea-add-upcoming-game-btn" class="ea-btn ea-btn-gold">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            <span>Add New Upcoming Game</span>
+                        </button>
+                    </div>
+                    <div id="ea-upcoming-games-list" class="ea-games-list"></div>
+                </div>
+
+                <!-- TAB 3: HERO & ABOUT -->
+                <div id="ea-tab-hero-about" class="ea-tab-content">
+                    <div class="ea-panel-header">
+                        <div>
+                            <h4>Hero Spotlight &amp; Studio Story</h4>
+                            <p>Edit hero slides, featured game badges, and "Who We Are" text.</p>
+                        </div>
+                    </div>
+                    <form id="ea-hero-about-form" class="ea-form">
+                        <div class="ea-form-grid">
+                            <!-- Hero Slide 1 -->
+                            <div class="ea-card ea-subcard">
+                                <h5>Hero Slide 1 (Flagship Spotlight)</h5>
+                                <div class="ea-form-group">
+                                    <label for="ea-hero1-label">Flagship Label</label>
+                                    <input type="text" id="ea-hero1-label" class="ea-input" value="Live on Google Play">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-hero1-title">Game Title</label>
+                                    <input type="text" id="ea-hero1-title" class="ea-input" value="Spook-A-Chess">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-hero1-subtitle">Subtitle</label>
+                                    <input type="text" id="ea-hero1-subtitle" class="ea-input" value="Dark Fantasy Tactical Chess">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-hero1-desc">Description</label>
+                                    <textarea id="ea-hero1-desc" class="ea-textarea" rows="3"></textarea>
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-hero1-btn-text">CTA Button Text</label>
+                                    <input type="text" id="ea-hero1-btn-text" class="ea-input" value="Play on Google Play">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-hero1-btn-link">CTA Button Link</label>
+                                    <input type="text" id="ea-hero1-btn-link" class="ea-input" value="https://play.google.com/store/apps/details?id=com.spookachess.game">
+                                </div>
+                            </div>
+
+                            <!-- Hero Slide 2 -->
+                            <div class="ea-card ea-subcard">
+                                <h5>Hero Slide 2 (Pre-Registration Spotlight)</h5>
+                                <div class="ea-form-group">
+                                    <label for="ea-hero2-label">Flagship Label</label>
+                                    <input type="text" id="ea-hero2-label" class="ea-input" value="Pre-Registration Live">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-hero2-title">Game Title</label>
+                                    <input type="text" id="ea-hero2-title" class="ea-input" value="Turning Tides">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-hero2-subtitle">Subtitle</label>
+                                    <input type="text" id="ea-hero2-subtitle" class="ea-input" value="Broken Rules • 2.5D Tabletop Puzzle">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-hero2-desc">Description</label>
+                                    <textarea id="ea-hero2-desc" class="ea-textarea" rows="3"></textarea>
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-hero2-btn-text">CTA Button Text</label>
+                                    <input type="text" id="ea-hero2-btn-text" class="ea-input" value="Pre-Register on Google Play">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-hero2-btn-link">CTA Button Link</label>
+                                    <input type="text" id="ea-hero2-btn-link" class="ea-input" value="https://play.google.com/store/apps/details?id=com.turningtides.plottwist&pcampaignid=web_share">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Who We Are -->
+                        <div class="ea-card ea-subcard" style="margin-top: 1.5rem;">
+                            <h5>About Section: "Who We Are"</h5>
+                            <div class="ea-form-group">
+                                <label for="ea-about-heading">Section Heading</label>
+                                <input type="text" id="ea-about-heading" class="ea-input" value="Who We Are">
+                            </div>
+                            <div class="ea-form-group">
+                                <label for="ea-about-text">Studio Story / Vision Text</label>
+                                <textarea id="ea-about-text" class="ea-textarea" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align: right;">
+                            <button type="submit" class="ea-btn ea-btn-gold">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Save Hero &amp; About Changes</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- TAB 4: CONTACT & FOOTER -->
+                <div id="ea-tab-contact-footer" class="ea-tab-content">
+                    <div class="ea-panel-header">
+                        <div>
+                            <h4>Contact Details &amp; Studio Footer</h4>
+                            <p>Update contact inquiries, email address, physical location, and copyright notice.</p>
+                        </div>
+                    </div>
+                    <form id="ea-contact-footer-form" class="ea-form">
+                        <div class="ea-form-grid">
+                            <div class="ea-card ea-subcard">
+                                <h5>Connect Section</h5>
+                                <div class="ea-form-group">
+                                    <label for="ea-contact-heading">Heading</label>
+                                    <input type="text" id="ea-contact-heading" class="ea-input" value="Connect With Us">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-contact-desc">Description Subtitle</label>
+                                    <textarea id="ea-contact-desc" class="ea-textarea" rows="3"></textarea>
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-contact-btn-text">CTA Button Text</label>
+                                    <input type="text" id="ea-contact-btn-text" class="ea-input" value="Get in Touch">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-contact-email">Studio Contact Email</label>
+                                    <input type="email" id="ea-contact-email" class="ea-input" value="contact@elyndorinteractive.in">
+                                </div>
+                            </div>
+
+                            <div class="ea-card ea-subcard">
+                                <h5>Footer &amp; Branding</h5>
+                                <div class="ea-form-group">
+                                    <label for="ea-footer-tagline">Brand Tagline</label>
+                                    <input type="text" id="ea-footer-tagline" class="ea-input" value="An Indian game studio.">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-footer-location">Studio Location</label>
+                                    <input type="text" id="ea-footer-location" class="ea-input" value="Nashik, Maharashtra, India">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-footer-copyright">Copyright Text</label>
+                                    <input type="text" id="ea-footer-copyright" class="ea-input" value="© 2026 Elyndor Interactive. All Rights Reserved.">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 1.5rem; text-align: right;">
+                            <button type="submit" class="ea-btn ea-btn-gold">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Save Contact &amp; Footer Changes</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- TAB: CAREERS & INTERNSHIPS -->
+                <div id="ea-tab-careers-internships" class="ea-tab-content">
+                    <div class="ea-panel-header">
+                        <div>
+                            <h4>Careers &amp; Student Internships Management</h4>
+                            <p>Add, edit, reorder, or delete internship openings, and update the Careers page hero headlines.</p>
+                        </div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <a href="careers.html" target="_blank" rel="noopener noreferrer" class="ea-btn ea-btn-sm ea-btn-outline" style="text-decoration: none;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                <span>Preview Careers Page</span>
+                            </a>
+                            <button type="button" id="ea-add-internship-btn" class="ea-btn ea-btn-gold">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                <span>Add New Internship Role</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Careers Hero & Application Copy Form -->
+                    <form id="ea-careers-copy-form" class="ea-form" style="margin-bottom: 24px;">
+                        <div class="ea-card ea-subcard">
+                            <h5>Careers Page Hero &amp; Application Details</h5>
+                            <div class="ea-form-grid">
+                                <div class="ea-form-group">
+                                    <label for="ea-careers-hero-badge">Hero Top Tag / Badge</label>
+                                    <input type="text" id="ea-careers-hero-badge" class="ea-input" value="✦ STUDENT &amp; FRESHER INTERNSHIPS">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-careers-hero-title">Main Headline</label>
+                                    <input type="text" id="ea-careers-hero-title" class="ea-input" value="Build The Future with Elyndor">
+                                </div>
+                            </div>
+                            <div class="ea-form-group">
+                                <label for="ea-careers-hero-desc">Hero Subtitle / Description</label>
+                                <textarea id="ea-careers-hero-desc" class="ea-textarea" rows="2">Hands-on mentorship, real commercial game credits, and direct production experience building indie titles and civic platforms. Explore our active internship programs.</textarea>
+                            </div>
+                            <div class="ea-form-grid" style="margin-top: 10px;">
+                                <div class="ea-form-group">
+                                    <label for="ea-careers-apply-heading">Apply Box Heading</label>
+                                    <input type="text" id="ea-careers-apply-heading" class="ea-input" value="How To Apply">
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-careers-apply-email">Application Receiving Email</label>
+                                    <input type="email" id="ea-careers-apply-email" class="ea-input" value="contact@elyndorinteractive.in">
+                                </div>
+                            </div>
+                            <div class="ea-form-group">
+                                <label for="ea-careers-apply-desc">Apply Instructions Text</label>
+                                <textarea id="ea-careers-apply-desc" class="ea-textarea" rows="2">Send your resume, portfolio link (ArtStation, GitHub, itch.io, or Demo Reel), and a brief note about why you want to build with Elyndor Interactive to:</textarea>
+                            </div>
+                            <div style="text-align: right; margin-top: 10px;">
+                                <button type="submit" class="ea-btn ea-btn-sm ea-btn-gold">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                    <span>Save Careers Page Copy</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Active Internships List -->
+                    <div class="ea-panel-header" style="margin-top: 25px; margin-bottom: 12px;">
+                        <div>
+                            <h4 style="font-size: 1.15rem;">Active Internship Positions (<span id="ea-internships-count-badge">0</span>)</h4>
+                            <p>Students and freshers apply directly from these listings. Drag or move cards to change display order.</p>
+                        </div>
+                    </div>
+                    <div id="ea-internships-list" class="ea-games-list"></div>
+                </div>
+
+                <!-- TAB 5: PUBLISH & CLOUD SYNC -->
+                <div id="ea-tab-export-publish" class="ea-tab-content">
+                    <div class="ea-panel-header">
+                        <div>
+                            <h4>Instant Live Cloud Publishing</h4>
+                            <p>Publish your changes straight to your live domain (elyndorinteractive.in) with zero manual file downloads or code editing.</p>
+                        </div>
+                    </div>
+
+                    <!-- Hero Live Publish Banner -->
+                    <div class="ea-card" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(18, 19, 29, 0.95) 100%); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 14px; padding: 24px; margin-bottom: 25px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                    <span id="ea-cloud-status-dot" class="ea-status-dot" style="background: #4CAF50; box-shadow: 0 0 10px #4CAF50;"></span>
+                                    <h5 style="margin: 0; font-size: 1.2rem; color: #fff; font-family: 'Cinzel', serif;">Live Cloud Sync Engine</h5>
+                                    <span id="ea-cloud-status-pill" style="font-size: 0.75rem; background: rgba(76, 175, 80, 0.18); color: #4CAF50; border: 1px solid rgba(76, 175, 80, 0.35); padding: 2px 8px; border-radius: 9999px; font-weight: 600;">Active: Google Firebase Firestore (Instant Live Sync)</span>
+                                </div>
+                                <p style="color: #bbb; margin: 0; font-size: 0.92rem; max-width: 680px; line-height: 1.5;">
+                                    Whenever any admin adds games or edits text, click <strong>Publish Live to Website</strong>. It saves directly to your Google Firebase cloud database, updating instantly across the world for all visitors with zero code or file downloads!
+                                </p>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
+                                <button type="button" id="ea-publish-live-main-btn" class="ea-btn ea-btn-gold" style="font-size: 1rem; padding: 12px 24px; font-weight: 700; box-shadow: 0 6px 25px rgba(212, 175, 55, 0.45);">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                                    <span>🚀 Publish Live to Website</span>
+                                </button>
+                                <button type="button" id="ea-open-cloud-config-btn" class="ea-btn ea-btn-sm ea-btn-outline" style="font-size: 0.8rem; padding: 5px 12px; border-color: rgba(255,255,255,0.2); color: #aaa;" title="Configure cloud repository or custom webhook">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                                    <span>Cloud &amp; GitHub Settings</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ea-export-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px;">
+                        <!-- Card 1: Browser Cache -->
+                        <div class="ea-card" style="background: #141520; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 20px;">
+                            <div style="color: #d4af37; margin-bottom: 12px;">
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                            </div>
+                            <h5 style="color: #fff; margin: 0 0 8px 0; font-size: 1.05rem;">Local Device Cache</h5>
+                            <p style="color: #888; font-size: 0.86rem; margin: 0 0 14px 0;">Edits are cached instantly on this device so you never lose work during drafting.</p>
+                            <button type="button" id="ea-manual-save-btn" class="ea-btn ea-btn-sm ea-btn-outline">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Sync Local Cache</span>
+                            </button>
+                        </div>
+
+                        <!-- Card 2: Offline Backup HTML -->
+                        <div class="ea-card" style="background: #141520; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 20px;">
+                            <div style="color: #00b4d8; margin-bottom: 12px;">
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            </div>
+                            <h5 style="color: #fff; margin: 0 0 8px 0; font-size: 1.05rem;">Offline Backup Download</h5>
+                            <p style="color: #888; font-size: 0.86rem; margin: 0 0 14px 0;">Optional backup. Exports a static index.html snapshot for local archives.</p>
+                            <button type="button" id="ea-download-file-btn" class="ea-btn ea-btn-sm ea-btn-outline">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                <span>Download Offline Backup</span>
+                            </button>
+                        </div>
+
+                        <!-- Card 3: Copy HTML -->
+                        <div class="ea-card" style="background: #141520; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 20px;">
+                            <div style="color: #9e9ea7; margin-bottom: 12px;">
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            </div>
+                            <h5 style="color: #fff; margin: 0 0 8px 0; font-size: 1.05rem;">Copy HTML Source</h5>
+                            <p style="color: #888; font-size: 0.86rem; margin: 0 0 14px 0;">Copy complete page markup to clipboard for inspection.</p>
+                            <button type="button" id="ea-copy-html-btn" class="ea-btn ea-btn-sm ea-btn-outline">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                <span>Copy HTML</span>
+                            </button>
+                        </div>
+
+                        <!-- Card 4: Reset Defaults -->
+                        <div class="ea-card" style="background: #141520; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 20px;">
+                            <div style="color: #f87171; margin-bottom: 12px;">
+                                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                            </div>
+                            <h5 style="color: #fff; margin: 0 0 8px 0; font-size: 1.05rem;">Reset Studio Defaults</h5>
+                            <p style="color: #888; font-size: 0.86rem; margin: 0 0 14px 0;">Reverts all custom edits back to original Elyndor factory defaults.</p>
+                            <button type="button" id="ea-reset-defaults-btn" class="ea-btn ea-btn-sm ea-btn-danger">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                                <span>Reset Defaults</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL FOR ADDING / EDITING GAME -->
+        <div id="ea-game-modal" class="ea-modal-backdrop ea-hidden">
+            <div class="ea-modal-box">
+                <div class="ea-modal-header">
+                    <h3 id="ea-modal-title">Add / Edit Game</h3>
+                    <button type="button" id="ea-modal-close-btn" class="ea-modal-close" aria-label="Close dialog">&times;</button>
+                </div>
+                <form id="ea-game-modal-form" class="ea-form">
+                    <input type="hidden" id="ea-game-target-section" value="live">
+                    <input type="hidden" id="ea-game-edit-id" value="">
+
+                    <div class="ea-form-group">
+                        <label for="ea-game-title">Game Title *</label>
+                        <input type="text" id="ea-game-title" class="ea-input" placeholder="e.g. Arcane Puppeteer" required>
+                    </div>
+
+                    <div class="ea-form-row">
+                        <div class="ea-form-group">
+                            <label for="ea-game-badge">Badge Label *</label>
+                            <input type="text" id="ea-game-badge" class="ea-input" placeholder="e.g. Play Store, itch.io, Pre-Register, In Development" required>
+                        </div>
+                        <div class="ea-form-group">
+                            <label for="ea-game-badge-type">Badge Style</label>
+                            <select id="ea-game-badge-type" class="ea-select">
+                                <option value="badge-playstore">Google Play (Emerald / Teal)</option>
+                                <option value="badge-itch">itch.io (Crimson / Red)</option>
+                                <option value="badge-upcoming">Gold Flagship / Pre-Register</option>
+                                <option value="badge-dev">Purple In Development</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="ea-form-group">
+                        <label for="ea-game-desc">Description *</label>
+                        <textarea id="ea-game-desc" class="ea-textarea" rows="3" placeholder="Brief gameplay synopsis or story premise" required></textarea>
+                    </div>
+
+                    <div class="ea-form-group">
+                        <label for="ea-game-link">Game Link (URL) *</label>
+                        <input type="text" id="ea-game-link" class="ea-input" placeholder="e.g. https://play.google.com/store/apps/details?id=... or #" required>
+                    </div>
+
+                    <div class="ea-form-group">
+                        <label for="ea-game-img">Image URL / Asset Path *</label>
+                        <input type="text" id="ea-game-img" class="ea-input" placeholder="e.g. assets/spook_a_chess.png or https://example.com/cover.jpg" required>
+                    </div>
+
+                    <div class="ea-form-row">
+                        <div class="ea-form-group">
+                            <label for="ea-game-overlay-tag">Overlay Tag</label>
+                            <input type="text" id="ea-game-overlay-tag" class="ea-input" placeholder="e.g. Available on Google Play">
+                        </div>
+                        <div class="ea-form-group">
+                            <label for="ea-game-overlay-cta">Overlay CTA</label>
+                            <input type="text" id="ea-game-overlay-cta" class="ea-input" placeholder="e.g. Play Now or Pre-Register">
+                        </div>
+                    </div>
+
+                    <div class="ea-modal-actions">
+                        <button type="button" id="ea-modal-cancel-btn" class="ea-btn ea-btn-outline">Cancel</button>
+                        <button type="submit" class="ea-btn ea-btn-gold">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Save Game Card</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- MODAL FOR ADDING / EDITING INTERNSHIP -->
+        <div id="ea-internship-modal" class="ea-modal-backdrop ea-hidden">
+            <div class="ea-modal-box" style="max-width: 620px;">
+                <div class="ea-modal-header">
+                    <h3 id="ea-internship-modal-title">Add / Edit Internship Opening</h3>
+                    <button type="button" id="ea-internship-modal-close-btn" class="ea-modal-close" aria-label="Close dialog">&times;</button>
+                </div>
+                <form id="ea-internship-modal-form" class="ea-form">
+                    <input type="hidden" id="ea-intern-edit-id" value="">
+
+                    <div class="ea-form-group">
+                        <label for="ea-intern-title">Role Title *</label>
+                        <input type="text" id="ea-intern-title" class="ea-input" placeholder="e.g. Game Development Intern (Unity / Unreal)" required>
+                    </div>
+
+                    <div class="ea-form-row">
+                        <div class="ea-form-group">
+                            <label for="ea-intern-category">Category / Discipline *</label>
+                            <input type="text" id="ea-intern-category" class="ea-input" placeholder="e.g. Internship • Game Engineering" required>
+                        </div>
+                        <div class="ea-form-group">
+                            <label for="ea-intern-is-pitch">Role Style / Type</label>
+                            <select id="ea-intern-is-pitch" class="ea-select">
+                                <option value="standard">Standard Role (Solid Border)</option>
+                                <option value="pitch">Open Pitch / Spontaneous (Dashed Border)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="ea-form-group">
+                        <label for="ea-intern-desc">Role Description *</label>
+                        <textarea id="ea-intern-desc" class="ea-textarea" rows="3" placeholder="Explain what the intern will learn, build, or contribute..." required></textarea>
+                    </div>
+
+                    <div class="ea-form-group">
+                        <label for="ea-intern-tags">Skill Tags (comma separated) *</label>
+                        <input type="text" id="ea-intern-tags" class="ea-input" placeholder="e.g. Unity (C#), Unreal Engine, Gameplay Logic, Mobile Profiling" required>
+                    </div>
+
+                    <div class="ea-form-group">
+                        <label for="ea-intern-subject">Application Email Subject Line *</label>
+                        <input type="text" id="ea-intern-subject" class="ea-input" placeholder="e.g. Internship Application: Game Development Intern - Elyndor Interactive" required>
+                    </div>
+
+                    <div class="ea-form-group">
+                        <label for="ea-intern-body">Application Email Template Body (Optional)</label>
+                        <textarea id="ea-intern-body" class="ea-textarea" rows="4" placeholder="Template questionnaire shown in applicant's email..."></textarea>
+                    </div>
+
+                    <div class="ea-modal-actions">
+                        <button type="button" id="ea-internship-modal-cancel-btn" class="ea-btn ea-btn-outline">Cancel</button>
+                        <button type="submit" class="ea-btn ea-btn-gold">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>Save Internship Opening</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- MODAL FOR CLOUD SYNC CONFIGURATION -->
+        <div id="ea-cloud-config-modal" class="ea-modal-backdrop ea-hidden">
+            <div class="ea-modal-box" style="max-width: 580px;">
+                <div class="ea-modal-header">
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.25rem; color: #fff; margin: 0;">Live Website Cloud Connection</h3>
+                    <button type="button" id="ea-cloud-config-close-btn" class="ea-modal-close" aria-label="Close dialog">&times;</button>
+                </div>
+                <div style="padding: 20px 24px;">
+                    <p style="color: #aaa; font-size: 0.88rem; margin: 0 0 16px 0; line-height: 1.5;">
+                        Connect your live website so clicking <strong>"Publish Live"</strong> commits your edits directly to your live website (<strong style="color: #d4af37;">elyndorinteractive.in</strong>) without touching any code!
+                    </p>
+
+                    <form id="ea-cloud-config-form" class="ea-form">
+                        <div class="ea-form-group">
+                            <label for="ea-config-github-repo">GitHub Repository</label>
+                            <input type="text" id="ea-config-github-repo" class="ea-input" value="interactiveelyndor-pixel/elyndorinteractiveweb" placeholder="owner/repo-name" required>
+                        </div>
+
+                        <div class="ea-form-group">
+                            <label for="ea-config-github-token">GitHub Personal Access Token (One-Time Setup)</label>
+                            <input type="password" id="ea-config-github-token" class="ea-input" placeholder="ghp_... or github_pat_..." autocomplete="off">
+                            <small style="color: #888; font-size: 0.78rem; display: block; margin-top: 6px; line-height: 1.4;">
+                                Only needs <strong>Contents: Read &amp; write</strong> on <code>riya-2617/elyndor-new</code>. Stored securely in your admin browser session only.
+                                <br><a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener noreferrer" style="color: #d4af37; text-decoration: underline;">Generate fine-grained token on GitHub &rarr;</a>
+                            </small>
+                        </div>
+
+                        <div style="margin: 16px 0 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px;">
+                            <label for="ea-config-custom-endpoint" style="font-size: 0.84rem; color: #aaa; display: block; margin-bottom: 4px;">Optional Custom Cloud / Webhook URL (Firebase, Supabase, Cloudflare)</label>
+                            <input type="text" id="ea-config-custom-endpoint" class="ea-input" placeholder="Leave empty to use GitHub Pages live sync or enter custom endpoint">
+                        </div>
+
+                        <div class="ea-modal-actions" style="margin-top: 22px;">
+                            <button type="button" id="ea-cloud-config-cancel-btn" class="ea-btn ea-btn-outline">Cancel</button>
+                            <button type="submit" class="ea-btn ea-btn-gold">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>Save &amp; Enable Live Sync</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISUAL EDITING FLOATING TOP BAR -->
+    <div id="ea-visual-edit-bar" class="ea-visual-bar ea-hidden">
+        <div class="ea-visual-bar-content">
+            <span class="ea-visual-badge">LIVE VISUAL EDIT ACTIVE</span>
+            <span class="ea-visual-hint">Click anywhere on website headings or paragraphs to edit text directly in place.</span>
+            <div class="ea-visual-actions">
+                <button type="button" id="ea-visual-save-btn" class="ea-btn ea-btn-xs ea-btn-gold">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Save All Live Edits</span>
+                </button>
+                <button type="button" id="ea-visual-exit-btn" class="ea-btn ea-btn-xs ea-btn-outline">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    <span>Return to Admin</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="ea-toast-container" class="ea-toast-container"></div>
+
+    <!-- FIREBASE CLOUD DATABASE SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <!-- ADMIN LOGIC SCRIPT -->
+    <script id="ea-admin-script">
+    (function () {
+        'use strict';
+
+        const STORAGE_KEY = 'elyndor_admin_state_v1';
+        const AUTH_KEY = 'elyndor_admin_auth_v1';
+        const CLOUD_CONFIG_KEY = 'elyndor_cloud_config_v1';
+        const DEFAULT_REPO = 'interactiveelyndor-pixel/elyndorinteractiveweb';
+        const DEFAULT_CONTENT_PATH = 'data/content.json';
+
+        // Default studio content
+        function getDefaultSiteData() {
+            return {
+                liveGames: [
+                    {
+                        id: 'live-1',
+                        title: 'Spook-A-Chess',
+                        badge: 'Play Store',
+                        badgeClass: 'badge-playstore',
+                        desc: 'A dark fantasy tactical chess battler blending classic strategy with arcane spellcasting, gothic isometric battlegrounds, and daily challenges.',
+                        link: 'https://play.google.com/store/apps/details?id=com.spookachess.game',
+                        img: 'assets/spook_a_chess.png',
+                        overlayTag: 'Available on Google Play',
+                        overlayCta: 'Play Now'
+                    },
+                    {
+                        id: 'live-2',
+                        title: 'Run Mania',
+                        badge: 'Play Store',
+                        badgeClass: 'badge-playstore',
+                        desc: 'An exhilarating endless runner! Jump, survive, and repeat across challenging obstacles in this high-energy arcade adventure.',
+                        link: 'https://play.google.com/store/apps/details?id=com.elyndorinteractive.runmania&pcampaignid=web_share',
+                        img: 'assets/run_mania.png',
+                        overlayTag: 'Available on Google Play',
+                        overlayCta: 'Play Now'
+                    },
+                    {
+                        id: 'live-3',
+                        title: 'Carmine Tangles',
+                        badge: 'itch.io',
+                        badgeClass: 'badge-itch',
+                        desc: 'A chilling maze where reality is unstable. Escape the desolate, mirror-walled labyrinth before time runs out.',
+                        link: 'https://monish39.itch.io/carmine-tangles',
+                        img: 'assets/carmine_tangles.png',
+                        overlayTag: 'Available on itch.io',
+                        overlayCta: 'Play Now'
+                    },
+                    {
+                        id: 'live-4',
+                        title: 'Drive Me Home',
+                        badge: 'itch.io',
+                        badgeClass: 'badge-itch',
+                        desc: "Drop your drunk friend home in just two minutes, but you don't know the address! Navigate unpredictable streets and chaos.",
+                        link: 'https://monish39.itch.io/drive-me-home',
+                        img: 'assets/drive_me_home.png',
+                        overlayTag: 'Available on itch.io',
+                        overlayCta: 'Play Now'
+                    },
+                    {
+                        id: 'live-5',
+                        title: 'Neo Mania',
+                        badge: 'itch.io',
+                        badgeClass: 'badge-itch',
+                        desc: 'A thrilling precision platformer. Jump, dash, and navigate through neon-lit obstacles in this intense arcade challenge.',
+                        link: 'https://monish39.itch.io/neo-mania',
+                        img: 'assets/neo_mania.png',
+                        overlayTag: 'Available on itch.io',
+                        overlayCta: 'Play Now'
+                    }
+                ],
+                upcomingGames: [
+                    {
+                        id: 'up-1',
+                        title: 'Turning Tides: Broken Rules',
+                        badge: 'Pre-Register',
+                        badgeClass: 'badge-upcoming',
+                        desc: 'A 2.5D tabletop puzzle adventure where every step rewires reality! Outsmart the board and pre-register now on Google Play.',
+                        link: 'https://play.google.com/store/apps/details?id=com.turningtides.plottwist&pcampaignid=web_share',
+                        img: 'assets/turning_tides_1.jpg',
+                        overlayTag: 'Google Play Pre-Registration',
+                        overlayCta: 'Pre-Register Now'
+                    },
+                    {
+                        id: 'up-2',
+                        title: 'Can you escape my brain?',
+                        badge: 'In Development',
+                        badgeClass: 'badge-dev',
+                        desc: 'A surreal psychological puzzle adventure navigating the labyrinthine corridors and hidden mysteries of the human subconscious.',
+                        link: '#',
+                        img: 'assets/escape_my_brain.png',
+                        overlayTag: 'Psychological Puzzle',
+                        overlayCta: 'In Development'
+                    },
+                    {
+                        id: 'up-3',
+                        title: 'Project Origin',
+                        badge: 'Flagship',
+                        badgeClass: 'badge-upcoming',
+                        desc: "A narrative-driven atmospheric action-adventure game set in Modern India. Experience the protagonist's journey through grief and vengeance.",
+                        link: 'originals.html',
+                        img: 'assets/turning_tides_bg.jpg',
+                        overlayTag: 'Flagship Title',
+                        overlayCta: 'View Details'
+                    },
+                    {
+                        id: 'up-4',
+                        title: 'Project Homies',
+                        badge: 'In Development',
+                        badgeClass: 'badge-dev',
+                        desc: 'An upcoming multiplayer social adventure exploring camaraderie, cityscapes, street culture, and shared journeys.',
+                        link: '#',
+                        img: 'assets/project_homies.png',
+                        overlayTag: 'Multiplayer Social Adventure',
+                        overlayCta: 'In Development'
+                    }
+                ],
+                hero: {
+                    slide1: {
+                        label: 'Live on Google Play',
+                        title: 'Spook-A-Chess',
+                        subtitle: 'Dark Fantasy Tactical Chess',
+                        desc: 'A dark fantasy tactical chess battler blending classic strategy with arcane spellcasting, gothic isometric battlegrounds, and daily challenges. Play free now on Android!',
+                        btnText: 'Play on Google Play',
+                        btnLink: 'https://play.google.com/store/apps/details?id=com.spookachess.game'
+                    },
+                    slide2: {
+                        label: 'Pre-Registration Live',
+                        title: 'Turning Tides',
+                        subtitle: 'Broken Rules • 2.5D Tabletop Puzzle',
+                        desc: 'When the board breaks its own rules, will you outsmart the twist? Guide a plucky hooded pawn across an ancient tabletop diorama where physics and reality rewire with every step. Pre-register now on Google Play!',
+                        btnText: 'Pre-Register on Google Play',
+                        btnLink: 'https://play.google.com/store/apps/details?id=com.turningtides.plottwist&pcampaignid=web_share'
+                    }
+                },
+                about: {
+                    heading: 'Who We Are',
+                    text: "We're a game studio based in Nashik, India. We make games we'd want to play — from tactical chess battlers to GPS-powered street games. Small team, real ambition, shipping titles across Play Store and itch.io."
+                },
+                contact: {
+                    heading: 'Connect With Us',
+                    desc: "Got a project, a press inquiry, or just want to say hey — we'd love to hear from you.",
+                    btnText: 'Get in Touch',
+                    email: 'contact@elyndorinteractive.in'
+                },
+                footer: {
+                    tagline: 'An Indian game studio.',
+                    location: 'Nashik, Maharashtra, India',
+                    email: 'contact@elyndorinteractive.in',
+                    copyright: '© 2026 Elyndor Interactive. All Rights Reserved.'
+                },
+                careers: {
+                    hero: {
+                        badge: '✦ STUDENT & FRESHER INTERNSHIPS',
+                        title: 'Build The Future with Elyndor',
+                        desc: 'Hands-on mentorship, real commercial game credits, and direct production experience building indie titles and civic platforms. Explore our active internship programs.',
+                        ctaText: 'Explore Internship Openings'
+                    },
+                    openings: [
+                        {
+                            id: 'intern-1',
+                            category: 'Internship • Game Engineering',
+                            title: 'Game Development Intern (Unity / Unreal)',
+                            desc: 'Work directly with our engineering leads on gameplay mechanics, character controllers, mobile optimization, and AI systems for commercial titles.',
+                            tags: ['Unity (C#)', 'Unreal Engine', 'Gameplay Logic', 'Mobile Profiling'],
+                            emailSubject: 'Internship Application: Game Development Intern - Elyndor Interactive',
+                            applyBody: 'Hi Elyndor Interactive Team,\n\nI would like to apply for the Game Development Internship at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Graduation Year: \n• Portfolio / GitHub / itch.io: \n• Primary Engine & Languages (Unity / C# / UE5): \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!'
+                        },
+                        {
+                            id: 'intern-2',
+                            category: 'Internship • 3D Art & Animation',
+                            title: '3D Art & Modeling Intern',
+                            desc: 'Create stylized low-poly environments, mythological prop models, and character textures under the direct mentorship of our 3D art team.',
+                            tags: ['Blender / Maya', 'Substance 3D', 'Low-Poly Assets', 'Stylized Art'],
+                            emailSubject: 'Internship Application: 3D Art & Modeling Intern - Elyndor Interactive',
+                            applyBody: 'Hi Elyndor Interactive Team,\n\nI would like to apply for the 3D Art & Modeling Internship at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Graduation Year: \n• ArtStation / Portfolio Link: \n• Primary Software (Blender, Maya, Substance): \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!'
+                        },
+                        {
+                            id: 'intern-3',
+                            category: 'Internship • 2D Art & UI',
+                            title: '2D Concept & UI/UX Intern',
+                            desc: 'Design intuitive game HUDs, concept character silhouettes, dark fantasy mood sketches, and store marketing art alongside our lead 2D artist.',
+                            tags: ['Photoshop', 'UI / UX', 'Concept Art', 'Figma'],
+                            emailSubject: 'Internship Application: 2D Concept & UI/UX Intern - Elyndor Interactive',
+                            applyBody: 'Hi Elyndor Interactive Team,\n\nI would like to apply for the 2D Concept & UI/UX Internship at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Graduation Year: \n• Portfolio / ArtStation / Behance: \n• Design / Art Tools: \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!'
+                        },
+                        {
+                            id: 'intern-4',
+                            category: 'Internship • Mobile Apps',
+                            title: 'Mobile App Engineer Intern (STREETPLAY)',
+                            desc: 'Contribute to real-world geolocation mechanics, interactive territory maps, and responsive mobile interfaces for our flagship civic platform.',
+                            tags: ['Flutter / React Native', 'Geolocation APIs', 'Firebase', 'UI Integration'],
+                            emailSubject: 'Internship Application: Mobile App Engineer Intern - Elyndor Interactive',
+                            applyBody: 'Hi Elyndor Interactive Team,\n\nI would like to apply for the Mobile App Engineer Internship at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Graduation Year: \n• GitHub / App Demos: \n• Primary Tech Stack: \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!'
+                        },
+                        {
+                            id: 'intern-5',
+                            category: 'Internship • Design & QA',
+                            title: 'Game Design & QA Playtesting Intern',
+                            desc: 'Design level layouts, test gameplay balance, draft design documents (GDDs), and lead playtesting sessions across our release pipeline.',
+                            tags: ['Level Design', 'Playtesting', 'Bug Reporting', 'Game Balance'],
+                            emailSubject: 'Internship Application: Game Design & QA Intern - Elyndor Interactive',
+                            applyBody: 'Hi Elyndor Interactive Team,\n\nI would like to apply for the Game Design & QA Playtesting Internship at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Graduation Year: \n• Portfolio / Articles / GDDs: \n• Favorite Games & Mechanics: \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!'
+                        },
+                        {
+                            id: 'intern-6',
+                            category: 'Open Pitch • Any Discipline',
+                            title: 'Open Pitch Student Internship',
+                            desc: 'Bring your talent in audio engineering, motion graphics, video editing, community management, or writing to our indie game universe.',
+                            tags: ['Audio & SFX', 'Video Editing', 'Community', 'Storytelling'],
+                            emailSubject: 'Internship Pitch: Open Pitch Internship - Elyndor Interactive',
+                            applyBody: 'Hi Elyndor Interactive Team,\n\nI would like to pitch for an internship role at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Year: \n• Discipline / Focus Area: \n• Portfolio / Work Samples: \n• Why Elyndor Interactive?: \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!',
+                            isOpenPitch: true
+                        }
+                    ],
+                    applyBox: {
+                        heading: 'How To Apply',
+                        desc: 'Send your resume, portfolio link (ArtStation, GitHub, itch.io, or Demo Reel), and a brief note about why you want to build with Elyndor Interactive to:',
+                        email: 'contact@elyndorinteractive.in'
+                    }
+                }
+            };
+        }
+
+        let siteData = loadSiteData();
+        let isVisualEditActive = false;
+
+        function loadSiteData() {
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    const defaults = getDefaultSiteData();
+                    const merged = Object.assign({}, defaults, parsed);
+                    if (!merged.careers) merged.careers = defaults.careers;
+                    return merged;
+                }
+            } catch (e) {
+                console.warn('Could not load site data from storage:', e);
+            }
+            return getDefaultSiteData();
+        }
+
+        function saveSiteData() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(siteData));
+            } catch (e) {
+                console.error('Failed to save to localStorage:', e);
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('ea-toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = 'ea-toast';
+            toast.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>${escapeHtml(message)}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(8px)';
+                setTimeout(() => toast.remove(), 320);
+            }, 3000);
+        }
+
+        // Open & Close Admin Portal Overlay
+        function openAdminPortal() {
+            const portal = document.getElementById('ea-admin-portal');
+            if (portal) {
+                portal.classList.add('ea-open');
+                document.body.style.overflow = 'hidden';
+                checkAuth();
+            }
+        }
+
+        function closeAdminPortal() {
+            const portal = document.getElementById('ea-admin-portal');
+            if (portal) {
+                portal.classList.remove('ea-open');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Apply siteData to website DOM
+        function renderLivePage() {
+            // 1. Live Games
+            const liveGrid = document.querySelector('#games .game-grid');
+            if (liveGrid && siteData.liveGames) {
+                liveGrid.innerHTML = siteData.liveGames.map(game => {
+                    const hasLink = game.link && game.link !== '#' && game.link.trim() !== '';
+                    const isExternal = hasLink && /^https?:\/\//i.test(game.link);
+                    const innerHtml = `
+                        <div class="game-image"
+                            style="background: url('${escapeHtml(game.img)}') center/contain no-repeat; display: flex; align-items: center; justify-content: center; background-color: #0c0611; position: relative;">
+                            <span class="game-badge ${escapeHtml(game.badgeClass || 'badge-playstore')}">${escapeHtml(game.badge)}</span>
+                        </div>
+                        <div class="game-info" style="padding: 1.5rem 0 0 0;">
+                            <h3>${escapeHtml(game.title)}</h3>
+                            <p>${escapeHtml(game.desc)}</p>
+                        </div>
+                        <div class="game-card-overlay">
+                            <div class="game-card-overlay-tag">${escapeHtml(game.overlayTag || 'Available Now')}</div>
+                            <div class="game-card-overlay-cta">${escapeHtml(game.overlayCta || 'Play Now')}</div>
+                        </div>
+                    `;
+
+                    if (hasLink) {
+                        return `
+                        <div class="game-card" data-game-id="${escapeHtml(game.id)}">
+                            <a href="${escapeHtml(game.link)}" ${isExternal ? 'target="_blank" rel="noopener noreferrer"' : ''}
+                                style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                                ${innerHtml}
+                            </a>
+                        </div>
+                        `;
+                    } else {
+                        return `
+                        <div class="game-card" data-game-id="${escapeHtml(game.id)}">
+                            ${innerHtml}
+                        </div>
+                        `;
+                    }
+                }).join('');
+            }
+
+            // 2. Upcoming Games
+            const upcomingGrid = document.querySelector('#upcoming .game-grid');
+            if (upcomingGrid && siteData.upcomingGames) {
+                upcomingGrid.innerHTML = siteData.upcomingGames.map(game => {
+                    const isFlagship = game.badgeClass === 'badge-upcoming';
+                    const badgeStyle = isFlagship ? 'background: linear-gradient(135deg, #d4af37, #997819); color: #000; font-weight: 700;' : '';
+                    const hasLink = game.link && game.link !== '#' && game.link.trim() !== '';
+                    const isExternal = hasLink && /^https?:\/\//i.test(game.link);
+                    const innerHtml = `
+                        <div class="game-image"
+                            style="background: url('${escapeHtml(game.img)}') center/cover no-repeat; display: flex; align-items: center; justify-content: center; background-color: #0b1525; position: relative;">
+                            <span class="game-badge ${escapeHtml(game.badgeClass || 'badge-dev')}" style="${badgeStyle}">${escapeHtml(game.badge)}</span>
+                        </div>
+                        <div class="game-info" style="padding: 1.5rem 0 0 0;">
+                            <h3>${escapeHtml(game.title)}</h3>
+                            <p>${escapeHtml(game.desc)}</p>
+                        </div>
+                        <div class="game-card-overlay">
+                            <div class="game-card-overlay-tag">${escapeHtml(game.overlayTag || 'In Development')}</div>
+                            <div class="game-card-overlay-cta">${escapeHtml(game.overlayCta || 'In Development')}</div>
+                        </div>
+                    `;
+
+                    if (hasLink) {
+                        return `
+                        <div class="game-card" data-game-id="${escapeHtml(game.id)}">
+                            <a href="${escapeHtml(game.link)}" ${isExternal ? 'target="_blank" rel="noopener noreferrer"' : ''}
+                                style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
+                                ${innerHtml}
+                            </a>
+                        </div>
+                        `;
+                    } else {
+                        return `
+                        <div class="game-card" data-game-id="${escapeHtml(game.id)}">
+                            ${innerHtml}
+                        </div>
+                        `;
+                    }
+                }).join('');
+            }
+
+            // 3. Hero Slide 1
+            if (siteData.hero && siteData.hero.slide1) {
+                const s1 = siteData.hero.slide1;
+                const slide1 = document.querySelector('.slide[data-slide-index="0"]');
+                if (slide1) {
+                    const lbl = slide1.querySelector('.flagship-label');
+                    if (lbl) lbl.textContent = s1.label;
+                    const ttl = slide1.querySelector('.slide-title');
+                    if (ttl) ttl.textContent = s1.title;
+                    const sub = slide1.querySelector('.slide-subtitle');
+                    if (sub) sub.textContent = s1.subtitle;
+                    const dsc = slide1.querySelector('.slide-description');
+                    if (dsc) dsc.textContent = s1.desc;
+                    const btn = slide1.querySelector('.slide-actions a');
+                    if (btn) {
+                        btn.textContent = s1.btnText;
+                        btn.href = s1.btnLink;
+                    }
+                }
+            }
+
+            // 4. Hero Slide 2
+            if (siteData.hero && siteData.hero.slide2) {
+                const s2 = siteData.hero.slide2;
+                const slide2 = document.querySelector('.slide[data-slide-index="1"]');
+                if (slide2) {
+                    const lbl = slide2.querySelector('.flagship-label');
+                    if (lbl) lbl.textContent = s2.label;
+                    const ttl = slide2.querySelector('.slide-title');
+                    if (ttl) ttl.textContent = s2.title;
+                    const sub = slide2.querySelector('.slide-subtitle');
+                    if (sub) sub.textContent = s2.subtitle;
+                    const dsc = slide2.querySelector('.slide-description');
+                    if (dsc) dsc.textContent = s2.desc;
+                    const btn = slide2.querySelector('.slide-actions a');
+                    if (btn) {
+                        btn.textContent = s2.btnText;
+                        btn.href = s2.btnLink;
+                    }
+                }
+            }
+
+            // 5. About
+            if (siteData.about) {
+                const abtH2 = document.querySelector('#about h2');
+                if (abtH2) abtH2.textContent = siteData.about.heading;
+                const abtTxt = document.querySelector('#about .vision-text');
+                if (abtTxt) abtTxt.textContent = siteData.about.text;
+            }
+
+            // 6. Contact & Footer
+            if (siteData.contact) {
+                const cH2 = document.querySelector('#contact h2');
+                if (cH2) cH2.textContent = siteData.contact.heading;
+                const cDesc = document.querySelector('#contact p');
+                if (cDesc) cDesc.textContent = siteData.contact.desc;
+                const cBtn = document.querySelector('#contact .cta-button');
+                if (cBtn) {
+                    cBtn.textContent = siteData.contact.btnText;
+                    cBtn.href = 'mailto:' + siteData.contact.email;
+                }
+            }
+            if (siteData.footer) {
+                const fBrand = document.querySelector('.footer-brand p');
+                if (fBrand) fBrand.textContent = siteData.footer.tagline;
+                const fLoc = document.querySelector('.footer-contact p');
+                if (fLoc) fLoc.textContent = siteData.footer.location;
+                const fMail = document.querySelector('.footer-contact a');
+                if (fMail) {
+                    fMail.textContent = siteData.footer.email;
+                    fMail.href = 'mailto:' + siteData.footer.email;
+                }
+            }
+
+            // Update stats counter
+            const liveStat = document.getElementById('ea-stat-live-count');
+            if (liveStat) liveStat.textContent = (siteData.liveGames || []).length;
+            const upStat = document.getElementById('ea-stat-upcoming-count');
+            if (upStat) upStat.textContent = (siteData.upcomingGames || []).length;
+        }
+
+        // Render admin dashboard item lists
+        function renderAdminLists() {
+            // Update stats counter
+            const liveStat = document.getElementById('ea-stat-live-count');
+            if (liveStat) liveStat.textContent = (siteData.liveGames || []).length;
+            const upStat = document.getElementById('ea-stat-upcoming-count');
+            if (upStat) upStat.textContent = (siteData.upcomingGames || []).length;
+
+            // Live games list
+            const liveContainer = document.getElementById('ea-live-games-list');
+            if (liveContainer) {
+                if (!siteData.liveGames || siteData.liveGames.length === 0) {
+                    liveContainer.innerHTML = '<div style="color: #888; padding: 20px; text-align: center;">No live games currently listed. Click "Add New Live Game" above.</div>';
+                } else {
+                    liveContainer.innerHTML = siteData.liveGames.map((game, index) => `
+                        <div class="ea-game-item" data-id="${escapeHtml(game.id)}">
+                            <div class="ea-game-item-left">
+                                <img src="${escapeHtml(game.img)}" class="ea-game-thumb" alt="${escapeHtml(game.title)}" onerror="this.src='assets/logo.png'">
+                                <div class="ea-game-details">
+                                    <h6>${escapeHtml(game.title)}</h6>
+                                    <div class="ea-game-meta">
+                                        <span class="ea-pill ${escapeHtml(game.badgeClass || 'badge-playstore')}">${escapeHtml(game.badge)}</span>
+                                        <span>${escapeHtml(game.link)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ea-game-actions">
+                                <button type="button" class="ea-btn ea-btn-xs ea-btn-outline ea-btn-move" data-section="live" data-index="${index}" data-dir="-1" title="Move Up" ${index === 0 ? 'disabled style="opacity:0.3;"' : ''}>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+                                </button>
+                                <button type="button" class="ea-btn ea-btn-xs ea-btn-outline ea-btn-move" data-section="live" data-index="${index}" data-dir="1" title="Move Down" ${index === siteData.liveGames.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                                </button>
+                                <button type="button" class="ea-btn ea-btn-xs ea-btn-outline ea-btn-edit-game" data-section="live" data-id="${escapeHtml(game.id)}">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                                    <span>Edit</span>
+                                </button>
+                                <button type="button" class="ea-btn ea-btn-xs ea-btn-danger ea-btn-delete-game" data-section="live" data-id="${escapeHtml(game.id)}">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            // Upcoming games list
+            const upcomingContainer = document.getElementById('ea-upcoming-games-list');
+            if (upcomingContainer) {
+                if (!siteData.upcomingGames || siteData.upcomingGames.length === 0) {
+                    upcomingContainer.innerHTML = '<div style="color: #888; padding: 20px; text-align: center;">No upcoming games listed. Click "Add New Upcoming Game" above.</div>';
+                } else {
+                    upcomingContainer.innerHTML = siteData.upcomingGames.map((game, index) => `
+                        <div class="ea-game-item" data-id="${escapeHtml(game.id)}">
+                            <div class="ea-game-item-left">
+                                <img src="${escapeHtml(game.img)}" class="ea-game-thumb" alt="${escapeHtml(game.title)}" onerror="this.src='assets/logo.png'">
+                                <div class="ea-game-details">
+                                    <h6>${escapeHtml(game.title)}</h6>
+                                    <div class="ea-game-meta">
+                                        <span class="ea-pill ${escapeHtml(game.badgeClass || 'badge-dev')}">${escapeHtml(game.badge)}</span>
+                                        <span>${escapeHtml(game.link)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ea-game-actions">
+                                <button type="button" class="ea-btn ea-btn-xs ea-btn-outline ea-btn-move" data-section="upcoming" data-index="${index}" data-dir="-1" title="Move Up" ${index === 0 ? 'disabled style="opacity:0.3;"' : ''}>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+                                </button>
+                                <button type="button" class="ea-btn ea-btn-xs ea-btn-outline ea-btn-move" data-section="upcoming" data-index="${index}" data-dir="1" title="Move Down" ${index === siteData.upcomingGames.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                                </button>
+                                <button type="button" class="ea-btn ea-btn-xs ea-btn-outline ea-btn-edit-game" data-section="upcoming" data-id="${escapeHtml(game.id)}">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                                    <span>Edit</span>
+                                </button>
+                                <button type="button" class="ea-btn ea-btn-xs ea-btn-danger ea-btn-delete-game" data-section="upcoming" data-id="${escapeHtml(game.id)}">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            // Populate Hero & Story inputs
+            if (siteData.hero && siteData.hero.slide1) {
+                const s1 = siteData.hero.slide1;
+                const h1lbl = document.getElementById('ea-hero1-label'); if (h1lbl) h1lbl.value = s1.label || '';
+                const h1ttl = document.getElementById('ea-hero1-title'); if (h1ttl) h1ttl.value = s1.title || '';
+                const h1sub = document.getElementById('ea-hero1-subtitle'); if (h1sub) h1sub.value = s1.subtitle || '';
+                const h1dsc = document.getElementById('ea-hero1-desc'); if (h1dsc) h1dsc.value = s1.desc || '';
+                const h1btn = document.getElementById('ea-hero1-btn-text'); if (h1btn) h1btn.value = s1.btnText || '';
+                const h1lnk = document.getElementById('ea-hero1-btn-link'); if (h1lnk) h1lnk.value = s1.btnLink || '';
+            }
+            if (siteData.hero && siteData.hero.slide2) {
+                const s2 = siteData.hero.slide2;
+                const h2lbl = document.getElementById('ea-hero2-label'); if (h2lbl) h2lbl.value = s2.label || '';
+                const h2ttl = document.getElementById('ea-hero2-title'); if (h2ttl) h2ttl.value = s2.title || '';
+                const h2sub = document.getElementById('ea-hero2-subtitle'); if (h2sub) h2sub.value = s2.subtitle || '';
+                const h2dsc = document.getElementById('ea-hero2-desc'); if (h2dsc) h2dsc.value = s2.desc || '';
+                const h2btn = document.getElementById('ea-hero2-btn-text'); if (h2btn) h2btn.value = s2.btnText || '';
+                const h2lnk = document.getElementById('ea-hero2-btn-link'); if (h2lnk) h2lnk.value = s2.btnLink || '';
+            }
+            if (siteData.about) {
+                const abtH = document.getElementById('ea-about-heading'); if (abtH) abtH.value = siteData.about.heading || '';
+                const abtT = document.getElementById('ea-about-text'); if (abtT) abtT.value = siteData.about.text || '';
+            }
+
+            // Populate Contact & Footer inputs
+            if (siteData.contact) {
+                const cH = document.getElementById('ea-contact-heading'); if (cH) cH.value = siteData.contact.heading || '';
+                const cD = document.getElementById('ea-contact-desc'); if (cD) cD.value = siteData.contact.desc || '';
+                const cB = document.getElementById('ea-contact-btn-text'); if (cB) cB.value = siteData.contact.btnText || '';
+                const cM = document.getElementById('ea-contact-email'); if (cM) cM.value = siteData.contact.email || '';
+            }
+            if (siteData.footer) {
+                const fT = document.getElementById('ea-footer-tagline'); if (fT) fT.value = siteData.footer.tagline || '';
+                const fL = document.getElementById('ea-footer-location'); if (fL) fL.value = siteData.footer.location || '';
+                const fC = document.getElementById('ea-footer-copyright'); if (fC) fC.value = siteData.footer.copyright || '';
+            }
+
+            // Careers & Internships Admin List
+            const internContainer = document.getElementById('ea-internships-list');
+            const internCountBadge = document.getElementById('ea-internships-count-badge');
+            const internStat = document.getElementById('ea-stat-internships-count');
+            const openings = (siteData.careers && siteData.careers.openings) ? siteData.careers.openings : [];
+
+            if (internStat) internStat.textContent = openings.length;
+            if (internCountBadge) internCountBadge.textContent = openings.length;
+
+            if (internContainer) {
+                if (openings.length === 0) {
+                    internContainer.innerHTML = '<div style="color: #888; padding: 20px; text-align: center;">No internship openings currently listed. Click "Add New Internship Role" above.</div>';
+                } else {
+                    internContainer.innerHTML = openings.map((role, index) => {
+                        const tags = Array.isArray(role.tags) ? role.tags : (role.tags ? role.tags.split(',').map(t => t.trim()) : []);
+                        return `
+                            <div class="ea-game-item" data-id="${escapeHtml(role.id)}" style="${role.isOpenPitch ? 'border-style: dashed; border-color: rgba(212, 175, 55, 0.45);' : ''}">
+                                <div class="ea-game-item-left">
+                                    <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(212, 175, 55, 0.12); border: 1px solid rgba(212, 175, 55, 0.3); display: flex; align-items: center; justify-content: center; color: #d4af37; font-weight: 700; font-size: 0.95rem; flex-shrink: 0;">
+                                        #${index + 1}
+                                    </div>
+                                    <div class="ea-game-details">
+                                        <h6>${escapeHtml(role.title)}</h6>
+                                        <div class="ea-game-meta">
+                                            <span class="ea-pill" style="background: rgba(212, 175, 55, 0.15); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3);">${escapeHtml(role.category || 'Internship')}</span>
+                                            ${tags.map(t => `<span style="background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 4px; font-size: 0.72rem; color: #bbb;">${escapeHtml(t)}</span>`).join(' ')}
+                                        </div>
+                                        <p style="margin: 4px 0 0 0; font-size: 0.8rem; color: #777; max-width: 540px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(role.desc || '')}</p>
+                                    </div>
+                                </div>
+                                <div class="ea-game-actions">
+                                    <button type="button" class="ea-btn ea-btn-xs ea-btn-outline ea-btn-move-internship" data-index="${index}" data-dir="-1" title="Move Up" ${index === 0 ? 'disabled style="opacity:0.3;"' : ''}>
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+                                    </button>
+                                    <button type="button" class="ea-btn ea-btn-xs ea-btn-outline ea-btn-move-internship" data-index="${index}" data-dir="1" title="Move Down" ${index === openings.length - 1 ? 'disabled style="opacity:0.3;"' : ''}>
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                                    </button>
+                                    <button type="button" class="ea-btn ea-btn-xs ea-btn-outline ea-btn-edit-internship" data-id="${escapeHtml(role.id)}">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                                        <span>Edit</span>
+                                    </button>
+                                    <button type="button" class="ea-btn ea-btn-xs ea-btn-danger ea-btn-delete-internship" data-id="${escapeHtml(role.id)}">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            }
+
+            // Populate Careers Form Inputs
+            if (siteData.careers) {
+                if (siteData.careers.hero) {
+                    const chb = document.getElementById('ea-careers-hero-badge'); if (chb) chb.value = siteData.careers.hero.badge || '';
+                    const cht = document.getElementById('ea-careers-hero-title'); if (cht) cht.value = siteData.careers.hero.title || '';
+                    const chd = document.getElementById('ea-careers-hero-desc'); if (chd) chd.value = siteData.careers.hero.desc || '';
+                }
+                if (siteData.careers.applyBox) {
+                    const cah = document.getElementById('ea-careers-apply-heading'); if (cah) cah.value = siteData.careers.applyBox.heading || '';
+                    const cae = document.getElementById('ea-careers-apply-email'); if (cae) cae.value = siteData.careers.applyBox.email || '';
+                    const cad = document.getElementById('ea-careers-apply-desc'); if (cad) cad.value = siteData.careers.applyBox.desc || '';
+                }
+            }
+        }
+
+        // Authentication State
+        function checkAuth() {
+            const isAuth = sessionStorage.getItem(AUTH_KEY) === 'true';
+            const loginView = document.getElementById('ea-login-view');
+            const dashboardView = document.getElementById('ea-dashboard-view');
+            const authHeader = document.getElementById('ea-auth-header-actions');
+            const launchStatus = document.getElementById('ea-launcher-status');
+
+            if (isAuth) {
+                if (loginView) loginView.classList.add('ea-hidden');
+                if (dashboardView) dashboardView.classList.remove('ea-hidden');
+                if (authHeader) authHeader.style.display = 'flex';
+                if (launchStatus) launchStatus.style.background = '#4CAF50';
+                renderAdminLists();
+            } else {
+                if (loginView) loginView.classList.remove('ea-hidden');
+                if (dashboardView) dashboardView.classList.add('ea-hidden');
+                if (authHeader) authHeader.style.display = 'none';
+                if (launchStatus) launchStatus.style.background = '#d4af37';
+            }
+        }
+
+        function switchTab(targetTab) {
+            const tabs = document.querySelectorAll('.ea-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            const matchTab = document.querySelector(`.ea-tab[data-tab="${targetTab}"]`);
+            if (matchTab) matchTab.classList.add('active');
+
+            const contents = document.querySelectorAll('.ea-tab-content');
+            contents.forEach(c => c.classList.remove('active'));
+            const matchContent = document.getElementById(`ea-tab-${targetTab}`);
+            if (matchContent) matchContent.classList.add('active');
+        }
+
+        function openCloudConfigModal() {
+            const modal = document.getElementById('ea-cloud-config-modal');
+            if (!modal) return;
+            const config = loadCloudConfig();
+            const repoInput = document.getElementById('ea-config-github-repo');
+            const tokenInput = document.getElementById('ea-config-github-token');
+            const customInput = document.getElementById('ea-config-custom-endpoint');
+            if (repoInput) repoInput.value = config.repo || DEFAULT_REPO;
+            if (tokenInput) tokenInput.value = config.token || '';
+            if (customInput) customInput.value = config.customEndpoint || '';
+            modal.classList.remove('ea-hidden');
+        }
+
+        function closeCloudConfigModal() {
+            const modal = document.getElementById('ea-cloud-config-modal');
+            if (modal) modal.classList.add('ea-hidden');
+        }
+
+        function loadCloudConfig() {
+            try {
+                const raw = localStorage.getItem(CLOUD_CONFIG_KEY);
+                return raw ? JSON.parse(raw) : { repo: DEFAULT_REPO, filePath: DEFAULT_CONTENT_PATH, branch: 'main' };
+            } catch (e) {
+                return { repo: DEFAULT_REPO, filePath: DEFAULT_CONTENT_PATH, branch: 'main' };
+            }
+        }
+
+        function saveCloudConfig(config) {
+            try {
+                localStorage.setItem(CLOUD_CONFIG_KEY, JSON.stringify(config));
+            } catch (e) {
+                console.warn('Could not save cloud config to localStorage:', e);
+            }
+        }
+
+        // Modal Controls
+        function openGameModal(section, gameId) {
+            const modal = document.getElementById('ea-game-modal');
+            const modalTitle = document.getElementById('ea-modal-title');
+            const secInput = document.getElementById('ea-game-target-section');
+            const idInput = document.getElementById('ea-game-edit-id');
+            const form = document.getElementById('ea-game-modal-form');
+
+            if (!modal || !form) return;
+            form.reset();
+            secInput.value = section;
+            idInput.value = gameId || '';
+
+            if (gameId) {
+                modalTitle.textContent = section === 'live' ? 'Edit Live Game' : 'Edit Upcoming Game';
+                const list = section === 'live' ? siteData.liveGames : siteData.upcomingGames;
+                const game = list.find(g => g.id === gameId);
+                if (game) {
+                    document.getElementById('ea-game-title').value = game.title || '';
+                    document.getElementById('ea-game-badge').value = game.badge || '';
+                    document.getElementById('ea-game-badge-type').value = game.badgeClass || 'badge-playstore';
+                    document.getElementById('ea-game-desc').value = game.desc || '';
+                    document.getElementById('ea-game-link').value = game.link || '';
+                    document.getElementById('ea-game-img').value = game.img || '';
+                    document.getElementById('ea-game-overlay-tag').value = game.overlayTag || '';
+                    document.getElementById('ea-game-overlay-cta').value = game.overlayCta || '';
+                }
+            } else {
+                modalTitle.textContent = section === 'live' ? 'Add New Live Game' : 'Add New Upcoming Game';
+                document.getElementById('ea-game-badge-type').value = section === 'live' ? 'badge-playstore' : 'badge-dev';
+                document.getElementById('ea-game-badge').value = section === 'live' ? 'Play Store' : 'In Development';
+                document.getElementById('ea-game-overlay-cta').value = section === 'live' ? 'Play Now' : 'In Development';
+            }
+
+            modal.classList.remove('ea-hidden');
+        }
+
+        function closeGameModal() {
+            const modal = document.getElementById('ea-game-modal');
+            if (modal) modal.classList.add('ea-hidden');
+        }
+
+        function openInternshipModal(id) {
+            const modal = document.getElementById('ea-internship-modal');
+            const modalTitle = document.getElementById('ea-internship-modal-title');
+            const idInput = document.getElementById('ea-intern-edit-id');
+            const form = document.getElementById('ea-internship-modal-form');
+
+            if (!modal || !form) return;
+            form.reset();
+            idInput.value = id || '';
+
+            const openings = (siteData.careers && siteData.careers.openings) ? siteData.careers.openings : [];
+
+            if (id) {
+                modalTitle.textContent = 'Edit Internship Opening';
+                const role = openings.find(r => r.id === id);
+                if (role) {
+                    document.getElementById('ea-intern-title').value = role.title || '';
+                    document.getElementById('ea-intern-category').value = role.category || '';
+                    document.getElementById('ea-intern-is-pitch').value = role.isOpenPitch ? 'pitch' : 'standard';
+                    document.getElementById('ea-intern-desc').value = role.desc || '';
+                    document.getElementById('ea-intern-tags').value = Array.isArray(role.tags) ? role.tags.join(', ') : (role.tags || '');
+                    document.getElementById('ea-intern-subject').value = role.emailSubject || '';
+                    document.getElementById('ea-intern-body').value = role.applyBody || '';
+                }
+            } else {
+                modalTitle.textContent = 'Add New Internship Opening';
+                document.getElementById('ea-intern-category').value = 'Internship • Engineering';
+                document.getElementById('ea-intern-is-pitch').value = 'standard';
+                document.getElementById('ea-intern-subject').value = 'Internship Application - Elyndor Interactive';
+                document.getElementById('ea-intern-body').value = `Hi Elyndor Interactive Team,\n\nI would like to apply for the internship at Elyndor Interactive.\n\n• Full Name: \n• College / Degree & Year: \n• Portfolio / GitHub / Demo: \n• Duration & Availability: \n\n[Please attach your Resume / CV]\n\nLooking forward to hearing from you!`;
+            }
+
+            modal.classList.remove('ea-hidden');
+        }
+
+        function closeInternshipModal() {
+            const modal = document.getElementById('ea-internship-modal');
+            if (modal) modal.classList.add('ea-hidden');
+        }
+
+        // Visual In-Page Editor
+        function enableVisualEditing() {
+            closeAdminPortal();
+            isVisualEditActive = true;
+            const bar = document.getElementById('ea-visual-edit-bar');
+            if (bar) bar.classList.remove('ea-hidden');
+
+            const editables = document.querySelectorAll('main h1, main h2, main h3, main p, main .flagship-label, main .slide-subtitle, main .cta-button, main .play-store-badge, footer p');
+            editables.forEach(el => {
+                if (el.closest('#ea-admin-portal') || el.closest('#ea-portal-launcher')) return;
+                el.setAttribute('contenteditable', 'true');
+                el.setAttribute('spellcheck', 'false');
+                el.classList.add('ea-editable-active');
+            });
+            showToast('Live Click-to-Edit Mode Activated. Click any text to modify.');
+        }
+
+        function disableVisualEditing() {
+            isVisualEditActive = false;
+            const bar = document.getElementById('ea-visual-edit-bar');
+            if (bar) bar.classList.add('ea-hidden');
+
+            const editables = document.querySelectorAll('.ea-editable-active');
+            editables.forEach(el => {
+                el.removeAttribute('contenteditable');
+                el.removeAttribute('spellcheck');
+                el.classList.remove('ea-editable-active');
+            });
+        }
+
+        function saveVisualEdits() {
+            // Read back modified texts into siteData
+            const slide1 = document.querySelector('.slide[data-slide-index="0"]');
+            if (slide1 && siteData.hero && siteData.hero.slide1) {
+                const lbl = slide1.querySelector('.flagship-label'); if (lbl) siteData.hero.slide1.label = lbl.textContent.trim();
+                const ttl = slide1.querySelector('.slide-title'); if (ttl) siteData.hero.slide1.title = ttl.textContent.trim();
+                const sub = slide1.querySelector('.slide-subtitle'); if (sub) siteData.hero.slide1.subtitle = sub.textContent.trim();
+                const dsc = slide1.querySelector('.slide-description'); if (dsc) siteData.hero.slide1.desc = dsc.textContent.trim();
+            }
+
+            const slide2 = document.querySelector('.slide[data-slide-index="1"]');
+            if (slide2 && siteData.hero && siteData.hero.slide2) {
+                const lbl = slide2.querySelector('.flagship-label'); if (lbl) siteData.hero.slide2.label = lbl.textContent.trim();
+                const ttl = slide2.querySelector('.slide-title'); if (ttl) siteData.hero.slide2.title = ttl.textContent.trim();
+                const sub = slide2.querySelector('.slide-subtitle'); if (sub) siteData.hero.slide2.subtitle = sub.textContent.trim();
+                const dsc = slide2.querySelector('.slide-description'); if (dsc) siteData.hero.slide2.desc = dsc.textContent.trim();
+            }
+
+            const abtH2 = document.querySelector('#about h2');
+            if (abtH2 && siteData.about) siteData.about.heading = abtH2.textContent.trim();
+            const abtTxt = document.querySelector('#about .vision-text');
+            if (abtTxt && siteData.about) siteData.about.text = abtTxt.textContent.trim();
+
+            const cH2 = document.querySelector('#contact h2');
+            if (cH2 && siteData.contact) siteData.contact.heading = cH2.textContent.trim();
+            const cDesc = document.querySelector('#contact p');
+            if (cDesc && siteData.contact) siteData.contact.desc = cDesc.textContent.trim();
+
+            saveSiteData();
+            renderAdminLists();
+            disableVisualEditing();
+            showToast('All live visual edits saved to memory and storage.');
+        }
+
+        // Download clean, updated HTML
+        function downloadUpdatedHtml() {
+            if (isVisualEditActive) disableVisualEditing();
+
+            // Clone whole document
+            const clone = document.documentElement.cloneNode(true);
+
+            // Clean admin runtime states in clone
+            const clonePortal = clone.querySelector('#ea-admin-portal');
+            const cloneLogin = clone.querySelector('#ea-login-view');
+            const cloneDash = clone.querySelector('#ea-dashboard-view');
+            const cloneAuthH = clone.querySelector('#ea-auth-header-actions');
+            const cloneModal = clone.querySelector('#ea-game-modal');
+            const cloneInternModal = clone.querySelector('#ea-internship-modal');
+            const cloneBar = clone.querySelector('#ea-visual-edit-bar');
+            const cloneToasts = clone.querySelector('#ea-toast-container');
+
+            if (clonePortal) clonePortal.classList.remove('ea-open');
+            if (cloneLogin) cloneLogin.classList.remove('ea-hidden');
+            if (cloneDash) cloneDash.classList.add('ea-hidden');
+            if (cloneAuthH) cloneAuthH.style.display = 'none';
+            if (cloneModal) cloneModal.classList.add('ea-hidden');
+            if (cloneInternModal) cloneInternModal.classList.add('ea-hidden');
+            const cloneCloud = clone.querySelector('#ea-cloud-config-modal');
+            if (cloneCloud) cloneCloud.classList.add('ea-hidden');
+            if (cloneBar) cloneBar.classList.add('ea-hidden');
+            if (cloneToasts) cloneToasts.innerHTML = '';
+
+            const htmlContent = '<!DOCTYPE html>\n' + clone.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'index.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast('Clean index.html with all your changes downloaded.');
+        }
+
+        // Copy HTML to clipboard
+        function copyUpdatedHtml() {
+            if (isVisualEditActive) disableVisualEditing();
+            const clone = document.documentElement.cloneNode(true);
+            const clonePortal = clone.querySelector('#ea-admin-portal');
+            const cloneCloud = clone.querySelector('#ea-cloud-config-modal');
+            const cloneInternModal = clone.querySelector('#ea-internship-modal');
+            const cloneToasts = clone.querySelector('#ea-toast-container');
+            if (clonePortal) clonePortal.classList.remove('ea-open');
+            if (cloneCloud) cloneCloud.classList.add('ea-hidden');
+            if (cloneInternModal) cloneInternModal.classList.add('ea-hidden');
+            if (cloneToasts) cloneToasts.innerHTML = '';
+
+            const htmlContent = '<!DOCTYPE html>\n' + clone.outerHTML;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(htmlContent).then(() => {
+                    showToast('Complete updated HTML copied to clipboard.');
+                }).catch(() => {
+                    showToast('Clipboard write failed. Please use Download button.');
+                });
+            } else {
+                showToast('Clipboard API unavailable. Please use Download button.');
+            }
+        }
+
+        // ===== GOOGLE FIREBASE CLOUD SYNC & LIVE PUBLISHING ENGINE =====
+        const FIREBASE_CONFIG = {
+            apiKey: "AIzaSyAOQc6o3x1b-52iIrxU72QNm3MeUqKEiI8",
+            authDomain: "elyndor-website.firebaseapp.com",
+            projectId: "elyndor-website",
+            storageBucket: "elyndor-website.firebasestorage.app",
+            messagingSenderId: "618519757014",
+            appId: "1:618519757014:web:25ef16d8851d8dd4a68977",
+            measurementId: "G-G61EPP2JY4"
+        };
+
+        let firestoreDb = null;
+        function getFirestoreDb() {
+            if (firestoreDb) return firestoreDb;
+            try {
+                if (window.firebase) {
+                    if (!firebase.apps || !firebase.apps.length) {
+                        firebase.initializeApp(FIREBASE_CONFIG);
+                    }
+                    firestoreDb = firebase.firestore();
+                    return firestoreDb;
+                }
+            } catch (e) {
+                console.warn('Firebase initialization notice:', e);
+            }
+            return null;
+        }
+
+        function updateCloudStatusBadges() {
+            const dot = document.getElementById('ea-cloud-status-dot');
+            const pill = document.getElementById('ea-cloud-status-pill');
+
+            if (dot) {
+                dot.style.background = '#4CAF50';
+                dot.style.boxShadow = '0 0 10px #4CAF50';
+            }
+            if (pill) {
+                pill.textContent = 'Active: Google Firebase Firestore (Instant Live Sync)';
+                pill.style.color = '#4CAF50';
+                pill.style.borderColor = 'rgba(76,175,80,0.4)';
+                pill.style.background = 'rgba(76,175,80,0.15)';
+            }
+        }
+
+        // Automatically load live site content for every visitor
+        async function loadLiveSiteContent() {
+            renderLivePage(); // Immediate render of cached/default content
+
+            try {
+                const db = getFirestoreDb();
+                if (db) {
+                    const doc = await db.collection('content').doc('site').get();
+                    if (doc.exists) {
+                        const cloudData = doc.data();
+                        if (cloudData && (cloudData.liveGames || cloudData.hero || cloudData.careers)) {
+                            siteData = Object.assign({}, getDefaultSiteData(), cloudData);
+                            if (!siteData.careers) siteData.careers = getDefaultSiteData().careers;
+                            saveSiteData();
+                            renderLivePage();
+                            const dash = document.getElementById('ea-dashboard-view');
+                            if (dash && !dash.classList.contains('ea-hidden')) {
+                                renderAdminLists();
+                            }
+                            console.log('✓ Synced live website content from Firebase Firestore.');
+                        }
+                    }
+
+                    // Real-time synchronization listener (updates open browsers across the world)
+                    db.collection('content').doc('site').onSnapshot((snap) => {
+                        if (snap.exists && !isVisualEditActive) {
+                            const liveData = snap.data();
+                            if (liveData && (liveData.liveGames || liveData.hero || liveData.careers)) {
+                                siteData = Object.assign({}, getDefaultSiteData(), liveData);
+                                if (!siteData.careers) siteData.careers = getDefaultSiteData().careers;
+                                saveSiteData();
+                                renderLivePage();
+                                const dash = document.getElementById('ea-dashboard-view');
+                                if (dash && !dash.classList.contains('ea-hidden')) {
+                                    renderAdminLists();
+                                }
+                            }
+                        }
+                    }, (err) => {
+                        console.log('Firestore real-time sync active.');
+                    });
+                    return;
+                }
+            } catch (err) {
+                console.warn('Firestore live sync fallback:', err);
+            }
+
+            // Fallback to local data/content.json
+            try {
+                const res = await fetch('./data/content.json?v=' + Date.now(), { cache: 'no-store' });
+                if (res.ok) {
+                    const localData = await res.json();
+                    if (localData && (localData.liveGames || localData.hero || localData.careers)) {
+                        siteData = Object.assign({}, getDefaultSiteData(), localData);
+                        if (!siteData.careers) siteData.careers = getDefaultSiteData().careers;
+                        saveSiteData();
+                        renderLivePage();
+                    }
+                }
+            } catch (e) {}
+        }
+
+        // Live Publishing Function (Direct to Google Firebase Firestore)
+        async function publishToLiveSite() {
+            showToast('🚀 Publishing live across all devices...');
+            try {
+                const db = getFirestoreDb();
+                if (!db) {
+                    throw new Error('Firebase Firestore service is initializing. Please check connection.');
+                }
+
+                // Write directly to Firestore document with secure admin verification key
+                const payload = Object.assign({}, siteData, { adminKey: 'elyndor_interactive_secret_2026' });
+                await db.collection('content').doc('site').set(payload);
+
+                saveSiteData();
+                renderLivePage();
+                showToast('✓ LIVE! Changes published instantly across all devices worldwide.');
+                updateCloudStatusBadges();
+            } catch (err) {
+                console.error('Publish error:', err);
+                showToast('❌ Error publishing to Firebase: ' + (err.message || 'Check Firestore database'));
+            }
+        }
+
+        // Initialize event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load and dynamically render live content
+            loadLiveSiteContent();
+            updateCloudStatusBadges();
+
+            // Trigger to open portal
+            const launchBtn = document.getElementById('ea-launch-btn');
+            if (launchBtn) launchBtn.addEventListener('click', openAdminPortal);
+
+            // Close portal button
+            const closePortalBtn = document.getElementById('ea-close-portal-btn');
+            if (closePortalBtn) closePortalBtn.addEventListener('click', closeAdminPortal);
+
+            // Close portal on backdrop click outside container
+            const portal = document.getElementById('ea-admin-portal');
+            if (portal) {
+                portal.addEventListener('click', (e) => {
+                    if (e.target === portal) closeAdminPortal();
+                });
+            }
+
+            // Keyboard shortcut Ctrl + Shift + A to open Admin Portal from anywhere
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+                    e.preventDefault();
+                    openAdminPortal();
+                }
+            });
+
+            // Login form
+            const loginForm = document.getElementById('ea-login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const u = (document.getElementById('ea-username').value || '').trim();
+                    const p = (document.getElementById('ea-password').value || '').trim();
+                    const err = document.getElementById('ea-login-error');
+
+                    // Check credentials
+                    if (u === 'admin@elyndor' && p === 'interactiveelyndor07') {
+                        sessionStorage.setItem(AUTH_KEY, 'true');
+                        if (err) err.classList.add('ea-hidden');
+                        checkAuth();
+                        showToast('Authenticated as Administrator.');
+
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const openParam = urlParams.get('openAdmin');
+                        if (openParam === 'careers' || openParam === 'internships') {
+                            switchTab('careers-internships');
+                        }
+                    } else {
+                        if (err) err.classList.remove('ea-hidden');
+                    }
+                });
+            }
+
+            // Logout
+            const logoutBtn = document.getElementById('ea-logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    sessionStorage.removeItem(AUTH_KEY);
+                    checkAuth();
+                    showToast('Logged out of Admin Portal.');
+                });
+            }
+
+            // Tab navigation
+            const tabs = document.querySelectorAll('.ea-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    const target = tab.getAttribute('data-tab');
+                    document.querySelectorAll('.ea-tab-content').forEach(c => c.classList.remove('active'));
+                    const activeContent = document.getElementById('ea-tab-' + target);
+                    if (activeContent) activeContent.classList.add('active');
+                });
+            });
+
+            // Add live game button
+            const addLiveBtn = document.getElementById('ea-add-live-game-btn');
+            if (addLiveBtn) {
+                addLiveBtn.addEventListener('click', () => openGameModal('live', null));
+            }
+
+            // Add upcoming game button
+            const addUpBtn = document.getElementById('ea-add-upcoming-game-btn');
+            if (addUpBtn) {
+                addUpBtn.addEventListener('click', () => openGameModal('upcoming', null));
+            }
+
+            // Add internship role button
+            const addInternBtn = document.getElementById('ea-add-internship-btn');
+            if (addInternBtn) {
+                addInternBtn.addEventListener('click', () => openInternshipModal(null));
+            }
+
+            // Close game modal buttons
+            const gameModal = document.getElementById('ea-game-modal');
+            const closeBtn = document.getElementById('ea-modal-close-btn');
+            if (closeBtn) closeBtn.addEventListener('click', closeGameModal);
+            const cancelBtn = document.getElementById('ea-modal-cancel-btn');
+            if (cancelBtn) cancelBtn.addEventListener('click', closeGameModal);
+
+            if (gameModal) {
+                gameModal.addEventListener('click', (e) => {
+                    if (e.target === gameModal) closeGameModal();
+                });
+            }
+
+            // Close internship modal buttons
+            const internModal = document.getElementById('ea-internship-modal');
+            const closeInternBtn = document.getElementById('ea-internship-modal-close-btn');
+            if (closeInternBtn) closeInternBtn.addEventListener('click', closeInternshipModal);
+            const cancelInternBtn = document.getElementById('ea-internship-modal-cancel-btn');
+            if (cancelInternBtn) cancelInternBtn.addEventListener('click', closeInternshipModal);
+
+            if (internModal) {
+                internModal.addEventListener('click', (e) => {
+                    if (e.target === internModal) closeInternshipModal();
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (gameModal && !gameModal.classList.contains('ea-hidden')) {
+                        closeGameModal();
+                    } else if (internModal && !internModal.classList.contains('ea-hidden')) {
+                        closeInternshipModal();
+                    } else {
+                        closeAdminPortal();
+                    }
+                }
+            });
+
+            // Modal save game form
+            const modalForm = document.getElementById('ea-game-modal-form');
+            if (modalForm) {
+                modalForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const sec = document.getElementById('ea-game-target-section').value;
+                    const editId = document.getElementById('ea-game-edit-id').value;
+
+                    const title = document.getElementById('ea-game-title').value.trim();
+                    const badge = document.getElementById('ea-game-badge').value.trim();
+                    const badgeClass = document.getElementById('ea-game-badge-type').value;
+                    const desc = document.getElementById('ea-game-desc').value.trim();
+                    const link = document.getElementById('ea-game-link').value.trim();
+                    const img = document.getElementById('ea-game-img').value.trim();
+                    const overlayTag = document.getElementById('ea-game-overlay-tag').value.trim();
+                    const overlayCta = document.getElementById('ea-game-overlay-cta').value.trim();
+
+                    const list = sec === 'live' ? siteData.liveGames : siteData.upcomingGames;
+
+                    if (editId) {
+                        const existing = list.find(g => g.id === editId);
+                        if (existing) {
+                            existing.title = title;
+                            existing.badge = badge;
+                            existing.badgeClass = badgeClass;
+                            existing.desc = desc;
+                            existing.link = link;
+                            existing.img = img;
+                            existing.overlayTag = overlayTag;
+                            existing.overlayCta = overlayCta;
+                        }
+                        showToast(`Updated "${title}" successfully.`);
+                    } else {
+                        const newId = (sec === 'live' ? 'live-' : 'up-') + Date.now();
+                        list.push({
+                            id: newId,
+                            title,
+                            badge,
+                            badgeClass,
+                            desc,
+                            link,
+                            img,
+                            overlayTag,
+                            overlayCta
+                        });
+                        showToast(`Added "${title}" to ${sec === 'live' ? 'Live Games' : 'Upcoming Games'}.`);
+                    }
+
+                    saveSiteData();
+                    renderLivePage();
+                    renderAdminLists();
+                    closeGameModal();
+                });
+            }
+
+            // Modal save internship form
+            const internModalForm = document.getElementById('ea-internship-modal-form');
+            if (internModalForm) {
+                internModalForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (!siteData.careers) siteData.careers = { openings: [] };
+                    if (!siteData.careers.openings) siteData.careers.openings = [];
+
+                    const editId = document.getElementById('ea-intern-edit-id').value;
+                    const title = document.getElementById('ea-intern-title').value.trim();
+                    const category = document.getElementById('ea-intern-category').value.trim();
+                    const isPitch = document.getElementById('ea-intern-is-pitch').value === 'pitch';
+                    const desc = document.getElementById('ea-intern-desc').value.trim();
+                    const rawTags = document.getElementById('ea-intern-tags').value.trim();
+                    const tags = rawTags.split(',').map(t => t.trim()).filter(Boolean);
+                    const emailSubject = document.getElementById('ea-intern-subject').value.trim();
+                    const applyBody = document.getElementById('ea-intern-body').value.trim();
+
+                    if (editId) {
+                        const existing = siteData.careers.openings.find(r => r.id === editId);
+                        if (existing) {
+                            existing.title = title;
+                            existing.category = category;
+                            existing.isOpenPitch = isPitch;
+                            existing.desc = desc;
+                            existing.tags = tags;
+                            existing.emailSubject = emailSubject;
+                            existing.applyBody = applyBody;
+                        }
+                        showToast(`Updated "${title}" internship.`);
+                    } else {
+                        const newId = 'intern-' + Date.now();
+                        siteData.careers.openings.push({
+                            id: newId,
+                            title,
+                            category,
+                            isOpenPitch: isPitch,
+                            desc,
+                            tags,
+                            emailSubject,
+                            applyBody
+                        });
+                        showToast(`Added "${title}" to internship openings.`);
+                    }
+
+                    saveSiteData();
+                    renderAdminLists();
+                    closeInternshipModal();
+                });
+            }
+
+            // Edit / Delete / Move Game Delegation
+            document.addEventListener('click', (e) => {
+                // Edit Game
+                const editBtn = e.target.closest('.ea-btn-edit-game');
+                if (editBtn) {
+                    const sec = editBtn.getAttribute('data-section');
+                    const id = editBtn.getAttribute('data-id');
+                    openGameModal(sec, id);
+                    return;
+                }
+
+                // Delete Game
+                const delBtn = e.target.closest('.ea-btn-delete-game');
+                if (delBtn) {
+                    const sec = delBtn.getAttribute('data-section');
+                    const id = delBtn.getAttribute('data-id');
+                    if (confirm('Are you sure you want to remove this game card from the website?')) {
+                        if (sec === 'live') {
+                            siteData.liveGames = siteData.liveGames.filter(g => g.id !== id);
+                        } else {
+                            siteData.upcomingGames = siteData.upcomingGames.filter(g => g.id !== id);
+                        }
+                        saveSiteData();
+                        renderLivePage();
+                        renderAdminLists();
+                        showToast('Game card removed.');
+                    }
+                    return;
+                }
+
+                // Move Game up/down
+                const moveBtn = e.target.closest('.ea-btn-move');
+                if (moveBtn) {
+                    const sec = moveBtn.getAttribute('data-section');
+                    const idx = parseInt(moveBtn.getAttribute('data-index'), 10);
+                    const dir = parseInt(moveBtn.getAttribute('data-dir'), 10);
+                    const list = sec === 'live' ? siteData.liveGames : siteData.upcomingGames;
+                    const targetIdx = idx + dir;
+                    if (targetIdx >= 0 && targetIdx < list.length) {
+                        const temp = list[idx];
+                        list[idx] = list[targetIdx];
+                        list[targetIdx] = temp;
+                        saveSiteData();
+                        renderLivePage();
+                        renderAdminLists();
+                    }
+                    return;
+                }
+
+                // Edit Internship
+                const editInternBtn = e.target.closest('.ea-btn-edit-internship');
+                if (editInternBtn) {
+                    const id = editInternBtn.getAttribute('data-id');
+                    openInternshipModal(id);
+                    return;
+                }
+
+                // Delete Internship
+                const delInternBtn = e.target.closest('.ea-btn-delete-internship');
+                if (delInternBtn) {
+                    const id = delInternBtn.getAttribute('data-id');
+                    if (confirm('Are you sure you want to remove this internship opening?')) {
+                        if (siteData.careers && siteData.careers.openings) {
+                            siteData.careers.openings = siteData.careers.openings.filter(r => r.id !== id);
+                            saveSiteData();
+                            renderAdminLists();
+                            showToast('Internship opening removed.');
+                        }
+                    }
+                    return;
+                }
+
+                // Move Internship up/down
+                const moveInternBtn = e.target.closest('.ea-btn-move-internship');
+                if (moveInternBtn) {
+                    const idx = parseInt(moveInternBtn.getAttribute('data-index'), 10);
+                    const dir = parseInt(moveInternBtn.getAttribute('data-dir'), 10);
+                    const list = (siteData.careers && siteData.careers.openings) ? siteData.careers.openings : [];
+                    const targetIdx = idx + dir;
+                    if (targetIdx >= 0 && targetIdx < list.length) {
+                        const temp = list[idx];
+                        list[idx] = list[targetIdx];
+                        list[targetIdx] = temp;
+                        saveSiteData();
+                        renderAdminLists();
+                    }
+                    return;
+                }
+            });
+
+            // Hero & About Form
+            const heroAboutForm = document.getElementById('ea-hero-about-form');
+            if (heroAboutForm) {
+                heroAboutForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (!siteData.hero) siteData.hero = {};
+                    siteData.hero.slide1 = {
+                        label: document.getElementById('ea-hero1-label').value.trim(),
+                        title: document.getElementById('ea-hero1-title').value.trim(),
+                        subtitle: document.getElementById('ea-hero1-subtitle').value.trim(),
+                        desc: document.getElementById('ea-hero1-desc').value.trim(),
+                        btnText: document.getElementById('ea-hero1-btn-text').value.trim(),
+                        btnLink: document.getElementById('ea-hero1-btn-link').value.trim()
+                    };
+                    siteData.hero.slide2 = {
+                        label: document.getElementById('ea-hero2-label').value.trim(),
+                        title: document.getElementById('ea-hero2-title').value.trim(),
+                        subtitle: document.getElementById('ea-hero2-subtitle').value.trim(),
+                        desc: document.getElementById('ea-hero2-desc').value.trim(),
+                        btnText: document.getElementById('ea-hero2-btn-text').value.trim(),
+                        btnLink: document.getElementById('ea-hero2-btn-link').value.trim()
+                    };
+                    siteData.about = {
+                        heading: document.getElementById('ea-about-heading').value.trim(),
+                        text: document.getElementById('ea-about-text').value.trim()
+                    };
+
+                    saveSiteData();
+                    renderLivePage();
+                    showToast('Hero and About changes saved.');
+                });
+            }
+
+            // Contact & Footer Form
+            const contactForm = document.getElementById('ea-contact-footer-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    siteData.contact = {
+                        heading: document.getElementById('ea-contact-heading').value.trim(),
+                        desc: document.getElementById('ea-contact-desc').value.trim(),
+                        btnText: document.getElementById('ea-contact-btn-text').value.trim(),
+                        email: document.getElementById('ea-contact-email').value.trim()
+                    };
+                    siteData.footer = {
+                        tagline: document.getElementById('ea-footer-tagline').value.trim(),
+                        location: document.getElementById('ea-footer-location').value.trim(),
+                        email: document.getElementById('ea-contact-email').value.trim(),
+                        copyright: document.getElementById('ea-footer-copyright').value.trim()
+                    };
+
+                    saveSiteData();
+                    renderLivePage();
+                    showToast('Contact and footer details saved.');
+                });
+            }
+
+            // Careers Hero & Application Copy Form
+            const careersCopyForm = document.getElementById('ea-careers-copy-form');
+            if (careersCopyForm) {
+                careersCopyForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (!siteData.careers) siteData.careers = {};
+                    if (!siteData.careers.hero) siteData.careers.hero = {};
+                    if (!siteData.careers.applyBox) siteData.careers.applyBox = {};
+
+                    siteData.careers.hero.badge = document.getElementById('ea-careers-hero-badge').value.trim();
+                    siteData.careers.hero.title = document.getElementById('ea-careers-hero-title').value.trim();
+                    siteData.careers.hero.desc = document.getElementById('ea-careers-hero-desc').value.trim();
+
+                    siteData.careers.applyBox.heading = document.getElementById('ea-careers-apply-heading').value.trim();
+                    siteData.careers.applyBox.email = document.getElementById('ea-careers-apply-email').value.trim();
+                    siteData.careers.applyBox.desc = document.getElementById('ea-careers-apply-desc').value.trim();
+
+                    saveSiteData();
+                    showToast('Careers page hero and application details saved.');
+                });
+            }
+
+            // Visual edit toggle
+            const toggleVisualBtn = document.getElementById('ea-btn-toggle-visual-edit');
+            if (toggleVisualBtn) {
+                toggleVisualBtn.addEventListener('click', () => {
+                    if (isVisualEditActive) disableVisualEditing();
+                    else enableVisualEditing();
+                });
+            }
+
+            // Visual bar action buttons
+            const visualSaveBtn = document.getElementById('ea-visual-save-btn');
+            if (visualSaveBtn) visualSaveBtn.addEventListener('click', saveVisualEdits);
+            const visualExitBtn = document.getElementById('ea-visual-exit-btn');
+            if (visualExitBtn) {
+                visualExitBtn.addEventListener('click', () => {
+                    disableVisualEditing();
+                    openAdminPortal();
+                });
+            }
+
+            // Live Cloud Publishing & Cloud Config Buttons
+            const quickPublishBtn = document.getElementById('ea-btn-quick-publish');
+            if (quickPublishBtn) quickPublishBtn.addEventListener('click', publishToLiveSite);
+
+            const mainPublishBtn = document.getElementById('ea-publish-live-main-btn');
+            if (mainPublishBtn) mainPublishBtn.addEventListener('click', publishToLiveSite);
+
+            const openConfigBtn = document.getElementById('ea-open-cloud-config-btn');
+            if (openConfigBtn) openConfigBtn.addEventListener('click', openCloudConfigModal);
+
+            const closeConfigBtn = document.getElementById('ea-cloud-config-close-btn');
+            if (closeConfigBtn) closeConfigBtn.addEventListener('click', closeCloudConfigModal);
+
+            const cancelConfigBtn = document.getElementById('ea-cloud-config-cancel-btn');
+            if (cancelConfigBtn) cancelConfigBtn.addEventListener('click', closeCloudConfigModal);
+
+            const cloudConfigForm = document.getElementById('ea-cloud-config-form');
+            if (cloudConfigForm) {
+                cloudConfigForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const repo = (document.getElementById('ea-config-github-repo').value || '').trim();
+                    const token = (document.getElementById('ea-config-github-token').value || '').trim();
+                    const customEndpoint = (document.getElementById('ea-config-custom-endpoint').value || '').trim();
+
+                    saveCloudConfig({
+                        type: customEndpoint ? 'custom' : 'github',
+                        repo: repo || DEFAULT_REPO,
+                        filePath: DEFAULT_CONTENT_PATH,
+                        branch: 'main',
+                        token: token,
+                        customEndpoint: customEndpoint
+                    });
+                    updateCloudStatusBadges();
+                    closeCloudConfigModal();
+                    showToast('✓ Cloud connection saved. You can now Publish Live with 1 click!');
+                });
+            }
+
+            // Offline Backup & Export buttons
+            const downloadFileBtn = document.getElementById('ea-download-file-btn');
+            if (downloadFileBtn) downloadFileBtn.addEventListener('click', downloadUpdatedHtml);
+
+            const manualSaveBtn = document.getElementById('ea-manual-save-btn');
+            if (manualSaveBtn) {
+                manualSaveBtn.addEventListener('click', () => {
+                    saveSiteData();
+                    showToast('Device cache synchronized successfully.');
+                });
+            }
+
+            const copyHtmlBtn = document.getElementById('ea-copy-html-btn');
+            if (copyHtmlBtn) copyHtmlBtn.addEventListener('click', copyUpdatedHtml);
+
+            // Factory reset
+            const resetBtn = document.getElementById('ea-reset-defaults-btn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    if (confirm('Are you sure you want to revert all custom changes back to studio default?')) {
+                        localStorage.removeItem(STORAGE_KEY);
+                        siteData = getDefaultSiteData();
+                        renderLivePage();
+                        renderAdminLists();
+                        showToast('Content restored to studio defaults.');
+                    }
+                });
+            }
+
+            // URL query param launcher (e.g., from careers.html footer link)
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const openParam = urlParams.get('openAdmin');
+                if (openParam) {
+                    openAdminPortal();
+                    if (openParam === 'careers' || openParam === 'internships') {
+                        switchTab('careers-internships');
+                    }
+                }
+            } catch (e) {}
+        });
+    })();
+    </script>
 
     <script src="script.js?v=5.0"></script>
 </body>

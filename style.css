@@ -164,7 +164,7 @@ nav {
 .slide.active {
     opacity: 1;
     visibility: visible;
-    pointer-events: all;
+    pointer-events: auto;
     z-index: 2;
 }
 
