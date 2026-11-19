@@ -109,7 +109,8 @@
       "subtitle": "Dark Fantasy Tactical Chess",
       "desc": "A dark fantasy tactical chess battler blending classic strategy with arcane spellcasting, gothic isometric battlegrounds, and daily challenges. Play free now on Android!",
       "btnText": "Play on Google Play",
-      "btnLink": "https://play.google.com/store/apps/details?id=com.spookachess.game"
+      "btnLink": "https://play.google.com/store/apps/details?id=com.spookachess.game",
+      "video": "assets/spook_a_chess.mp4"
     },
     "slide2": {
       "label": "Pre-Registration Live",
@@ -117,7 +118,8 @@
       "subtitle": "Broken Rules • 2.5D Tabletop Puzzle",
       "desc": "When the board breaks its own rules, will you outsmart the twist? Guide a plucky hooded pawn across an ancient tabletop diorama where physics and reality rewire with every step. Pre-register now on Google Play!",
       "btnText": "Pre-Register on Google Play",
-      "btnLink": "https://play.google.com/store/apps/details?id=com.turningtides.plottwist&pcampaignid=web_share"
+      "btnLink": "https://play.google.com/store/apps/details?id=com.turningtides.plottwist&pcampaignid=web_share",
+      "bg": "assets/turning_tides_bg.jpg"
     }
   },
   "about": {

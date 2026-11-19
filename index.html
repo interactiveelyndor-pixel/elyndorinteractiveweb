@@ -1333,6 +1333,25 @@
                                     <label for="ea-hero1-btn-link">CTA Button Link</label>
                                     <input type="text" id="ea-hero1-btn-link" class="ea-input" value="https://play.google.com/store/apps/details?id=com.spookachess.game">
                                 </div>
+                                <div class="ea-form-group" style="margin-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px;">
+                                    <label for="ea-hero1-video">Background Video (MP4 / WebM / URL)</label>
+                                    <div style="display: flex; gap: 8px; align-items: stretch;">
+                                        <input type="text" id="ea-hero1-video" class="ea-input" placeholder="e.g. assets/spook_a_chess.mp4, https://... or upload video" style="flex: 1;" value="assets/spook_a_chess.mp4">
+                                        <button type="button" id="ea-upload-hero-video-btn" class="ea-btn ea-btn-outline" style="white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 9px 13px; font-size: 0.88rem; flex-shrink: 0;" title="Upload MP4 or WebM video file">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2"/><line x1="9" y1="2" x2="9" y2="6"/></svg>
+                                            <span>Upload Video</span>
+                                        </button>
+                                        <input type="file" id="ea-hero1-video-file" accept="video/mp4, video/webm, video/ogg, video/quicktime" style="display: none;">
+                                    </div>
+                                    <div id="ea-hero1-video-preview-box" style="margin-top: 8px; padding: 10px; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px dashed rgba(212,175,55,0.4); display: flex; align-items: center; gap: 12px;">
+                                        <video id="ea-hero1-video-preview" autoplay loop muted playsinline style="width: 90px; height: 52px; object-fit: cover; border-radius: 4px; background: #000; border: 1px solid rgba(255,255,255,0.2);"></video>
+                                        <div style="flex-grow: 1; min-width: 0;">
+                                            <div id="ea-hero1-video-name" style="font-size: 0.85rem; color: #d4af37; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Background Video</div>
+                                            <div style="font-size: 0.74rem; color: #888;">Plays in loop behind slide 1</div>
+                                        </div>
+                                        <button type="button" id="ea-hero1-video-clear-btn" class="ea-btn ea-btn-sm ea-btn-outline" style="padding: 4px 10px; font-size: 0.76rem; color: #ff6b6b; border-color: rgba(255,107,107,0.3);">Reset</button>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Hero Slide 2 -->
@@ -1361,6 +1380,17 @@
                                 <div class="ea-form-group">
                                     <label for="ea-hero2-btn-link">CTA Button Link</label>
                                     <input type="text" id="ea-hero2-btn-link" class="ea-input" value="https://play.google.com/store/apps/details?id=com.turningtides.plottwist&pcampaignid=web_share">
+                                </div>
+                                <div class="ea-form-group" style="margin-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px;">
+                                    <label for="ea-hero2-bg">Background Backdrop Image (PNG / JPG / URL)</label>
+                                    <div style="display: flex; gap: 8px; align-items: stretch;">
+                                        <input type="text" id="ea-hero2-bg" class="ea-input" placeholder="e.g. assets/turning_tides_bg.jpg or upload PNG/JPG" style="flex: 1;" value="assets/turning_tides_bg.jpg">
+                                        <button type="button" id="ea-upload-hero2-bg-btn" class="ea-btn ea-btn-outline" style="white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 9px 13px; font-size: 0.88rem; flex-shrink: 0;" title="Upload PNG or JPG image">
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                            <span>Upload PNG / JPG</span>
+                                        </button>
+                                        <input type="file" id="ea-hero2-bg-file" accept="image/png, image/jpeg, image/jpg, image/webp" style="display: none;">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1967,7 +1997,8 @@
                         subtitle: 'Dark Fantasy Tactical Chess',
                         desc: 'A dark fantasy tactical chess battler blending classic strategy with arcane spellcasting, gothic isometric battlegrounds, and daily challenges. Play free now on Android!',
                         btnText: 'Play on Google Play',
-                        btnLink: 'https://play.google.com/store/apps/details?id=com.spookachess.game'
+                        btnLink: 'https://play.google.com/store/apps/details?id=com.spookachess.game',
+                        video: 'assets/spook_a_chess.mp4'
                     },
                     slide2: {
                         label: 'Pre-Registration Live',
@@ -1975,7 +2006,8 @@
                         subtitle: 'Broken Rules • 2.5D Tabletop Puzzle',
                         desc: 'When the board breaks its own rules, will you outsmart the twist? Guide a plucky hooded pawn across an ancient tabletop diorama where physics and reality rewire with every step. Pre-register now on Google Play!',
                         btnText: 'Pre-Register on Google Play',
-                        btnLink: 'https://play.google.com/store/apps/details?id=com.turningtides.plottwist&pcampaignid=web_share'
+                        btnLink: 'https://play.google.com/store/apps/details?id=com.turningtides.plottwist&pcampaignid=web_share',
+                        bg: 'assets/turning_tides_bg.jpg'
                     }
                 },
                 about: {
@@ -2239,6 +2271,17 @@
                         btn.textContent = s1.btnText;
                         btn.href = s1.btnLink;
                     }
+                    if (s1.video) {
+                        const video = slide1.querySelector('.hero-video');
+                        const source = slide1.querySelector('.hero-video source');
+                        if (video && source) {
+                            if (source.getAttribute('src') !== s1.video) {
+                                source.setAttribute('src', s1.video);
+                                video.load();
+                                video.play().catch(() => {});
+                            }
+                        }
+                    }
                 }
             }
 
@@ -2259,6 +2302,10 @@
                     if (btn) {
                         btn.textContent = s2.btnText;
                         btn.href = s2.btnLink;
+                    }
+                    if (s2.bg) {
+                        const backdrop = slide2.querySelector('.hero-backdrop');
+                        if (backdrop) backdrop.style.backgroundImage = `url('${s2.bg}')`;
                     }
                 }
             }
@@ -2397,6 +2444,11 @@
                 const h1dsc = document.getElementById('ea-hero1-desc'); if (h1dsc) h1dsc.value = s1.desc || '';
                 const h1btn = document.getElementById('ea-hero1-btn-text'); if (h1btn) h1btn.value = s1.btnText || '';
                 const h1lnk = document.getElementById('ea-hero1-btn-link'); if (h1lnk) h1lnk.value = s1.btnLink || '';
+                const h1vid = document.getElementById('ea-hero1-video');
+                if (h1vid) {
+                    h1vid.value = s1.video || 'assets/spook_a_chess.mp4';
+                    updateHeroVideoPreview(h1vid.value, 'Current Background Video');
+                }
             }
             if (siteData.hero && siteData.hero.slide2) {
                 const s2 = siteData.hero.slide2;
@@ -2406,6 +2458,7 @@
                 const h2dsc = document.getElementById('ea-hero2-desc'); if (h2dsc) h2dsc.value = s2.desc || '';
                 const h2btn = document.getElementById('ea-hero2-btn-text'); if (h2btn) h2btn.value = s2.btnText || '';
                 const h2lnk = document.getElementById('ea-hero2-btn-link'); if (h2lnk) h2lnk.value = s2.btnLink || '';
+                const h2bg = document.getElementById('ea-hero2-bg'); if (h2bg) h2bg.value = s2.bg || 'assets/turning_tides_bg.jpg';
             }
             if (siteData.about) {
                 const abtH = document.getElementById('ea-about-heading'); if (abtH) abtH.value = siteData.about.heading || '';
@@ -2663,6 +2716,25 @@
             } else {
                 thumb.style.backgroundImage = 'none';
                 box.classList.add('ea-hidden');
+                box.style.display = 'none';
+            }
+        }
+
+        function updateHeroVideoPreview(url, label) {
+            const box = document.getElementById('ea-hero1-video-preview-box');
+            const vid = document.getElementById('ea-hero1-video-preview');
+            const nameEl = document.getElementById('ea-hero1-video-name');
+            if (!box || !vid) return;
+            const cleanUrl = (url || '').trim();
+            if (cleanUrl) {
+                vid.src = cleanUrl;
+                vid.load();
+                vid.play().catch(() => {});
+                if (nameEl) nameEl.textContent = label || 'Video Loaded';
+                box.style.display = 'flex';
+            } else {
+                vid.removeAttribute('src');
+                vid.load();
                 box.style.display = 'none';
             }
         }
@@ -3403,19 +3475,85 @@
                 }
             });
 
+            // Hero Slide 1 background video upload
+            const uploadHeroVidBtn = document.getElementById('ea-upload-hero-video-btn');
+            const fileHeroVidInput = document.getElementById('ea-hero1-video-file');
+            const textHeroVidInput = document.getElementById('ea-hero1-video');
+            const clearHeroVidBtn = document.getElementById('ea-hero1-video-clear-btn');
+
+            if (uploadHeroVidBtn && fileHeroVidInput) {
+                uploadHeroVidBtn.addEventListener('click', () => fileHeroVidInput.click());
+                fileHeroVidInput.addEventListener('change', (e) => {
+                    const file = e.target.files && e.target.files[0];
+                    if (file) {
+                        if (!file.type.match(/^video\//i) && !file.name.match(/\.(mp4|webm|ogg|mov)$/i)) {
+                            showToast('Please select a valid MP4 or WebM video file.');
+                            return;
+                        }
+                        if (file.size > 8 * 1024 * 1024) {
+                            showToast('⚠️ Video is >8MB. For best performance, place file in assets/ and type path.');
+                        }
+                        const reader = new FileReader();
+                        reader.onload = function(evt) {
+                            const dataUrl = evt.target.result;
+                            if (textHeroVidInput) textHeroVidInput.value = dataUrl;
+                            updateHeroVideoPreview(dataUrl, file.name);
+                            showToast(`Loaded ${file.name} as hero background video.`);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            if (clearHeroVidBtn && textHeroVidInput) {
+                clearHeroVidBtn.addEventListener('click', () => {
+                    textHeroVidInput.value = 'assets/spook_a_chess.mp4';
+                    if (fileHeroVidInput) fileHeroVidInput.value = '';
+                    updateHeroVideoPreview('assets/spook_a_chess.mp4', 'Default Video');
+                    showToast('Reset background video to default.');
+                });
+            }
+
+            if (textHeroVidInput) {
+                textHeroVidInput.addEventListener('input', () => {
+                    updateHeroVideoPreview(textHeroVidInput.value, 'Custom Video URL / Path');
+                });
+            }
+
+            // Hero Slide 2 background image upload
+            const uploadHero2BgBtn = document.getElementById('ea-upload-hero2-bg-btn');
+            const fileHero2BgInput = document.getElementById('ea-hero2-bg-file');
+            const textHero2BgInput = document.getElementById('ea-hero2-bg');
+
+            if (uploadHero2BgBtn && fileHero2BgInput) {
+                uploadHero2BgBtn.addEventListener('click', () => fileHero2BgInput.click());
+                fileHero2BgInput.addEventListener('change', (e) => {
+                    const file = e.target.files && e.target.files[0];
+                    if (file) {
+                        processImageFile(file, (dataUrl, fileName) => {
+                            if (textHero2BgInput) textHero2BgInput.value = dataUrl;
+                            showToast(`Loaded ${fileName} as hero slide 2 backdrop.`);
+                        });
+                    }
+                });
+            }
+
             // Hero & About Form
             const heroAboutForm = document.getElementById('ea-hero-about-form');
             if (heroAboutForm) {
                 heroAboutForm.addEventListener('submit', (e) => {
                     e.preventDefault();
                     if (!siteData.hero) siteData.hero = {};
+                    const h1vidEl = document.getElementById('ea-hero1-video');
+                    const h2bgEl = document.getElementById('ea-hero2-bg');
                     siteData.hero.slide1 = {
                         label: document.getElementById('ea-hero1-label').value.trim(),
                         title: document.getElementById('ea-hero1-title').value.trim(),
                         subtitle: document.getElementById('ea-hero1-subtitle').value.trim(),
                         desc: document.getElementById('ea-hero1-desc').value.trim(),
                         btnText: document.getElementById('ea-hero1-btn-text').value.trim(),
-                        btnLink: document.getElementById('ea-hero1-btn-link').value.trim()
+                        btnLink: document.getElementById('ea-hero1-btn-link').value.trim(),
+                        video: h1vidEl ? h1vidEl.value.trim() : 'assets/spook_a_chess.mp4'
                     };
                     siteData.hero.slide2 = {
                         label: document.getElementById('ea-hero2-label').value.trim(),
@@ -3423,7 +3561,8 @@
                         subtitle: document.getElementById('ea-hero2-subtitle').value.trim(),
                         desc: document.getElementById('ea-hero2-desc').value.trim(),
                         btnText: document.getElementById('ea-hero2-btn-text').value.trim(),
-                        btnLink: document.getElementById('ea-hero2-btn-link').value.trim()
+                        btnLink: document.getElementById('ea-hero2-btn-link').value.trim(),
+                        bg: h2bgEl ? h2bgEl.value.trim() : 'assets/turning_tides_bg.jpg'
                     };
                     siteData.about = {
                         heading: document.getElementById('ea-about-heading').value.trim(),
