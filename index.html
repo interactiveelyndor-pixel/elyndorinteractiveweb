@@ -1658,8 +1658,23 @@
                     </div>
 
                     <div class="ea-form-group">
-                        <label for="ea-game-img">Image URL / Asset Path *</label>
-                        <input type="text" id="ea-game-img" class="ea-input" placeholder="e.g. assets/spook_a_chess.png or https://example.com/cover.jpg" required>
+                        <label for="ea-game-img">Game Cover Image (PNG / JPG / URL) *</label>
+                        <div style="display: flex; gap: 8px; align-items: stretch;">
+                            <input type="text" id="ea-game-img" class="ea-input" placeholder="e.g. assets/spook_a_chess.png or upload PNG/JPG" required style="flex: 1;">
+                            <button type="button" id="ea-upload-img-btn" class="ea-btn ea-btn-outline" style="white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; padding: 9px 13px; font-size: 0.88rem; flex-shrink: 0;" title="Upload PNG or JPG image from your device">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                <span>Upload PNG / JPG</span>
+                            </button>
+                            <input type="file" id="ea-game-img-file" accept="image/png, image/jpeg, image/jpg, image/webp" style="display: none;">
+                        </div>
+                        <div id="ea-img-preview-box" class="ea-hidden" style="display: none; align-items: center; gap: 12px; padding: 10px 14px; background: rgba(255,255,255,0.04); border: 1px dashed rgba(212,175,55,0.4); border-radius: 8px; margin-top: 8px;">
+                            <div id="ea-img-preview-thumb" style="width: 50px; height: 50px; border-radius: 6px; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.2); background-color: #0c0611; flex-shrink: 0;"></div>
+                            <div style="flex-grow: 1; min-width: 0;">
+                                <div id="ea-img-preview-name" style="font-size: 0.85rem; color: #d4af37; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Cover Image Selected</div>
+                                <div style="font-size: 0.75rem; color: #888;">PNG / JPG loaded ready for game card</div>
+                            </div>
+                            <button type="button" id="ea-img-clear-btn" class="ea-btn ea-btn-sm ea-btn-outline" style="padding: 4px 10px; font-size: 0.78rem; color: #ff6b6b; border-color: rgba(255,107,107,0.3);">Remove</button>
+                        </div>
                     </div>
 
                     <div class="ea-form-row">
@@ -2593,6 +2608,65 @@
             return selectEl.value.trim();
         }
 
+        // Image file helper for PNG / JPG upload and optimization
+        function processImageFile(file, callback) {
+            if (!file) return;
+            if (!file.type.match(/^image\/(png|jpe?g|webp)/i)) {
+                showToast('Please select a PNG or JPG image file.');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const maxDim = 1200;
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > maxDim || height > maxDim) {
+                        if (width > height) {
+                            height = Math.round((height * maxDim) / width);
+                            width = maxDim;
+                        } else {
+                            width = Math.round((width * maxDim) / height);
+                            height = maxDim;
+                        }
+                    }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const mime = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                    const dataUrl = canvas.toDataURL(mime, 0.88);
+                    callback(dataUrl, file.name);
+                };
+                img.onerror = function() {
+                    callback(e.target.result, file.name);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateImgPreview(url, label) {
+            const box = document.getElementById('ea-img-preview-box');
+            const thumb = document.getElementById('ea-img-preview-thumb');
+            const nameEl = document.getElementById('ea-img-preview-name');
+            if (!box || !thumb) return;
+            const cleanUrl = (url || '').trim();
+            if (cleanUrl) {
+                thumb.style.backgroundImage = `url('${cleanUrl}')`;
+                if (nameEl) nameEl.textContent = label || 'Image Loaded';
+                box.classList.remove('ea-hidden');
+                box.style.display = 'flex';
+            } else {
+                thumb.style.backgroundImage = 'none';
+                box.classList.add('ea-hidden');
+                box.style.display = 'none';
+            }
+        }
+
         // Modal Controls
         function openGameModal(section, gameId) {
             const modal = document.getElementById('ea-game-modal');
@@ -2616,7 +2690,9 @@
                     document.getElementById('ea-game-badge-type').value = game.badgeClass || 'badge-playstore';
                     document.getElementById('ea-game-desc').value = game.desc || '';
                     document.getElementById('ea-game-link').value = game.link || '';
-                    document.getElementById('ea-game-img').value = game.img || '';
+                    const imgVal = game.img || '';
+                    document.getElementById('ea-game-img').value = imgVal;
+                    updateImgPreview(imgVal, 'Current Cover Image');
                     setDropdownValue('ea-game-overlay-tag', 'ea-game-overlay-tag-custom', game.overlayTag || '');
                     document.getElementById('ea-game-overlay-cta').value = game.overlayCta || '';
                 }
@@ -2627,6 +2703,9 @@
                 document.getElementById('ea-game-desc').value = '';
                 document.getElementById('ea-game-link').value = '';
                 document.getElementById('ea-game-img').value = '';
+                const fileInput = document.getElementById('ea-game-img-file');
+                if (fileInput) fileInput.value = '';
+                updateImgPreview('', '');
                 setDropdownValue('ea-game-overlay-tag', 'ea-game-overlay-tag-custom', section === 'live' ? 'Available on Google Play' : 'In Development');
                 document.getElementById('ea-game-overlay-cta').value = section === 'live' ? 'Play Now' : 'In Development';
             }
@@ -3079,6 +3158,40 @@
                     } else {
                         if (overlayCustom) overlayCustom.classList.add('ea-hidden');
                     }
+                });
+            }
+
+            // Image upload handling (PNG / JPG)
+            const uploadImgBtn = document.getElementById('ea-upload-img-btn');
+            const fileImgInput = document.getElementById('ea-game-img-file');
+            const textImgInput = document.getElementById('ea-game-img');
+            const clearImgBtn = document.getElementById('ea-img-clear-btn');
+
+            if (uploadImgBtn && fileImgInput) {
+                uploadImgBtn.addEventListener('click', () => fileImgInput.click());
+                fileImgInput.addEventListener('change', (e) => {
+                    const file = e.target.files && e.target.files[0];
+                    if (file) {
+                        processImageFile(file, (dataUrl, fileName) => {
+                            if (textImgInput) textImgInput.value = dataUrl;
+                            updateImgPreview(dataUrl, fileName);
+                            showToast(`Loaded ${fileName} (${file.type.split('/')[1].toUpperCase()})`);
+                        });
+                    }
+                });
+            }
+
+            if (clearImgBtn && textImgInput) {
+                clearImgBtn.addEventListener('click', () => {
+                    textImgInput.value = '';
+                    if (fileImgInput) fileImgInput.value = '';
+                    updateImgPreview('', '');
+                });
+            }
+
+            if (textImgInput) {
+                textImgInput.addEventListener('input', () => {
+                    updateImgPreview(textImgInput.value, 'Custom Asset URL');
                 });
             }
 
