@@ -768,6 +768,10 @@
             border-color: #d4af37 !important;
             box-shadow: 0 0 10px rgba(212, 175, 55, 0.25) !important;
         }
+        .ea-select option {
+            background: #141520 !important;
+            color: #ffffff !important;
+        }
         .ea-form-row {
             display: grid !important;
             grid-template-columns: 1fr 1fr !important;
@@ -1620,7 +1624,17 @@
                     <div class="ea-form-row">
                         <div class="ea-form-group">
                             <label for="ea-game-badge">Badge Label *</label>
-                            <input type="text" id="ea-game-badge" class="ea-input" placeholder="e.g. Play Store, itch.io, Pre-Register, In Development" required>
+                            <select id="ea-game-badge" class="ea-select" required>
+                                <option value="Play Store">Play Store</option>
+                                <option value="itch.io">itch.io</option>
+                                <option value="Pre-Register">Pre-Register</option>
+                                <option value="In Development">In Development</option>
+                                <option value="Flagship">Flagship</option>
+                                <option value="Coming Soon">Coming Soon</option>
+                                <option value="Early Access">Early Access</option>
+                                <option value="__custom__">+ Custom (Type custom label)...</option>
+                            </select>
+                            <input type="text" id="ea-game-badge-custom" class="ea-input ea-hidden" style="margin-top: 8px;" placeholder="Type custom badge label...">
                         </div>
                         <div class="ea-form-group">
                             <label for="ea-game-badge-type">Badge Style</label>
@@ -1651,7 +1665,21 @@
                     <div class="ea-form-row">
                         <div class="ea-form-group">
                             <label for="ea-game-overlay-tag">Overlay Tag</label>
-                            <input type="text" id="ea-game-overlay-tag" class="ea-input" placeholder="e.g. Available on Google Play">
+                            <select id="ea-game-overlay-tag" class="ea-select">
+                                <option value="Available on Google Play">Available on Google Play</option>
+                                <option value="Available on itch.io">Available on itch.io</option>
+                                <option value="Google Play Pre-Registration">Google Play Pre-Registration</option>
+                                <option value="Pre-Register Now">Pre-Register Now</option>
+                                <option value="Available Now">Available Now</option>
+                                <option value="In Development">In Development</option>
+                                <option value="Coming Soon">Coming Soon</option>
+                                <option value="Flagship Title">Flagship Title</option>
+                                <option value="Psychological Puzzle">Psychological Puzzle</option>
+                                <option value="Multiplayer Social Adventure">Multiplayer Social Adventure</option>
+                                <option value="Early Access">Early Access</option>
+                                <option value="__custom__">+ Custom (Type custom tag)...</option>
+                            </select>
+                            <input type="text" id="ea-game-overlay-tag-custom" class="ea-input ea-hidden" style="margin-top: 8px;" placeholder="Type custom overlay tag...">
                         </div>
                         <div class="ea-form-group">
                             <label for="ea-game-overlay-cta">Overlay CTA</label>
@@ -2518,6 +2546,53 @@
             }
         }
 
+        // Helper for dropdown with custom option support
+        function setDropdownValue(selectId, customInputId, value) {
+            const selectEl = document.getElementById(selectId);
+            const customInputEl = document.getElementById(customInputId);
+            if (!selectEl) return;
+            const val = (value || '').trim();
+            if (!val) {
+                selectEl.selectedIndex = 0;
+                if (customInputEl) {
+                    customInputEl.classList.add('ea-hidden');
+                    customInputEl.value = '';
+                }
+                return;
+            }
+            let matched = false;
+            for (let i = 0; i < selectEl.options.length; i++) {
+                const opt = selectEl.options[i];
+                if (opt.value !== '__custom__' && opt.value.toLowerCase() === val.toLowerCase()) {
+                    selectEl.selectedIndex = i;
+                    matched = true;
+                    break;
+                }
+            }
+            if (matched) {
+                if (customInputEl) {
+                    customInputEl.classList.add('ea-hidden');
+                    customInputEl.value = '';
+                }
+            } else {
+                selectEl.value = '__custom__';
+                if (customInputEl) {
+                    customInputEl.classList.remove('ea-hidden');
+                    customInputEl.value = val;
+                }
+            }
+        }
+
+        function getDropdownValue(selectId, customInputId) {
+            const selectEl = document.getElementById(selectId);
+            const customInputEl = document.getElementById(customInputId);
+            if (!selectEl) return '';
+            if (selectEl.value === '__custom__') {
+                return customInputEl ? customInputEl.value.trim() : '';
+            }
+            return selectEl.value.trim();
+        }
+
         // Modal Controls
         function openGameModal(section, gameId) {
             const modal = document.getElementById('ea-game-modal');
@@ -2537,18 +2612,22 @@
                 const game = list.find(g => g.id === gameId);
                 if (game) {
                     document.getElementById('ea-game-title').value = game.title || '';
-                    document.getElementById('ea-game-badge').value = game.badge || '';
+                    setDropdownValue('ea-game-badge', 'ea-game-badge-custom', game.badge || '');
                     document.getElementById('ea-game-badge-type').value = game.badgeClass || 'badge-playstore';
                     document.getElementById('ea-game-desc').value = game.desc || '';
                     document.getElementById('ea-game-link').value = game.link || '';
                     document.getElementById('ea-game-img').value = game.img || '';
-                    document.getElementById('ea-game-overlay-tag').value = game.overlayTag || '';
+                    setDropdownValue('ea-game-overlay-tag', 'ea-game-overlay-tag-custom', game.overlayTag || '');
                     document.getElementById('ea-game-overlay-cta').value = game.overlayCta || '';
                 }
             } else {
                 modalTitle.textContent = section === 'live' ? 'Add New Live Game' : 'Add New Upcoming Game';
                 document.getElementById('ea-game-badge-type').value = section === 'live' ? 'badge-playstore' : 'badge-dev';
-                document.getElementById('ea-game-badge').value = section === 'live' ? 'Play Store' : 'In Development';
+                setDropdownValue('ea-game-badge', 'ea-game-badge-custom', section === 'live' ? 'Play Store' : 'In Development');
+                document.getElementById('ea-game-desc').value = '';
+                document.getElementById('ea-game-link').value = '';
+                document.getElementById('ea-game-img').value = '';
+                setDropdownValue('ea-game-overlay-tag', 'ea-game-overlay-tag-custom', section === 'live' ? 'Available on Google Play' : 'In Development');
                 document.getElementById('ea-game-overlay-cta').value = section === 'live' ? 'Play Now' : 'In Development';
             }
 
@@ -2870,17 +2949,9 @@
             const launchBtn = document.getElementById('ea-launch-btn');
             if (launchBtn) launchBtn.addEventListener('click', openAdminPortal);
 
-            // Close portal button
+            // Close portal button (Only closes when explicitly clicked)
             const closePortalBtn = document.getElementById('ea-close-portal-btn');
             if (closePortalBtn) closePortalBtn.addEventListener('click', closeAdminPortal);
-
-            // Close portal on backdrop click outside container
-            const portal = document.getElementById('ea-admin-portal');
-            if (portal) {
-                portal.addEventListener('click', (e) => {
-                    if (e.target === portal) closeAdminPortal();
-                });
-            }
 
             // Keyboard shortcut Ctrl + Shift + A to open Admin Portal from anywhere
             document.addEventListener('keydown', (e) => {
@@ -2958,29 +3029,56 @@
                 addInternBtn.addEventListener('click', () => openInternshipModal(null));
             }
 
-            // Close game modal buttons
+            // Close game modal buttons (Only closes on explicit button click)
             const gameModal = document.getElementById('ea-game-modal');
             const closeBtn = document.getElementById('ea-modal-close-btn');
             if (closeBtn) closeBtn.addEventListener('click', closeGameModal);
             const cancelBtn = document.getElementById('ea-modal-cancel-btn');
             if (cancelBtn) cancelBtn.addEventListener('click', closeGameModal);
 
-            if (gameModal) {
-                gameModal.addEventListener('click', (e) => {
-                    if (e.target === gameModal) closeGameModal();
-                });
-            }
-
-            // Close internship modal buttons
+            // Close internship modal buttons (Only closes on explicit button click)
             const internModal = document.getElementById('ea-internship-modal');
             const closeInternBtn = document.getElementById('ea-internship-modal-close-btn');
             if (closeInternBtn) closeInternBtn.addEventListener('click', closeInternshipModal);
             const cancelInternBtn = document.getElementById('ea-internship-modal-cancel-btn');
             if (cancelInternBtn) cancelInternBtn.addEventListener('click', closeInternshipModal);
 
-            if (internModal) {
-                internModal.addEventListener('click', (e) => {
-                    if (e.target === internModal) closeInternshipModal();
+            // Badge Label dropdown change event
+            const badgeSelect = document.getElementById('ea-game-badge');
+            const badgeCustom = document.getElementById('ea-game-badge-custom');
+            if (badgeSelect) {
+                badgeSelect.addEventListener('change', () => {
+                    if (badgeSelect.value === '__custom__') {
+                        if (badgeCustom) {
+                            badgeCustom.classList.remove('ea-hidden');
+                            badgeCustom.focus();
+                        }
+                    } else {
+                        if (badgeCustom) badgeCustom.classList.add('ea-hidden');
+                        const styleSelect = document.getElementById('ea-game-badge-type');
+                        if (styleSelect) {
+                            if (badgeSelect.value === 'Play Store') styleSelect.value = 'badge-playstore';
+                            else if (badgeSelect.value === 'itch.io') styleSelect.value = 'badge-itch';
+                            else if (badgeSelect.value === 'Pre-Register' || badgeSelect.value === 'Flagship') styleSelect.value = 'badge-upcoming';
+                            else if (badgeSelect.value === 'In Development') styleSelect.value = 'badge-dev';
+                        }
+                    }
+                });
+            }
+
+            // Overlay Tag dropdown change event
+            const overlaySelect = document.getElementById('ea-game-overlay-tag');
+            const overlayCustom = document.getElementById('ea-game-overlay-tag-custom');
+            if (overlaySelect) {
+                overlaySelect.addEventListener('change', () => {
+                    if (overlaySelect.value === '__custom__') {
+                        if (overlayCustom) {
+                            overlayCustom.classList.remove('ea-hidden');
+                            overlayCustom.focus();
+                        }
+                    } else {
+                        if (overlayCustom) overlayCustom.classList.add('ea-hidden');
+                    }
                 });
             }
 
@@ -3005,12 +3103,12 @@
                     const editId = document.getElementById('ea-game-edit-id').value;
 
                     const title = document.getElementById('ea-game-title').value.trim();
-                    const badge = document.getElementById('ea-game-badge').value.trim();
+                    const badge = getDropdownValue('ea-game-badge', 'ea-game-badge-custom') || 'Play Store';
                     const badgeClass = document.getElementById('ea-game-badge-type').value;
                     const desc = document.getElementById('ea-game-desc').value.trim();
                     const link = document.getElementById('ea-game-link').value.trim();
                     const img = document.getElementById('ea-game-img').value.trim();
-                    const overlayTag = document.getElementById('ea-game-overlay-tag').value.trim();
+                    const overlayTag = getDropdownValue('ea-game-overlay-tag', 'ea-game-overlay-tag-custom') || (sec === 'live' ? 'Available on Google Play' : 'In Development');
                     const overlayCta = document.getElementById('ea-game-overlay-cta').value.trim();
 
                     const list = sec === 'live' ? siteData.liveGames : siteData.upcomingGames;
