@@ -126,6 +126,10 @@
     "heading": "Who We Are",
     "text": "We're a game studio based in Nashik, India. We make games we'd want to play — from tactical chess battlers to GPS-powered street games. Small team, real ambition, shipping titles across Play Store and itch.io."
   },
+  "team": {
+    "membersCount": 20,
+    "label": "OUR TEAM"
+  },
   "contact": {
     "heading": "Connect With Us",
     "desc": "Got a project, a press inquiry, or just want to say hey — we'd love to hear from you.",

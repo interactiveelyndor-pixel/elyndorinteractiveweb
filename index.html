@@ -75,6 +75,14 @@
             </ul>
         </nav>
     </header>
+    <!-- Sticky Floating Team Badge (Top Right Corner) -->
+    <a href="team.html" id="ea-team-floating-badge" class="ea-team-badge" title="View Elyndor Team">
+        <span class="ea-team-badge-pulse"></span>
+        <span class="ea-team-badge-icon">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </span>
+        <span class="ea-team-badge-text"><span id="ea-team-label-display">OUR TEAM</span> : <strong id="ea-team-count-display">20</strong> members</span>
+    </a>
 
     <main>
         <section id="hero" class="hero-slider-section">
@@ -444,6 +452,65 @@
             border-radius: 50% !important;
             background: #4CAF50 !important;
             box-shadow: 0 0 8px #4CAF50 !important;
+        }
+
+        /* Sticky Floating Team Badge (Top Right Corner) */
+        .ea-team-badge {
+            position: fixed !important;
+            top: 86px !important;
+            right: 22px !important;
+            z-index: 9999 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding: 7px 15px !important;
+            background: rgba(12, 13, 20, 0.88) !important;
+            backdrop-filter: blur(14px) !important;
+            -webkit-backdrop-filter: blur(14px) !important;
+            border: 1px solid rgba(212, 175, 55, 0.45) !important;
+            border-radius: 999px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 14px rgba(212, 175, 55, 0.15) !important;
+            color: #f0f0f0 !important;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 0.76rem !important;
+            font-weight: 600 !important;
+            letter-spacing: 1px !important;
+            text-transform: uppercase !important;
+            text-decoration: none !important;
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+            cursor: pointer !important;
+        }
+        .ea-team-badge:hover {
+            transform: translateY(-2px) scale(1.02) !important;
+            border-color: #d4af37 !important;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.35) !important;
+            color: #ffffff !important;
+        }
+        .ea-team-badge-icon {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: #d4af37 !important;
+        }
+        .ea-team-badge-pulse {
+            width: 7px !important;
+            height: 7px !important;
+            background: #4CAF50 !important;
+            border-radius: 50% !important;
+            box-shadow: 0 0 8px #4CAF50 !important;
+            animation: eaPulse 2s infinite !important;
+        }
+        @keyframes eaPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+        @media (max-width: 768px) {
+            .ea-team-badge {
+                top: 80px !important;
+                right: 12px !important;
+                padding: 5px 11px !important;
+                font-size: 0.68rem !important;
+            }
         }
 
         /* Fullscreen Overlay Portal (Strict Zero-Leak Isolation) */
@@ -1408,6 +1475,25 @@
                             </div>
                         </div>
 
+                        <!-- Team Member Counter Setting -->
+                        <div class="ea-card ea-subcard" style="margin-top: 1.5rem;">
+                            <h5>Team Counter Badge (Top Right Corner)</h5>
+                            <p style="font-size: 0.8rem; color: #888; margin-bottom: 12px;">Controls the sticky 'OUR TEAM : X members' box floating in the top right corner of the website.</p>
+                            <div class="ea-form-row">
+                                <div class="ea-form-group">
+                                    <label for="ea-team-count-input">Number of Team Members *</label>
+                                    <input type="number" id="ea-team-count-input" class="ea-input" min="1" max="999" value="20" placeholder="e.g. 20" required>
+                                </div>
+                                <div class="ea-form-group">
+                                    <label for="ea-team-badge-text-input">Badge Label Prefix</label>
+                                    <input type="text" id="ea-team-badge-text-input" class="ea-input" value="OUR TEAM" placeholder="e.g. OUR TEAM">
+                                </div>
+                            </div>
+                            <div style="font-size: 0.82rem; color: #d4af37; margin-top: 6px;">
+                                Live Preview: <strong><span id="ea-team-badge-preview">OUR TEAM : 20 members</span></strong>
+                            </div>
+                        </div>
+
                         <div style="margin-top: 1.5rem; text-align: right;">
                             <button type="submit" class="ea-btn ea-btn-gold">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -2014,6 +2100,11 @@
                     heading: 'Who We Are',
                     text: "We're a game studio based in Nashik, India. We make games we'd want to play — from tactical chess battlers to GPS-powered street games. Small team, real ambition, shipping titles across Play Store and itch.io."
                 },
+                team: {
+                    membersCount: 20,
+                    label: 'OUR TEAM'
+                },
+                teamMembersCount: 20,
                 contact: {
                     heading: 'Connect With Us',
                     desc: "Got a project, a press inquiry, or just want to say hey — we'd love to hear from you.",
@@ -2342,6 +2433,14 @@
                 }
             }
 
+            // 7. Team Badge Counter
+            const teamCount = (siteData.team && siteData.team.membersCount) ? siteData.team.membersCount : (siteData.teamMembersCount || 20);
+            const teamLabel = (siteData.team && siteData.team.label) ? siteData.team.label : 'OUR TEAM';
+            const countDisplay = document.getElementById('ea-team-count-display');
+            if (countDisplay) countDisplay.textContent = teamCount;
+            const labelDisplay = document.getElementById('ea-team-label-display');
+            if (labelDisplay) labelDisplay.textContent = teamLabel;
+
             // Update stats counter
             const liveStat = document.getElementById('ea-stat-live-count');
             if (liveStat) liveStat.textContent = (siteData.liveGames || []).length;
@@ -2463,6 +2562,21 @@
             if (siteData.about) {
                 const abtH = document.getElementById('ea-about-heading'); if (abtH) abtH.value = siteData.about.heading || '';
                 const abtT = document.getElementById('ea-about-text'); if (abtT) abtT.value = siteData.about.text || '';
+            }
+
+            // Populate Team Counter inputs
+            const teamInput = document.getElementById('ea-team-count-input');
+            if (teamInput) {
+                const teamCount = (siteData.team && siteData.team.membersCount) ? siteData.team.membersCount : (siteData.teamMembersCount || 20);
+                teamInput.value = teamCount;
+            }
+            const teamLabelInput = document.getElementById('ea-team-badge-text-input');
+            if (teamLabelInput) {
+                const teamLabel = (siteData.team && siteData.team.label) ? siteData.team.label : 'OUR TEAM';
+                teamLabelInput.value = teamLabel;
+            }
+            if (typeof updateTeamBadgeAdminPreview === 'function') {
+                updateTeamBadgeAdminPreview();
             }
 
             // Populate Contact & Footer inputs
@@ -3538,6 +3652,22 @@
                 });
             }
 
+            // Team Member Counter badge admin preview & listeners
+            function updateTeamBadgeAdminPreview() {
+                const countInput = document.getElementById('ea-team-count-input');
+                const labelInput = document.getElementById('ea-team-badge-text-input');
+                const previewEl = document.getElementById('ea-team-badge-preview');
+                if (previewEl && countInput) {
+                    const cnt = countInput.value.trim() || '20';
+                    const lbl = (labelInput ? labelInput.value.trim() : '') || 'OUR TEAM';
+                    previewEl.textContent = `${lbl} : ${cnt} members`;
+                }
+            }
+            const teamCountInp = document.getElementById('ea-team-count-input');
+            const teamLabelInp = document.getElementById('ea-team-badge-text-input');
+            if (teamCountInp) teamCountInp.addEventListener('input', updateTeamBadgeAdminPreview);
+            if (teamLabelInp) teamLabelInp.addEventListener('input', updateTeamBadgeAdminPreview);
+
             // Hero & About Form
             const heroAboutForm = document.getElementById('ea-hero-about-form');
             if (heroAboutForm) {
@@ -3569,9 +3699,18 @@
                         text: document.getElementById('ea-about-text').value.trim()
                     };
 
+                    if (!siteData.team) siteData.team = {};
+                    const teamInp = document.getElementById('ea-team-count-input');
+                    const teamLblInp = document.getElementById('ea-team-badge-text-input');
+                    const parsedCount = teamInp ? parseInt(teamInp.value, 10) || 20 : 20;
+                    const parsedLabel = (teamLblInp ? teamLblInp.value.trim() : '') || 'OUR TEAM';
+                    siteData.team.membersCount = parsedCount;
+                    siteData.team.label = parsedLabel;
+                    siteData.teamMembersCount = parsedCount;
+
                     saveSiteData();
                     renderLivePage();
-                    showToast('Hero and About changes saved.');
+                    showToast('Hero, About, and Team Counter changes saved.');
                 });
             }
 
